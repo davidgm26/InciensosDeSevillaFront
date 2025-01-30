@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+
+<!-- Contenedor general -->
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <!-- Imagen -->
+    <div class="flex justify-center">
+      <img [src]="producto.imagen" alt="Nombre del producto" class="w-full max-w-sm rounded-lg shadow-lg">
+    </div>
+
+    <!-- Información del producto -->
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800">{{producto.nombre}}</h2>
+      <p class="text-gray-600 mt-2">{{producto.descripcion}}</p>
+      <p class="text-lg font-semibold text-red-600 mt-4">Precio: {{producto.precio}} €</p>
+        <div class="flex items-center mt-4">
+            <p class="text-yellow-500 text-sm">★★★★☆</p>
+            <p class="ml-2 text-gray-500 text-sm">
+            ({{ producto.totalResenias }}) {{ producto.totalResenias > 1 ? 'valoraciones' : 'valoración' }}
+            </p>
+        </div>
+      <button class="mt-6 bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition">
+        Agregar al carrito
+      </button>
+    </div>
+  </div>
+  <!-- Carrusel debajo -->
+  <div class="mt-8">
+    <div class="flex space-x-4 overflow-x-auto">
+      <img src="imagen1.jpg" alt="Imagen 1" class="w-32 h-32 object-cover rounded-md shadow-md">
+      <img src="imagen2.jpg" alt="Imagen 2" class="w-32 h-32 object-cover rounded-md shadow-md">
+      <img src="imagen3.jpg" alt="Imagen 3" class="w-32 h-32 object-cover rounded-md shadow-md">
+    </div>
+  </div>
+</div>

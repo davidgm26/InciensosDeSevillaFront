@@ -1,0 +1,7 @@
+<app-navbar></app-navbar>
+<div class="w-full bg-[#EDEDED] min-h-screen">
+    <h1 class="text-xl md:text-2xl lg:text-3xl text-center text-[#A4122C] p-4 md:p-6 lg:p-8">Lista de productos</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 p-4 md:p-6">
+        <app-tarjeta-producto *ngFor="let producto of productos" [producto]="producto"></app-tarjeta-producto>
+    </div>
+</div>
