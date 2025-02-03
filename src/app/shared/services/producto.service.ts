@@ -20,4 +20,8 @@ export class ProductoService {
   getInformacionProducto(id:string):Observable <Producto>{
     return this.http.get<Producto>('/api/api/producto/'+ id);
   }
+  
+  getProductosLimitados():Observable<Producto[]>{
+    return this.http.get<Producto[]>('/api/api/producto/limitados');
+  }
 }

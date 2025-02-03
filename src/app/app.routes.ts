@@ -5,7 +5,7 @@ import { CarruselComponent } from './shared/components/carrusel/carrusel.compone
 import { SmallProductCardComponent } from './shared/components/small-product-card/small-product-card.component';
 
 export const routes: Routes = [
-    {path: "home", component: SmallProductCardComponent},
+    {path: "home", component: CarruselComponent},
     {path: "producto/:id", component: ProductViewComponent},
     {path: "catalogo/categoria/:id", component: CatalogoComponent},
     {path: "", redirectTo: "home", pathMatch: "full"}
