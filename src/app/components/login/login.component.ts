@@ -8,11 +8,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { Message } from 'primeng/message';
 
-
-
-
-
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -47,6 +42,7 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    debugger;
     this.loginRequest = this.loginForm.value;
     if (this.loginForm.valid) {
       this.authService.login(this.loginRequest).subscribe(

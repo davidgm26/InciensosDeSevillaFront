@@ -2,24 +2,22 @@
   <div class="w-full mx-auto mb-6 hidden md:block">
     <img src="logo-1670977731.jpg" alt="Logo" class="w-2/3 max-w-xs mx-auto">
   </div>
-
   <form [formGroup]="loginForm" class="flex flex-col space-y-4" (ngSubmit)="onSubmit()">
     <div class="card flex justify-center">
       <div class="flex flex-col gap-4">
-        <p-message severity="error" icon="pi pi-times-circle" styleClass="mb-2">Error en el inicio de sesion</p-message>
+        <!-- <p-message severity="error" icon="pi pi-times-circle" styleClass="mb-2">Error en el inicio de sesion</p-message> -->
         <div class="flex flex-col gap-1">
-          <input pInputText placeholder="Username" aria-label="username" class="ng-invalid ng-dirty" />
-          <p-message severity="error" variant="simple" size="small">* El nombre de usuario es obligatorio.</p-message>
+          <label for="username" class="text-sm font-medium mb-2 text-black">Nombre de usuario</label>
+          <input pInputText placeholder="" aria-label="username" formControlName="username" class="ng-invalid ng-dirty" />
+          <!-- <p-message severity="error" variant="simple" size="small">* El nombre de usuario es obligatorio.</p-message> -->
         </div>
         <div class="flex flex-col gap-1">
-          <label for="password" class="text-sm font-medium mb-2">Contraseña</label>
-
-          <p-password formControlName="password" [toggleMask]="true" [feedback]="false"
-            class=" py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"></p-password>
-
-          <p-message severity="error" variant="simple" size="small">* La contraseña introducida no es
+          <label for="password" class="text-sm font-medium mb-2 text-black">Contraseña</label>
+          <p-password formControlName="password" [toggleMask]="true" [feedback]="false" class="text-black"
+            ></p-password>
+          <!-- <p-message severity="error" variant="simple" size="small">* La contraseña introducida no es
             correcta.
-          </p-message>
+          </p-message> -->
         </div>
       </div>
     </div>
@@ -29,7 +27,7 @@
       <button class="flex-1 h-10 bg-[#A4122C] hover:bg-[#b8223e] text-white rounded-md transition-colors" type="submit">
         Entrar
       </button>
-      <a routerLink="/register"
+      <a routerLink="/registro"
         class="flex-1 h-10 bg-gray-700 hover:bg-gray-800 text-white rounded-md flex items-center justify-center transition-colors">
         Registrarse
       </a>

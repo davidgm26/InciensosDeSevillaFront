@@ -1,0 +1,40 @@
+<!-- formulario-registro.component.html -->
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="max-w-lg mx-auto p-6 border border-gray-300 rounded-lg bg-gray-50 m-5">
+  <div class="w-full mx-auto mb-6 hidden md:block">
+    <img src="logo-1670977731.jpg" alt="Logo" class="w-2/3 max-w-xs mx-auto">
+  </div>  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+    <div class="p-field">
+      <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+      <input id="username" type="text" pInputText formControlName="username" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+    </div>
+    <div class="p-field">
+      <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+      <p-password formControlName="password" [toggleMask]="true" [feedback]="false" class="text-black"
+      ></p-password>  
+    </div>
+    <div class="p-field">
+      <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+      <input id="nombre" type="text" pInputText formControlName="nombre" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+    </div>
+    <div class="p-field">
+      <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
+      <input id="apellidos" type="text" pInputText formControlName="apellidos" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+    </div>
+    <div class="p-field">
+      <label for="dni" class="block text-sm font-medium text-gray-700">DNI</label>
+      <input id="dni" type="text" pInputText formControlName="dni" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+    </div>
+    <div class="p-field">
+      <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+      <input id="telefono" type="text" pInputText formControlName="telefono" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+    </div>
+    <div class="p-field md:col-span-2">
+      <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección</label>
+      <input id="direccion" type="text" pInputText formControlName="direccion" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+    </div>
+    <div class="p-field md:col-span-2">
+      <button type="submit" pButton label="Register" class="w-full py-2 px-4 bg-[#A4122C] text-white rounded-md hover:bg-[#a41a33]">Registrar</button>
+    </div>
+  </div>
+</form>
