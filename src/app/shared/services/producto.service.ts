@@ -17,6 +17,10 @@ export class ProductoService {
     return this.http.get<Producto[]>('/api/api/producto/categoria/'+ id);
   }
 
+  getAllProductos():Observable <Producto[]>{
+    return this.http.get<Producto[]>('/api/api/producto/all');
+  }
+
   getInformacionProducto(id:string):Observable <Producto>{
     return this.http.get<Producto>('/api/api/producto/'+ id);
   }
