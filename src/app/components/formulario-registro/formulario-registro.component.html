@@ -1,4 +1,4 @@
-<!-- formulario-registro.component.html -->
+<p-toast></p-toast>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="max-w-lg mx-auto p-6 border border-gray-300 rounded-lg bg-gray-50 m-5">
   <div class="w-full mx-auto mb-6 hidden md:block">
     <img src="logo-1670977731.jpg" alt="Logo" class="w-2/3 max-w-xs mx-auto">
@@ -7,31 +7,63 @@
     <div class="p-field">
       <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
       <input id="username" type="text" pInputText formControlName="username" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      <div *ngIf="formControls['username'].invalid && (formControls['username'].dirty || formControls['username'].touched)" class="text-red-600 text-sm">
+        <div *ngIf="formControls['username'].errors?.['required']">El nombre de usuario es requerido.</div>
+        <div *ngIf="formControls['username'].errors?.['pattern']">El nombre de usuario solo puede contener letras y números.</div>
+      </div>
     </div>
     <div class="p-field">
       <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-      <p-password formControlName="password" [toggleMask]="true" [feedback]="false" class="text-black"
-      ></p-password>  
+      <p-password formControlName="password" [toggleMask]="true" [feedback]="false" class="text-black"></p-password>  
+      <div *ngIf="formControls['password'].invalid && (formControls['password'].dirty || formControls['password'].touched)" class="text-red-600 text-sm">
+        <div *ngIf="formControls['password'].errors?.['required']">La contraseña es requerida.</div>
+        <div *ngIf="formControls['password'].errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+      </div>
     </div>
     <div class="p-field">
       <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
       <input id="nombre" type="text" pInputText formControlName="nombre" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      <div *ngIf="formControls['nombre'].invalid && (formControls['nombre'].dirty || formControls['nombre'].touched)" class="text-red-600 text-sm">
+        <div *ngIf="formControls['nombre'].errors?.['required']">El nombre es requerido.</div>
+      </div>
     </div>
     <div class="p-field">
       <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
       <input id="apellidos" type="text" pInputText formControlName="apellidos" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      <div *ngIf="formControls['apellidos'].invalid && (formControls['apellidos'].dirty || formControls['apellidos'].touched)" class="text-red-600 text-sm">
+        <div *ngIf="formControls['apellidos'].errors?.['required']">Los apellidos son requeridos.</div>
+      </div>
+    </div>
+    <div class="p-field">
+      <label for="correo" class="block text-sm font-medium text-gray-700">correo electronico</label>
+      <input id="correo" type="text" pInputText formControlName="correo" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      <div *ngIf="formControls['correo'].invalid && (formControls['correo'].dirty || formControls['correo'].touched)" class="text-red-600 text-sm">
+        <div *ngIf="formControls['correo'].errors?.['required']">El correo electrónico es requerido.</div>
+        <div *ngIf="formControls['correo'].errors?.['email']">El correo electrónico no es válido.</div>
+      </div>
     </div>
     <div class="p-field">
       <label for="dni" class="block text-sm font-medium text-gray-700">DNI</label>
       <input id="dni" type="text" pInputText formControlName="dni" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      <div *ngIf="formControls['dni'].invalid && (formControls['dni'].dirty || formControls['dni'].touched)" class="text-red-600 text-sm">
+        <div *ngIf="formControls['dni'].errors?.['required']">El DNI es requerido.</div>
+        <div *ngIf="formControls['dni'].errors?.['pattern']">El DNI no es válido.</div>
+      </div>
     </div>
     <div class="p-field">
       <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
       <input id="telefono" type="text" pInputText formControlName="telefono" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      <div *ngIf="formControls['telefono'].invalid && (formControls['telefono'].dirty || formControls['telefono'].touched)" class="text-red-600 text-sm">
+        <div *ngIf="formControls['telefono'].errors?.['required']">El teléfono es requerido.</div>
+        <div *ngIf="formControls['telefono'].errors?.['pattern']">El teléfono no es válido.</div>
+      </div>
     </div>
-    <div class="p-field md:col-span-2">
+    <div class="p-field">
       <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección</label>
       <input id="direccion" type="text" pInputText formControlName="direccion" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      <div *ngIf="formControls['direccion'].invalid && (formControls['direccion'].dirty || formControls['direccion'].touched)" class="text-red-600 text-sm">
+        <div *ngIf="formControls['direccion'].errors?.['required']">La dirección es requerida.</div>
+      </div>
     </div>
     <div class="p-field md:col-span-2">
       <button type="submit" pButton label="Register" class="w-full py-2 px-4 bg-[#A4122C] text-white rounded-md hover:bg-[#a41a33]">Registrar</button>

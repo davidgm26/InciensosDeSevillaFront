@@ -9,4 +9,5 @@ export interface ClientRegisterRequest extends RegisterRequest{
     dni: string;
     telefono:string;
     direccion:string;
+    correo: string;
 }

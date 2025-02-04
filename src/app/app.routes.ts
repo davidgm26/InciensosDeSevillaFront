@@ -11,5 +11,5 @@ export const routes: Routes = [
     {path: "catalogo/categoria/:id", component: CatalogoComponent},
     {path: "login", component: LoginComponent},
     {path: "registro", component: FormularioRegistroComponent},
-    {path: "", redirectTo: "home", pathMatch: "full"}
+    {path: "", redirectTo: "login", pathMatch: "full"}
 ];
