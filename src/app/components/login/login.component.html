@@ -1,0 +1,37 @@
+<p-toast></p-toast>
+<div class="w-11/12 md:w-3/4 lg:w-1/2 xl:w-1/3 max-w-md mx-auto my-8 border border-gray-600 p-6 rounded-lg shadow-lg">
+  <div class="w-full mx-auto mb-6 hidden md:block">
+    <img src="logo-1670977731.jpg" alt="Logo" class="w-2/3 max-w-xs mx-auto">
+  </div>
+  <form [formGroup]="loginForm" class="flex flex-col space-y-4" (ngSubmit)="onSubmit()">
+    <div class="card flex justify-center">
+      <div class="flex flex-col gap-4">
+        <p-message *ngIf="errorMessage" severity="error" text="{{ errorMessage }}" styleClass="mb-2"></p-message>
+        <div class="flex flex-col gap-1">
+          <label for="username" class="text-sm font-medium mb-2 text-black">Nombre de usuario</label>
+          <input pInputText placeholder="" aria-label="username" formControlName="username" class="ng-invalid ng-dirty" />
+          <div *ngIf="formControls['username'].errors?.['required']" class="text-red-600 text-sm">El nombre de usuario es requerido.</div>
+          <div *ngIf="formControls['username'].errors?.['pattern']" class="text-red-600 text-sm">El nombre de usuario solo puede contener letras y números.</div>
+          <div *ngIf="formControls['username'].errors?.['minlength']" class="text-red-600 text-sm">El nombre de usuario debe tener al menos 3 caracteres.</div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="password" class="text-sm font-medium mb-2 text-black">Contraseña</label>
+          <p-password formControlName="password" [toggleMask]="true" [feedback]="false" class="text-black"></p-password>
+          <p-message *ngIf="errorPassword" severity="error" text="{{ errorPassword }}" variant="simple" size="small"></p-message>
+          <p-message *ngIf="loginForm.get('password')?.errors?.['minlength']" severity="error" text="La contraseña debe tener al menos 6 caracteres." variant="simple" size="small"></p-message>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="text-sm text-[#A4122C] hover:underline self-end">Olvidé mi contraseña</a>
+
+    <div class="flex flex-col sm:flex-row gap-4">
+      <button class="flex-1 h-10 bg-[#A4122C] hover:bg-[#b8223e] text-white rounded-md transition-colors" type="submit">
+        Entrar
+      </button>
+      <a routerLink="/registro"
+        class="flex-1 h-10 bg-gray-700 hover:bg-gray-800 text-white rounded-md flex items-center justify-center transition-colors">
+        Registrarse
+      </a>
+    </div>
+  </form>
+</div>
