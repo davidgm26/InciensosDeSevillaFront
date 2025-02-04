@@ -29,13 +29,12 @@ export class FormularioRegistroComponent implements OnInit {
       username: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9]+$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rol: [2, Validators.required],
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
+      nombre: ['', [Validators.required,Validators.pattern('[a-zA-Z ]')]],
+      apellidos: ['',[ Validators.required,Validators.pattern('[a-zA-Z ]')]],
       dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}[A-Za-z]$')]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       direccion: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
-      
     });
   }
 
