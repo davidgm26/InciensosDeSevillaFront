@@ -28,4 +28,8 @@ export class ProductoService {
   getProductosLimitados():Observable<Producto[]>{
     return this.http.get<Producto[]>('/api/api/producto/limitados');
   }
+
+  deleteProducto(id:string):Observable<any>{
+    return this.http.delete('/api/api/producto/'+ id);
+  }
 }
