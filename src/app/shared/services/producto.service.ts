@@ -29,6 +29,10 @@ export class ProductoService {
     return this.http.get<Producto[]>('/api/api/producto/limitados');
   }
 
+  updateProducto(id:string, producto:Producto):Observable<Producto>{
+    return this.http.put<Producto>('/api/api/producto/editar/'+id, producto);
+  }
+
   deleteProducto(id:number):Observable<any>{
     return this.http.delete('/api/api/producto/'+ id);
   }

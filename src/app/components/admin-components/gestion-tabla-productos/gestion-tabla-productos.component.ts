@@ -4,57 +4,94 @@ import { Producto } from '../../../shared/models/producto';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { SelectModule } from 'primeng/select';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Categoria } from '../../../shared/models/categoria';
 import { CategoriaService } from '../../../shared/services/categoria.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
 import { Button } from 'primeng/button';
-import { EditProdDialogComponent } from "../edit-prod-dialog/edit-prod-dialog.component";
-import { DynamicDialogModule, DialogService } from 'primeng/dynamicdialog';
+import { DynamicDialogModule, DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Dialog } from 'primeng/dialog';
+import { NgIf } from '@angular/common';
+import { InputIcon } from 'primeng/inputicon';
+import { IconField } from 'primeng/iconfield';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-gestion-tabla-productos',
-  imports: [TableModule, PaginatorModule, SelectModule, FormsModule, ConfirmDialog, Toast, DynamicDialogModule],
+  imports: [TableModule, PaginatorModule, SelectModule, ReactiveFormsModule,
+     ConfirmDialog, Toast, DynamicDialogModule,Dialog,FormsModule
+     ,Button,NgIf,InputText],
   templateUrl: './gestion-tabla-productos.component.html',
   styleUrls: ['./gestion-tabla-productos.component.css'],
-  providers: [ConfirmationService, MessageService, DialogService]
+  providers: [ConfirmationService, MessageService, DialogService],
+  standalone: true
 })
 export class GestionTablaProductosComponent implements OnInit {
 
   visible: boolean = false;
+  debounceTimer: any;
   listaProductos: Producto[] = [];
+  listaProductosFiltrados: Producto[] = [];
+  listaProductosOriginal: Producto[] = [];
   listaCategorias: Categoria[] = [];
   cols: string[] = [];
   totalRecords: number = 0;
-  rows: number = 10;
+  rows: number = 5;
   first: number = 0;
   rowsPerPageOptions: number[] = [5, 10, 20];
   selectedCategoria!: Categoria;
-  selectedProducto!: Producto;
-
+  editForm!: FormGroup
+  cat!: string;
+  selectedProducto : Producto = {
+    id: 0,
+    nombre: "",
+    descripcion: "",
+    precio: 0,
+    categoria: "",
+    totalResenias: 0,
+    imagen: ""
+   } 
+  ref: DynamicDialogRef | undefined;
+  
+  
   @Output() dialogHide: EventEmitter<void> = new EventEmitter<void>();
-
+  
   constructor(
     private productoServicio: ProductoService,
     private categoriaServicio: CategoriaService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private fb: FormBuilder
     
   ) { }
-
+  
+  get formControls() {
+    return this.editForm.controls;
+  }
   ngOnInit(): void {
+    this.inicializarFormulario();
     this.cargarCategorias();
     this.cargarListaProductos(1);
+  }
+
+  inicializarFormulario() {
+    console.log(this.selectedProducto);
+    this.editForm = this.fb.group({
+      nombre: [this.selectedProducto.nombre,[Validators.required,Validators.pattern('^[a-zA-Z ]+$')]],
+      descripcion: [this.selectedProducto.descripcion,[Validators.required,Validators.pattern('^[a-zA-Z0-]+$')]],
+      precio: [this.selectedProducto.precio,[Validators.required,Validators.pattern('^[0-9]+$')]],
+      categoria: [this.getCategoriaByName(this.selectedProducto.categoria),[Validators.required]],
+    });
   }
 
   cargarCategorias() {
     this.categoriaServicio.getAllCategorias().subscribe(
       resp => {
         this.listaCategorias = resp;
-        if(this.listaCategorias.length > 0){
+        if (this.listaCategorias.length > 0) {
           this.selectedCategoria = this.listaCategorias[0];
         }
       },
@@ -69,8 +106,9 @@ export class GestionTablaProductosComponent implements OnInit {
     }
     this.productoServicio.getAllProductosByCategoria(idCategoria?.toString()).subscribe(
       resp => {
-        this.totalRecords = resp.length; 
+        this.totalRecords = resp.length;
         this.listaProductos = resp.slice(this.first, this.first + this.rows);
+        this.listaProductosOriginal = resp;
       }
     )
   }
@@ -86,7 +124,7 @@ export class GestionTablaProductosComponent implements OnInit {
       header: 'Eliminar Producto',
       message: '¿Estás seguro de que quieres eliminar este producto?',
       icon: 'pi pi-exclamation-circle',
-      acceptButtonStyleClass: 'p-button-success', 
+      acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-danger',
       acceptButtonProps: {
         label: 'Eliminar',
@@ -100,7 +138,7 @@ export class GestionTablaProductosComponent implements OnInit {
       },
       accept: () => {
         this.borrarProducto(id);
-      } 
+      }
     });
   }
 
@@ -122,14 +160,49 @@ export class GestionTablaProductosComponent implements OnInit {
     this.cargarListaProductos(this.selectedCategoria.id);
   }
 
-  editarProducto(producto: Producto) {
-    this.dialogService.open(EditProdDialogComponent, {
-      header: 'Editar Producto',
-      width: '70%',
-      data: {
-        producto: producto,
+  onHide(){
+    this.visible = false;
+  }
+
+
+  editarProducto(producto: Producto) { 
+    this.selectedProducto = producto;
+    this.cat = producto.categoria;
+    this.inicializarFormulario();
+    this.visible = true;
+  }
+  onSubmit(){
+    this.productoServicio.updateProducto(this.selectedProducto.id.toString(),this.editForm.value).subscribe(
+     resp => {
+      console.log("Producto editado correctamente");
+      this.cargarListaProductos(this.selectedCategoria.id);
+      this.visible = false;
+
+     },
+     error => {
+        console.log("Error al editar producto");
+     }
+
+    );
+  }
+  getCategoriaByName(nombreCategoria: string): Categoria | null {
+    return this.listaCategorias.find(categoria => categoria.nombre === nombreCategoria) || null;
+  }
+
+  buscador($event: any) {
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      const query = $event.target.value.toLowerCase();
+      if (query) {
+        this.listaProductosFiltrados = this.listaProductosOriginal.filter(producto => producto.nombre.toLowerCase().includes(query));
+        this.listaProductos = this.listaProductosFiltrados;
+      } else {
+        this.cargarListaProductos(this.selectedCategoria.id);
       }
-    });
-    console.log("!goal");
-}
+    }, 500);
+  }
+
+  cambiarEstado(producto: Producto){
+
+  }
 }
