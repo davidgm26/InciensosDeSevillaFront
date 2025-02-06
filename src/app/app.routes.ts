@@ -17,5 +17,5 @@ export const routes: Routes = [
         {path: "", redirectTo: "productos", pathMatch: "full"},
         {path:"productos", component: GestorProductosComponent }
     ]},
-    {path: "", redirectTo: "login", pathMatch: "full"}
+    {path: "", redirectTo: "catalogo/categoria/1", pathMatch: "full"}
 ];
