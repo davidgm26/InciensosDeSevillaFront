@@ -5,17 +5,12 @@
       <p-select [options]="listaCategorias" [(ngModel)]="selectedCategoria" optionLabel="nombre"
         placeholder="Selecciona una categoria" class="w-full md:w-56" (ngModelChange)="cambioCategoria($event)" />
     </div>
-    <input type="text" pInputText (input)="buscador($event)" name="" id="" class="p-2 border border-gray-300 rounded-md"
-      placeholder="Buscar producto" />
+    <input type="text" pInputText (input)="buscador($event)" name="" id=""
+      class="p-2 border border-gray-300 rounded-md w-full md:w-56" placeholder="Buscar producto" />
   </div>
-  <p-table 
-  [value]="listaProductos"
-  [paginator]="true" 
-  [rows]="rows" 
-  [totalRecords]="totalRecords"
-  [rowsPerPageOptions]="rowsPerPageOptions" 
-  [lazy]="true" (onPage)="onPageChange($event)" paginatorPosition="bottom"
-  class="w-full">
+  <p-table [value]="listaProductos" [paginator]="true" [rows]="rows" [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="rowsPerPageOptions" [lazy]="true" (onPage)="onPageChange($event)" paginatorPosition="bottom"
+    class="w-full">
     <ng-template pTemplate="header">
       <tr class="bg-gray-100">
         <th class="p-2 sm:p-3 text-left hidden sm:table-cell">Precio</th>
@@ -43,10 +38,15 @@
               (click)="editarProducto(producto)">
               <i class="pi pi-pencil text-white text-sm sm:text-base"></i>
             </button>
-            <button
-              (click)="cambiarVisibilidad(producto.id)"
+            <button 
+              *ngIf="producto.activo"
+              (click)="cambiarVisibilidad(producto, false)"
               class="bg-green-600 hover:bg-green-700 w-8 h-8 sm:w-10 sm:h-10 rounded flex items-center justify-center transition-colors">
               <i class="pi pi-eye text-white text-sm sm:text-base"></i>
+            </button>
+            <button *ngIf="!producto.activo" (click)="cambiarVisibilidad(producto, true)"
+              class="bg-red-600 hover:bg-green-700 w-8 h-8 sm:w-10 sm:h-10 rounded flex items-center justify-center transition-colors">
+              <i class="pi pi-eye-slash text-white text-sm sm:text-base"></i>
             </button>
           </div>
         </td>
@@ -60,13 +60,9 @@
     <span class="p-text-secondary block mb-8">Editar Producto</span>
     <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
       <div class="p-field">
-        <p-select 
-        formControlName="categoria" 
-        [options]="listaCategorias" 
-        optionLabel="nombre" 
-        placeholder=""
-        class="w-full md:w-56">
-      </p-select>
+        <p-select formControlName="categoria" [options]="listaCategorias" optionLabel="nombre" placeholder=""
+          class="w-full md:w-56">
+        </p-select>
       </div>
       <div class="p-field"></div>
       <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
@@ -87,7 +83,8 @@
       </div>
       <div class="p-field"></div>
       <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripcion</label>
-      <textarea rows="5" cols="30" pTextarea formControlName="descripcion"class="mt-1 block w-full p-2 border border-gray-300 rounded-md"></textarea>
+      <textarea rows="5" cols="30" pTextarea formControlName="descripcion"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"></textarea>
       <div
         *ngIf="formControls['descripcion'].invalid && (formControls['descripcion'].dirty || formControls['descripcion'].touched)"
         class="text-red-600 text-sm">

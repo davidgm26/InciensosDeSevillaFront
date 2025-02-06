@@ -51,7 +51,8 @@ export class GestionTablaProductosComponent implements OnInit {
     precio: 0,
     categoria: "",
     totalResenias: 0,
-    imagen: ""
+    imagen: "",
+    activo: false
    } 
   ref: DynamicDialogRef | undefined;
   
@@ -202,7 +203,19 @@ export class GestionTablaProductosComponent implements OnInit {
     }, 500);
   }
 
-  cambiarEstado(producto: Producto){
-
+  cambiarVisibilidad(producto: any, estado: boolean) {
+    const index = this.listaProductos.findIndex((p: any) => p.id === producto.id);
+    if (index !== -1) {
+      this.listaProductos[index].activo = estado;
+      this.productoServicio.cambiarVisibilidad(producto.id.toString()).subscribe(
+        resp => {
+          this.messageService.add({ severity: 'success', summary: 'Visibilidad actualizada', detail: 'La visibilidad del producto ha sido actualizada correctamente', life: 3000 });
+        },
+        error => {
+          console.log("Error al actualizar la visibilidad del producto con id: " + producto.id);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo actualizar la visibilidad del producto', life: 3000 });
+        }
+      );
+    }
   }
 }

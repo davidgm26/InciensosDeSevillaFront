@@ -21,6 +21,10 @@ export class ProductoService {
     return this.http.get<Producto[]>('/api/api/producto/all');
   }
 
+  getAllProductosActivos(id:string):Observable <Producto[]>{
+    return this.http.get<Producto[]>('/api/api/producto/all/activos/categoria/'+ id);
+  }
+
   getInformacionProducto(id:string):Observable <Producto>{
     return this.http.get<Producto>('/api/api/producto/'+ id);
   }
@@ -31,6 +35,10 @@ export class ProductoService {
 
   updateProducto(id:string, producto:Producto):Observable<Producto>{
     return this.http.put<Producto>('/api/api/producto/editar/'+id, producto);
+  }
+
+  cambiarVisibilidad(id: string):Observable<Producto>{
+    return this.http.put<Producto>('/api/api/producto/status/'+id, {});
   }
 
   deleteProducto(id:number):Observable<any>{

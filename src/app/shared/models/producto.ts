@@ -6,4 +6,5 @@ export interface Producto {
     categoria: string;
     totalResenias: number;
     imagen: string;
+    activo: boolean;
 }
