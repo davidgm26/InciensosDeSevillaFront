@@ -14,9 +14,8 @@ export const routes: Routes = [
     {path: "login", component: LoginComponent},
     {path: "registro", component: FormularioRegistroComponent},
     {path: "admin", component: AdminComponent , children:[
+        {path: "", redirectTo: "productos", pathMatch: "full"},
         {path:"productos", component: GestorProductosComponent }
-    ]
-
-    },
+    ]},
     {path: "", redirectTo: "login", pathMatch: "full"}
 ];

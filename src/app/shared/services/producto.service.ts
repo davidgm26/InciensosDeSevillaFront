@@ -29,7 +29,7 @@ export class ProductoService {
     return this.http.get<Producto[]>('/api/api/producto/limitados');
   }
 
-  deleteProducto(id:string):Observable<any>{
+  deleteProducto(id:number):Observable<any>{
     return this.http.delete('/api/api/producto/'+ id);
   }
 }
