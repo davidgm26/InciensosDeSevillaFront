@@ -33,7 +33,7 @@ export class CatalogoComponent implements OnInit {
 
   cargarProductos(id: string | null = null) {
     if (id) {
-      this.productoService.getAllProductosByCategoria(id).subscribe(
+      this.productoService.getAllProductosActivos(id).subscribe(
         (res) => {
           this.productos = res;
           console.log(this.productos);

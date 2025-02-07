@@ -1,5 +1,48 @@
-<div class="card">
-    <p-carousel [value]="productos"showNavigators="false" [numVisible]="4"autoplayInterval="5000" showIndicators="false" [numScroll]="3" [circular]="true" [responsiveOptions]="responsiveOptions">
+<!-- Default Carousel for Large Screens -->
+<div class="card hidden md:block">
+    <p-carousel 
+        [value]="productos"
+        [showNavigators]="false"
+        [numVisible]="4"
+        [autoplayInterval]="5000"
+        [showIndicators]="false"
+        [numScroll]="3"
+        [circular]="true"
+        [responsiveOptions]="responsiveOptions">
+        <ng-template let-product #item>
+            <app-small-product-card [producto]="product"></app-small-product-card>
+        </ng-template>
+    </p-carousel>
+</div>
+
+<!-- Tablet Carousel -->
+<div class="card hidden sm:block md:hidden">
+    <p-carousel 
+        [value]="productos"
+        [showNavigators]="false"
+        [numVisible]="2"
+        [autoplayInterval]="5000"
+        [showIndicators]="false"
+        [numScroll]="1"
+        [circular]="true"
+        [responsiveOptions]="responsiveOptions">
+        <ng-template let-product #item>
+            <app-small-product-card [producto]="product"></app-small-product-card>
+        </ng-template>
+    </p-carousel>
+</div>
+
+<!-- Mobile Carousel for Smallest Screens -->
+<div class="card block sm:hidden">
+    <p-carousel 
+        [value]="productos"
+        [showNavigators]="false"
+        [numVisible]="1"
+        [autoplayInterval]="5000"
+        [showIndicators]="false"
+        [numScroll]="1"
+        [circular]="true"
+        [responsiveOptions]="responsiveOptions">
         <ng-template let-product #item>
             <app-small-product-card [producto]="product"></app-small-product-card>
         </ng-template>

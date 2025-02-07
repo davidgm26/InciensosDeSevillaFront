@@ -1,7 +1,62 @@
 <app-navbar></app-navbar>
-<div class="w-full bg-[#EDEDED] min-h-screen">
-    <h1 class="text-xl md:text-2xl lg:text-3xl text-center text-[#A4122C] p-4 md:p-6 lg:p-8">Lista de productos</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 p-4 md:p-6">
-        <app-tarjeta-producto *ngFor="let producto of productos" [producto]="producto"></app-tarjeta-producto>
+<div class="w-full bg-gray-100 min-h-screen">
+    <!-- Header de la sección -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <h1 class="font-serif font-bold text-center text-[#A4122C] text-3xl md:text-4xl lg:text-5xl mb-4">
+            Nuestros Productos
+        </h1>
+        <p class="text-gray-600 text-center max-w-3xl mx-auto text-lg">
+            Descubre nuestra selección de inciensos artesanales y accesorios, elaborados con las mejores materias primas
+        </p>
+    </div>
+
+    <!-- Filtros (opcional)
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div class="flex flex-wrap justify-center gap-4">
+            <button class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
+                Todos
+            </button>
+            <button class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
+                Inciensos
+            </button>
+            <button class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
+                Incensarios
+            </button>
+            <button class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
+                Packs
+            </button>
+        </div>
+    </div> -->
+
+    <!-- Grid de productos -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            <app-tarjeta-producto 
+                *ngFor="let producto of productos" 
+                [producto]="producto"
+                class="transition-transform duration-300 hover:-translate-y-1">
+            </app-tarjeta-producto>
+        </div>
+    </div>
+
+    <!-- Paginación (opcional) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div class="flex justify-center space-x-2">
+            <button class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
+                Anterior
+            </button>
+            <button class="px-4 py-2 rounded-lg bg-[#A4122C] text-white shadow-sm">
+                1
+            </button>
+            <button class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
+                2
+            </button>
+            <button class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
+                3
+            </button>
+            <button class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
+                Siguiente
+            </button>
+        </div>
     </div>
 </div>
