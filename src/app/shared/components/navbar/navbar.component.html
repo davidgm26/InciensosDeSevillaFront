@@ -1,19 +1,25 @@
-<nav class="w-full bg-[#A4122C] p-4 shadow-md mb-5">
-  <div class="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-    <a href="#" class="text-white text-lg font-bold text-center md:text-left w-full md:w-auto">
-      Inciensos De Sevilla
+<nav class="w-full shadow-md">
+  <div class="bg-[#A4122C] h-20 p-2 flex justify-between items-center">
+    <a [routerLink]="['/home']">
+      <img src="logo-1670977731.png" alt="" class="h-20 p-4">
     </a>
-
-    <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto items-center">
-      <li *ngFor="let categoria of listaCategoria" class="relative group w-full md:w-auto text-center">
-        <a 
-          [routerLink]="['/catalogo/categoria/',categoria.id]" 
-          class="text-white hover:text-gray-200 px-4 py-2 rounded-md transition duration-300 ease-in-out hover:bg-[#8a0e23] block w-full md:inline-block"
-        >
+    <span class="pi pi-shopping-cart m-5" style="font-size: x-large;color: white;"></span>    
+  </div>
+  <div class="bg-black h-8 p-3 flex justify-between items-center">
+    <ul class="flex space-x-4 text-white font-serif">
+      <li *ngFor="let categoria of listaCategoria" class="relative group">
+        <a [routerLink]="['/catalogo/categoria/',categoria.id]"
+          class="text-white hover:text-gray-200 px-4 m-2 rounded-md transition duration-300 ease-in-out">
           {{categoria.nombre}}
-          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+          <span
+            class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-full"></span>
         </a>
       </li>
     </ul>
+    <a [routerLink]="['/login']" class="ml-auto text-white hover:text-gray-200 uppercase rounded-md transition duration-300 ease-in-out font-serif relative group">
+      Iniciar sesión
+      <span
+        class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+    </a>
   </div>
 </nav>

@@ -6,9 +6,10 @@ import { LoginComponent } from './components/login/login.component';
 import { FormularioRegistroComponent } from './components/formulario-registro/formulario-registro.component';
 import { AdminComponent } from './components/admin-components/admin/admin.component';
 import { GestorProductosComponent } from './components/admin-components/gestor-productos/gestor-productos.component';
+import { HomeComponent } from './shared/components/home/home.component';
 
 export const routes: Routes = [
-    {path: "home", component: CarruselComponent},
+    {path: "home", component: HomeComponent},
     {path: "producto/:id", component: ProductViewComponent},
     {path: "catalogo/categoria/:id", component: CatalogoComponent},
     {path: "login", component: LoginComponent},
@@ -17,5 +18,5 @@ export const routes: Routes = [
         {path: "", redirectTo: "productos", pathMatch: "full"},
         {path:"productos", component: GestorProductosComponent }
     ]},
-    {path: "", redirectTo: "catalogo/categoria/1", pathMatch: "full"}
+    {path: "", redirectTo: "home", pathMatch: "full"}
 ];

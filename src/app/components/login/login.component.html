@@ -8,14 +8,14 @@
       <div class="flex flex-col gap-4">
         <p-message *ngIf="errorMessage" severity="error" text="{{ errorMessage }}" styleClass="mb-2"></p-message>
         <div class="flex flex-col gap-1">
-          <label for="username" class="text-sm font-medium mb-2 text-black">Nombre de usuario</label>
+          <label for="username" class="text-sm font-medium mb-2 text-gray-800">Nombre de usuario</label>
           <input pInputText placeholder="" aria-label="username" formControlName="username" class="ng-invalid ng-dirty" />
           <div *ngIf="formControls['username'].errors?.['required']" class="text-red-600 text-sm">El nombre de usuario es requerido.</div>
           <div *ngIf="formControls['username'].errors?.['pattern']" class="text-red-600 text-sm">El nombre de usuario solo puede contener letras y números.</div>
           <div *ngIf="formControls['username'].errors?.['minlength']" class="text-red-600 text-sm">El nombre de usuario debe tener al menos 3 caracteres.</div>
         </div>
         <div class="flex flex-col gap-1">
-          <label for="password" class="text-sm font-medium mb-2 text-black">Contraseña</label>
+          <label for="password" class="text-sm font-medium mb-2 text-gray-800">Contraseña</label>
           <p-password formControlName="password" [toggleMask]="true" [feedback]="false" class="text-black"></p-password>
           <p-message *ngIf="errorPassword" severity="error" text="{{ errorPassword }}" variant="simple" size="small"></p-message>
           <p-message *ngIf="loginForm.get('password')?.errors?.['minlength']" severity="error" text="La contraseña debe tener al menos 6 caracteres." variant="simple" size="small"></p-message>
@@ -25,7 +25,7 @@
     <a href="#" class="text-sm text-[#A4122C] hover:underline self-end">Olvidé mi contraseña</a>
 
     <div class="flex flex-col sm:flex-row gap-4">
-      <button class="flex-1 h-10 bg-[#A4122C] hover:bg-[#b8223e] text-white rounded-md transition-colors" type="submit">
+      <button class="flex-1 h-10 bg-[#A4122C] hover:bg-[#8a0f25] text-white rounded-md transition-colors duration-300" type="submit">
         Entrar
       </button>
       <a routerLink="/registro"
