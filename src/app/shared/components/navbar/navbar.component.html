@@ -1,25 +1,47 @@
-<nav class="w-full shadow-md">
-  <div class="bg-[#A4122C] h-20 p-2 flex justify-between items-center">
-    <a [routerLink]="['/home']">
-      <img src="logo-1670977731.png" alt="" class="h-20 p-4">
+<nav class="w-full shadow-lg">
+  <div class="bg-[#A4122C] p-2 flex justify-between items-center">
+    <a [routerLink]="['/home']" class="flex items-center">
+      <img src="logo-1670977731.png" alt="Logo Inciensos de Sevilla" 
+           class="h-16 p-2 transition-transform duration-300 hover:scale-105">
     </a>
-    <span class="pi pi-shopping-cart m-5" style="font-size: x-large;color: white;"></span>    
-  </div>
-  <div class="bg-black h-8 p-3 flex justify-between items-center">
-    <ul class="flex space-x-4 text-white font-serif">
-      <li *ngFor="let categoria of listaCategoria" class="relative group">
-        <a [routerLink]="['/catalogo/categoria/',categoria.id]"
-          class="text-white hover:text-gray-200 px-4 m-2 rounded-md transition duration-300 ease-in-out">
-          {{categoria.nombre}}
-          <span
-            class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+
+    <p-drawer header="Carrito" [(visible)]="visible2" position="right" 
+              styleClass="p-4">
+      <div *ngIf="login" class="text-center p-4 space-y-4">
+        <p class="text-gray-600">Debes iniciar sesión para ver tu carrito</p>
+        <a [routerLink]="['/login']" 
+           class="inline-block px-4 py-2 bg-[#A4122C] text-white rounded-lg hover:bg-[#8a0f25] transition-colors duration-300">
+          Iniciar sesión
         </a>
-      </li>
-    </ul>
-    <a [routerLink]="['/login']" class="ml-auto text-white hover:text-gray-200 uppercase rounded-md transition duration-300 ease-in-out font-serif relative group">
-      Iniciar sesión
-      <span
-        class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-    </a>
+      </div>
+      <ng-container *ngIf="!login">
+        <div *ngFor="let prod of carrito">
+        </div>
+      </ng-container>
+    </p-drawer>
+    <button (click)="abrirCarrito()" 
+            class="p-3 hover:bg-[#8a0f25] rounded-full transition-colors duration-300">
+      <span class="pi pi-shopping-cart text-2xl text-white"></span>
+    </button>
+  </div>
+
+  <div class="bg-black py-2 px-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <ul class="flex space-x-6 text-white font-serif">
+        <li *ngFor="let categoria of listaCategoria" class="relative group">
+          <a [routerLink]="['/catalogo/categoria/', categoria.id]"
+             class="block px-3 py-2 text-sm uppercase tracking-wide hover:text-gray-200 transition-colors duration-300">
+            {{categoria.nombre}}
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+          </a>
+        </li>
+      </ul>
+
+      <a [routerLink]="['/login']"
+         class="text-sm text-white uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 relative group font-serif">
+        Iniciar sesión
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </div>
   </div>
 </nav>
