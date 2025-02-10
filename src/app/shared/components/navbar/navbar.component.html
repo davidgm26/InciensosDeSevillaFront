@@ -6,17 +6,19 @@
     </a>
 
     <p-drawer header="Carrito" [(visible)]="visible2" position="right" 
-              styleClass="p-4">
-      <div *ngIf="login" class="text-center p-4 space-y-4">
+              styleClass="!w-1/3 p-4" [modal]="true " class="">
+      <div *ngIf="!login" class="text-center p-4 space-y-4">
         <p class="text-gray-600">Debes iniciar sesión para ver tu carrito</p>
         <a [routerLink]="['/login']" 
            class="inline-block px-4 py-2 bg-[#A4122C] text-white rounded-lg hover:bg-[#8a0f25] transition-colors duration-300">
           Iniciar sesión
         </a>
       </div>
-      <ng-container *ngIf="!login">
-        <div *ngFor="let prod of carrito">
+      <ng-container *ngIf="login">
+        <div *ngFor="let linea of carrito">
+          <app-fila-carrito [linea]="linea" class=""></app-fila-carrito>
         </div>
+        <p>Total: {{totalCarrito}}</p>
       </ng-container>
     </p-drawer>
     <button (click)="abrirCarrito()" 

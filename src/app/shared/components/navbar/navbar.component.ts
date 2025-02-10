@@ -6,11 +6,14 @@ import { RouterLink } from '@angular/router';
 import { Drawer } from 'primeng/drawer';
 import { CarritoService } from '../../services/carrito.service';
 import { Producto } from '../../models/producto';
+import { FilaCarritoComponent } from "../fila-carrito/fila-carrito.component";
+import { CrearLineaDto } from '../../models/crear-linea-dto';
+import { ProductoService } from '../../services/producto.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, Drawer],
+  imports: [CommonModule, RouterLink, Drawer, FilaCarritoComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -18,29 +21,29 @@ export class NavbarComponent {
 
   visible2: boolean = false;
 
-  carrito: Producto[] = [];
+  carrito: CrearLineaDto[] = [];
 
   listaCategoria: Categoria[] = [];
 
-  login!: boolean;
+  totalCarrito!: number;
 
+  login!: boolean;
+  
   constructor(
     private categoriaService: CategoriaService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
 
   ) {
     effect(() => {
       this.carrito = this.carritoService.getCarrito();
+      console.log(this.carritoService.calcularCarrito());
+      this.totalCarrito = this.carritoService.calcularCarrito();
     });
   }
 
   ngOnInit(): void {
     this.getAllCategorias();
     localStorage.getItem('token') ? this.login = true : this.login = false;
-  }
-
-  borrarProducto(producto: Producto) {
-    this.carritoService.quitarProductoDeCarrito(producto);
   }
 
   getAllCategorias() {
@@ -57,4 +60,5 @@ export class NavbarComponent {
   abrirCarrito() {
     this.visible2 = !this.visible2;
   }
+
 }
