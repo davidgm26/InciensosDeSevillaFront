@@ -1,7 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { Producto } from '../models/producto';
 import { CrearLineaDto } from '../models/crear-linea-dto';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CrearPedido } from '../models/crear-pedido';
+import { Header } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,13 @@ export class CarritoService {
   }
 
   private carrito = signal<CrearLineaDto[]>([]);
+
+  obtenerToken(){
+    return new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    })
+    
+  }
 
   agregarProductoACarrito(producto: Producto) {
     const productoExistente = this.carrito().find(p => p.idProducto == producto.id);
@@ -34,13 +43,11 @@ export class CarritoService {
         subtotal: producto.precio
       }
       this.carrito.update(productos => [...productos, dto]);
-      this.guardarCarritoEnLocalStorage()
     }
   }
 
   quitarProductoDeCarrito(producto: Producto) {
     this.carrito.update(productos => productos.filter(p => p.idProducto != producto.id));
-    this.guardarCarritoEnLocalStorage()
   }
 
   disminuirCantidadProducto(producto: Producto) {
@@ -55,7 +62,6 @@ export class CarritoService {
       }
       return l;
     }).filter(l => l !== null) as CrearLineaDto[]);
-    this.guardarCarritoEnLocalStorage()
   }
 
   aumentarCantidadProducto(producto: Producto) {
@@ -66,7 +72,6 @@ export class CarritoService {
       }
       return l;
     }));
-    this.guardarCarritoEnLocalStorage();
   }
 
   getCarrito() {
@@ -95,7 +100,12 @@ export class CarritoService {
   }
 
   tramitarPedido(){
-   return this.http.post('/api/api/pedido/new', this.carrito());
+   const pedido: CrearPedido = {
+      lineasPedidosDto: this.carrito(),
+      fecha: new Date(),
+      total: this.calcularCarrito()
+   }
+   return this.http.post('/api/api/pedido/new', pedido , { headers: this.obtenerToken()});
   }
 
 

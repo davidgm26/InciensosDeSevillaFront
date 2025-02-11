@@ -7,13 +7,16 @@ import { Drawer } from 'primeng/drawer';
 import { CarritoService } from '../../services/carrito.service';
 import { FilaCarritoComponent } from "../fila-carrito/fila-carrito.component";
 import { CrearLineaDto } from '../../models/crear-linea-dto';
+import { Toast } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, Drawer, FilaCarritoComponent],
+  imports: [CommonModule, RouterLink, Drawer, FilaCarritoComponent,Toast],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  providers: [MessageService]
 })
 export class NavbarComponent {
 
@@ -30,12 +33,13 @@ export class NavbarComponent {
   constructor(
     private categoriaService: CategoriaService,
     private carritoService: CarritoService,
+    private messageService: MessageService
 
   ) {
     effect(() => {
       this.carrito = this.carritoService.getCarrito();
-      console.log(this.carritoService.calcularCarrito());
       this.totalCarrito = this.carritoService.calcularCarrito();
+      this.carritoService.guardarCarritoEnLocalStorage();
     });
   }
 
@@ -64,12 +68,12 @@ export class NavbarComponent {
   tramitarPedido(){
     this.carritoService.tramitarPedido().subscribe(
       (resp) =>{
-        alert("Pedido tramitado correctamente");
+        this.messageService.add({severity:'success', summary: 'Pedido Tramitado', detail: 'Compra realizada'});
         this.carritoService.borrarCarrito();
         this.totalCarrito = 0;
       },
       (err) =>{
-        alert("Error al tramitar pedido");
+        this.messageService.add({severity:'error', summary: 'Error al tramitar Pedido', detail: 'No se pudo tramitar el pedido'});
         console.log(err);
       }
     )
