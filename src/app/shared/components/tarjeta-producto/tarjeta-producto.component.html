@@ -17,7 +17,7 @@
                 ({{ producto.totalResenias }}) {{ producto.totalResenias > 1 ? valoraciones : valoracion }}
               </p>        </div>
     </div>
-    <div class="px-4 py-2 bg-[#A4122C] border-t border-gray-200 hover:bg-[#c73852]">
+    <div class="px-4 py-2 bg-[#A4122C] border-t border-gray-200 hover:bg-[#c73852]" (click)="agregarCarrito(producto)">
         <button class="w-full text-white py-2 rounded-md transition">
             Agregar a carrito
         </button>

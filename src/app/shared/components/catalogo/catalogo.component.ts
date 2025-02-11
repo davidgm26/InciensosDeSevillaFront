@@ -5,13 +5,16 @@ import { TarjetaProductoComponent } from "../tarjeta-producto/tarjeta-producto.c
 import { ProductoService } from '../../services/producto.service';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { ActivatedRoute } from '@angular/router';
+import { Toast } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule, NgFor, TarjetaProductoComponent, NavbarComponent],
+  imports: [CommonModule, NgFor, TarjetaProductoComponent, NavbarComponent,Toast],
   templateUrl: './catalogo.component.html',
-  styleUrls: ['./catalogo.component.css']
+  styleUrls: ['./catalogo.component.css'],
+  providers: [MessageService]
 })
 export class CatalogoComponent implements OnInit {
 
@@ -25,6 +28,7 @@ export class CatalogoComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.route.paramMap.subscribe(params => {
       this.categoriaId = params.get('id');
       this.cargarProductos(this.categoriaId);

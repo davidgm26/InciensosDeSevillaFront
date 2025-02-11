@@ -13,8 +13,6 @@
         *ngIf="formControls['username'].invalid && (formControls['username'].dirty || formControls['username'].touched)"
         class="text-red-600 text-sm">
         <div *ngIf="formControls['username'].errors?.['required']">El nombre de usuario es requerido.</div>
-        <div *ngIf="formControls['username'].errors?.['pattern']">El nombre de usuario solo puede contener letras y
-          números.</div>
       </div>
     </div>
     <div class="p-field">

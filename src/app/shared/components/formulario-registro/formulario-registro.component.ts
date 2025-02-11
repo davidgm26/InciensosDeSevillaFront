@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Password } from 'primeng/password';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class FormularioRegistroComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -29,8 +31,8 @@ export class FormularioRegistroComponent implements OnInit {
       username: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9]+$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rol: [2, Validators.required],
-      nombre: ['', [Validators.required,Validators.pattern('[a-zA-Z ]')]],
-      apellidos: ['',[ Validators.required,Validators.pattern('[a-zA-Z ]')]],
+      nombre: ['', [Validators.required,Validators.pattern('^[a-zA-Z]+$')]],
+      apellidos: ['',[ Validators.required,Validators.pattern('^[a-zA-Z ]+$')]],
       dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}[A-Za-z]$')]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       direccion: ['', Validators.required],
@@ -51,10 +53,11 @@ export class FormularioRegistroComponent implements OnInit {
         (resp) => {
           console.log(resp);
           this.messageService.add({severity:'success', summary: 'Usuario Registrado Con Éxito', detail: 'Registro exitoso'});
+          this.router.navigate(['/home']);
         },
         (error) => {
           console.error(error);
-          this.messageService.add({severity:'error', summary: 'Error', detail: 'Error en el registro'});
+          this.messageService.add({severity:'error', summary: 'Error', detail: error.error.detail});
         }
       )
     } else {
