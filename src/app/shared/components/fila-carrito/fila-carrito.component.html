@@ -1,22 +1,36 @@
-<div class="flex items-center p-4 w-full bg-white rounded-lg">
-    <button class="m-5 text-red-600" (click)="borrarProducto(producto)"><i class="pi pi-trash"></i></button>
+<div class="flex flex-wrap md:flex-nowrap items-center p-3 md:p-4 w-full bg-white rounded-lg gap-2 md:gap-4">
+    <button class="text-gray-500 hover:text-red-700 transition-colors duration-300 p-2"
+        (click)="borrarProducto(producto)">
+        x
+    </button>
+
     <div class="flex-shrink-0">
-        <img [src]="producto.imagen" alt="Imagen del producto" class="h-16 w-16 rounded-full object-cover">
+        <img [src]="producto.imagen" alt="Imagen del producto"
+            class="h-14 w-14 md:h-16 md:w-16 rounded-full object-cover">
     </div>
-    <div class="flex-1 ml-4">
-        <div class="text-gray-800 font-semibold">
+
+    <div class="flex-1 min-w-[120px]">
+        <div class="text-gray-800 font-semibold text-sm md:text-base">
             <p>{{producto.nombre}}</p>
         </div>
-        <div class="text-gray-600">
+        <div class="text-gray-600 text-xs md:text-sm">
             <p>{{producto.categoria}}</p>
         </div>
     </div>
-    <div class="w-1/3 text-center text-gray-800 font-semibold">
-        <button (click)="aumentarCantidad(producto)"> + </button>
-        <p>{{linea.cantidad}}</p>
-        <button (click)="disminuirCantidad(producto)"> - </button>
+
+    <div class="flex items-center space-x-3 md:w-1/4 text-center text-gray-800 font-semibold">
+        <button (click)="disminuirCantidad(producto)"
+            class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-300">
+            -
+        </button>
+        <span class="w-8 text-center">{{linea.cantidad}}</span>
+        <button (click)="aumentarCantidad(producto)"
+            class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-300">
+            +
+        </button>
     </div>
-    <div class="w-1/3 text-right text-gray-800 font-semibold">
-        <p>{{linea.subtotal}} €</p>
+
+    <div class="ml-auto text-right text-gray-800 font-semibold">
+        <p class="text-sm md:text-base">{{linea.subtotal.toFixed(2)}} €</p>
     </div>
 </div>

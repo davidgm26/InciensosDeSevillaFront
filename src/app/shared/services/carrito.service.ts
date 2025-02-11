@@ -1,13 +1,18 @@
 import { Injectable, signal } from '@angular/core';
 import { Producto } from '../models/producto';
 import { CrearLineaDto } from '../models/crear-linea-dto';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+  ) {
+    this.cargarCarritoDesdeLocalStorage();
+  }
 
   private carrito = signal<CrearLineaDto[]>([]);
 
@@ -29,11 +34,13 @@ export class CarritoService {
         subtotal: producto.precio
       }
       this.carrito.update(productos => [...productos, dto]);
+      this.guardarCarritoEnLocalStorage()
     }
   }
 
   quitarProductoDeCarrito(producto: Producto) {
     this.carrito.update(productos => productos.filter(p => p.idProducto != producto.id));
+    this.guardarCarritoEnLocalStorage()
   }
 
   disminuirCantidadProducto(producto: Producto) {
@@ -48,6 +55,7 @@ export class CarritoService {
       }
       return l;
     }).filter(l => l !== null) as CrearLineaDto[]);
+    this.guardarCarritoEnLocalStorage()
   }
 
   aumentarCantidadProducto(producto: Producto) {
@@ -58,17 +66,37 @@ export class CarritoService {
       }
       return l;
     }));
+    this.guardarCarritoEnLocalStorage();
   }
 
   getCarrito() {
+    localStorage.setItem('carrito', JSON.stringify(this.carrito()));
     return this.carrito();
   }
 
   borrarCarrito() {
     this.carrito.set([]);
+    localStorage.removeItem('carrito');
   }
 
   calcularCarrito() {
     return this.carrito().reduce((total, l) => total + l.subtotal, 0);
   }
+
+  cargarCarritoDesdeLocalStorage() {
+    const carritoGuardado = localStorage.getItem('carrito');
+    if (carritoGuardado) {
+      this.carrito.set(JSON.parse(carritoGuardado));
+    }
+  }
+
+  guardarCarritoEnLocalStorage() {
+    localStorage.setItem('carrito', JSON.stringify(this.carrito()));
+  }
+
+  tramitarPedido(){
+   return this.http.post('/api/api/pedido/new', this.carrito());
+  }
+
+
 }

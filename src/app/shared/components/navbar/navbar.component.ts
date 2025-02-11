@@ -5,10 +5,8 @@ import { Categoria } from '../../models/categoria';
 import { RouterLink } from '@angular/router';
 import { Drawer } from 'primeng/drawer';
 import { CarritoService } from '../../services/carrito.service';
-import { Producto } from '../../models/producto';
 import { FilaCarritoComponent } from "../fila-carrito/fila-carrito.component";
 import { CrearLineaDto } from '../../models/crear-linea-dto';
-import { ProductoService } from '../../services/producto.service';
 
 @Component({
   selector: 'app-navbar',
@@ -44,6 +42,8 @@ export class NavbarComponent {
   ngOnInit(): void {
     this.getAllCategorias();
     localStorage.getItem('token') ? this.login = true : this.login = false;
+    console.log(this.login);
+    
   }
 
   getAllCategorias() {
@@ -59,6 +59,20 @@ export class NavbarComponent {
   }
   abrirCarrito() {
     this.visible2 = !this.visible2;
+  }
+
+  tramitarPedido(){
+    this.carritoService.tramitarPedido().subscribe(
+      (resp) =>{
+        alert("Pedido tramitado correctamente");
+        this.carritoService.borrarCarrito();
+        this.totalCarrito = 0;
+      },
+      (err) =>{
+        alert("Error al tramitar pedido");
+        console.log(err);
+      }
+    )
   }
 
 }
