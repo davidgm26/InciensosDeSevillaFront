@@ -74,5 +74,9 @@ export class NavbarComponent {
       }
     )
   }
+  cerrarSesion(){
+    localStorage.removeItem('token');
+    this.login = false;
+  }
 
 }

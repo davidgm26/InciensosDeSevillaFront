@@ -1,5 +1,4 @@
 <nav class="w-full shadow-lg">
-  <!-- Top bar with logo and cart -->
   <div class="bg-[#A4122C] p-2 flex justify-between items-center">
     <a [routerLink]="['/home']" class="flex items-center">
       <img src="logo-1670977731.png" alt="Logo Inciensos de Sevilla" 
@@ -47,20 +46,26 @@
   <div class="bg-black py-2 px-4 overflow-x-auto">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
       <ul class="flex space-x-4 md:space-x-6 text-white font-serif min-w-max">
-        <li *ngFor="let categoria of listaCategoria" class="relative group">
-          <a [routerLink]="['/catalogo/categoria/', categoria.id]"
-             class="block px-2 md:px-3 py-2 text-xs md:text-sm uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 whitespace-nowrap">
-            {{categoria.nombre}}
-            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-        </li>
+      <li *ngFor="let categoria of listaCategoria" class="relative group">
+        <a [routerLink]="['/catalogo/categoria/', categoria.id]"
+         class="block px-2 md:px-3 py-2 text-xs md:text-sm uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 whitespace-nowrap">
+        {{categoria.nombre}}
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+        </a>
+      </li>
       </ul>
 
-      <a [routerLink]="['/login']"
-         class="text-xs md:text-sm text-white uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 relative group font-serif whitespace-nowrap ml-4">
-        Iniciar sesión
-        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+      <a [routerLink]="['/login']" 
+      *ngIf="!login"
+       class="text-xs md:text-sm text-white uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 relative group font-serif whitespace-nowrap ml-4">
+      Iniciar sesión
+      </a>
+      
+      <a 
+      *ngIf="login" (click)="cerrarSesion()" class="text-xs md:text-sm text-white uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 relative group font-serif whitespace-nowrap ml-4">
+      Cerrar sesión
+      <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
       </a>
     </div>
-  </div>
+    </div>
 </nav>

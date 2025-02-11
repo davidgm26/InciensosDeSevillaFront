@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder,FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
-import { LoginRequest } from '../../shared/models/login-request';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { LoginRequest } from '../../models/login-request';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { IftaLabelModule } from 'primeng/iftalabel';
@@ -33,7 +33,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -57,17 +58,15 @@ export class LoginComponent {
       this.authService.login(this.loginRequest).subscribe(
         (resp) => {
           localStorage.setItem('token', resp.token);
-          console.log(resp);
           this.messageService.add({severity:'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente'});
+          this.router.navigate(['/home']);
         },
         (error) => {
-          this.errorMessage = "Usuario o contraseña incorrectos";
-          console.log("Error: ", this.errorMessage);
-          this.messageService.add({severity:'error', summary: 'Error de Login', detail: this.errorMessage});
+          this.messageService.add({severity:'error', summary: 'Error de Login', detail: error.error.message});
         })
     } else {
       this.loginForm.markAllAsTouched();
-      this.setFormErrors();
+      this.setFormErrors(); 
     }
   }
 
