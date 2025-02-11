@@ -20,6 +20,7 @@ export class CatalogoComponent implements OnInit {
 
   categoriaId: string | null = null;
   productos: Producto[] = [];
+  loadingData: boolean = true;
 
 
   constructor(private productoService: ProductoService,
@@ -40,7 +41,7 @@ export class CatalogoComponent implements OnInit {
       this.productoService.getAllProductosActivos(id).subscribe(
         (res) => {
           this.productos = res;
-          console.log(this.productos);
+          this.loadingData = false;
         },
         (err) => {
           console.log(err);
@@ -48,7 +49,6 @@ export class CatalogoComponent implements OnInit {
       );
     } else {
       console.error("Error al cargar productos");
-
     }
 
   }
