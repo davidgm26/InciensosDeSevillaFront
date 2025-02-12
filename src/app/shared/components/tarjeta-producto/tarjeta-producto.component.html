@@ -12,7 +12,9 @@
             <p class="text-xl font-semibold text-[#A4122C]">{{producto.precio.toFixed(2)}} €</p>
         </div>
         <div class="mt-3 flex items-center">
-            <p class="text-yellow-500 text-sm">★★★★☆</p>
+            <form [formGroup]="valoracionForm">
+                <p-rating stars="5" formControlName="value"></p-rating>
+            </form>
             <p class="ml-2 text-gray-500 text-sm">
                 ({{ producto.totalResenias }}) {{ producto.totalResenias > 1 ? valoraciones : valoracion }}
               </p>        </div>
