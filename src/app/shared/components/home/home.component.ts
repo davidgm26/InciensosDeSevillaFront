@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { TarjetaHomeComponent } from '../tarjeta-home/tarjeta-home.component';
 import { RouterLink } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,12 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.component.css',
   standalone: true
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+
+constructor(private loadingService: LoadingService) { }
+
+ngOnInit(): void {
+    this.loadingService.hide();
+}
 
 }

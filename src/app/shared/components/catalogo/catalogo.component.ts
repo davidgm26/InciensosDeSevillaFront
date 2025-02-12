@@ -7,11 +7,12 @@ import { NavbarComponent } from "../navbar/navbar.component";
 import { ActivatedRoute } from '@angular/router';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule, NgFor, TarjetaProductoComponent, NavbarComponent,Toast],
+  imports: [CommonModule, NgFor, TarjetaProductoComponent, NavbarComponent,Toast,SpinnerComponent],
   templateUrl: './catalogo.component.html',
   styleUrls: ['./catalogo.component.css'],
   providers: [MessageService]
@@ -20,6 +21,7 @@ export class CatalogoComponent implements OnInit {
 
   categoriaId: string | null = null;
   productos: Producto[] = [];
+  loadingData: boolean = true;
 
 
   constructor(private productoService: ProductoService,
@@ -40,7 +42,7 @@ export class CatalogoComponent implements OnInit {
       this.productoService.getAllProductosActivos(id).subscribe(
         (res) => {
           this.productos = res;
-          console.log(this.productos);
+          this.loadingData = false;
         },
         (err) => {
           console.log(err);
@@ -48,7 +50,6 @@ export class CatalogoComponent implements OnInit {
       );
     } else {
       console.error("Error al cargar productos");
-
     }
 
   }
