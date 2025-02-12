@@ -1,57 +1,172 @@
 <app-navbar></app-navbar>
 <app-spinner></app-spinner>
+<div *ngIf="loading">
+  <div class="container mx-auto px-4 py-4">
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 items-start">
+        <!-- Image skeleton -->
+        <div class="flex justify-center w-full">
+            <div class="relative w-full max-w-[300px] sm:max-w-[400px]">
+                <div class="w-full h-[300px] bg-gray-200 rounded-lg animate-pulse"></div>
+            </div>
+        </div>
 
-<!-- Main container -->
-<div class="container mx-auto px-4 py-4">
-  <!-- Product section -->
-  <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 items-start">
-    <!-- Image container -->
-    <div class="flex justify-center w-full">
-      <div class="relative w-full max-w-[300px] sm:max-w-[400px]">
-        <img 
-          [src]="producto.imagen" 
-          alt="Nombre del producto" 
-          class="w-full h-auto object-contain rounded-lg shadow-lg"
-        >
-      </div>
+        <!-- Product info skeleton -->
+        <div class="w-full space-y-3">
+            <!-- Title skeleton -->
+            <div class="h-8 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+            
+            <!-- Description skeleton -->
+            <div class="space-y-2">
+                <div class="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+                <div class="h-4 bg-gray-200 rounded w-5/6 animate-pulse"></div>
+                <div class="h-4 bg-gray-200 rounded w-4/6 animate-pulse"></div>
+            </div>
+
+            <!-- Price skeleton -->
+            <div class="h-6 bg-gray-200 rounded w-32 animate-pulse"></div>
+
+            <!-- Rating skeleton -->
+            <div class="flex items-center gap-2">
+                <div class="flex gap-1">
+                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+                <div class="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+            </div>
+
+            <!-- Button skeleton -->
+            <div class="w-full sm:w-[200px] h-10 bg-gray-200 rounded-md animate-pulse"></div>
+        </div>
     </div>
 
-    <!-- Product information -->
-    <div class="w-full space-y-3">
-      <h2 class="text-xl sm:text-2xl font-bold text-gray-800">{{producto.nombre}}</h2>
-      <p class="text-sm sm:text-base text-gray-600">{{producto.descripcion}}</p>
-      
-      <p class="text-lg font-semibold text-red-600">
-        Precio: {{producto.precio}} €
-      </p>
-
-      <div class="flex items-center gap-2">
-        <p-rating></p-rating>
-        <p class="text-gray-500 text-sm">
-          ({{ producto.totalResenias }}) 
-          {{ producto.totalResenias > 1 ? 'valoraciones' : 'valoración' }}
+    <!-- Related products skeleton -->
+    <div class="w-full mt-6 overflow-hidden">
+        <div class="h-8 bg-gray-200 rounded w-48 mb-4 animate-pulse"></div>
+        <div class="w-full overflow-x-auto pb-4">
+            <div class="flex gap-4">
+                <div class="w-[200px] h-[250px] bg-gray-200 rounded animate-pulse flex-shrink-0"></div>
+                <div class="w-[200px] h-[250px] bg-gray-200 rounded animate-pulse flex-shrink-0"></div>
+                <div class="w-[200px] h-[250px] bg-gray-200 rounded animate-pulse flex-shrink-0"></div>
+                <div class="w-[200px] h-[250px] bg-gray-200 rounded animate-pulse flex-shrink-0"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div *ngIf="!loading">
+  <div class="container mx-auto px-4 py-4">
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 items-start">
+      <div class="flex justify-center w-full">
+        <div class="relative w-full max-w-[300px] sm:max-w-[400px]">
+          <img 
+            [src]="producto.imagen" 
+            alt="Nombre del producto" 
+            class="w-full h-auto object-contain rounded-lg shadow-lg"
+          >
+        </div>
+      </div>
+  
+      <div class="w-full space-y-3">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-800">{{producto.nombre}}</h2>
+        <p class="text-sm sm:text-base text-gray-600">{{producto.descripcion}}</p>
+        
+        <p class="text-lg font-semibold text-red-600">
+          Precio: {{producto.precio}} €
         </p>
-      </div>
-
-      <button class="w-full sm:w-[200px] mt-4 bg-[#A4122C] text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
-        Agregar al carrito
-      </button>
-    </div>
-  </div>
-
-  <!-- Carousel section with improved responsive handling -->
-  <div class="w-full mt-6 overflow-hidden">
-    <h2 class="text-xl font-bold text-gray-800 mb-4 px-2">
-      Productos relacionados
-    </h2>
-    <!-- Carousel wrapper with specific width control -->
-    <div class="w-full overflow-x-auto pb-4">
-      <div class="min-w-full">
-        <app-carrusel 
-          [productos]="productosRelacionados"
-          class="block w-full"
-        ></app-carrusel>
+  
+        <div class="flex items-center gap-2">
+          <p-rating stars="5" [(ngModel)]="valoracion" readonly="true">
+            <ng-template #onicon>
+                <img src="star-filled.svg" height="24" width="24" />
+            </ng-template>
+            <ng-template #officon>
+                <img src="star-empty.svg" height="24"  width="24" />
+            </ng-template>
+        </p-rating>        <p class="text-gray-500 text-sm">
+            ({{ producto.totalResenias }}) 
+            {{ producto.totalResenias > 1 ? 'valoraciones' : 'valoración' }}
+          </p>
+        </div>
+  
+        <button class="w-full sm:w-[200px] mt-4 bg-[#A4122C] text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+          Agregar al carrito
+        </button>
       </div>
     </div>
+  
+    <div class="w-full mt-6 overflow-hidden">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 px-2">
+        Productos relacionados
+      </h2>
+      <!-- Carousel wrapper with specific width control -->
+      <div class="w-full overflow-x-auto pb-4">
+        <div class="min-w-full">
+          <app-carrusel 
+            [productos]="productosRelacionados"
+            class="block w-full"
+          ></app-carrusel>
+        </div>
+      </div>
+    </div>
+    <section>
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">Comentarios</h2>
+  
+      <!-- Static Reviews List -->
+      <div class="space-y-6">
+        <article class="border-b border-gray-200 pb-6">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <div class="flex">
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+              </div>
+              <span class="text-sm text-gray-500">15 de febrero, 2024</span>
+            </div>
+          </div>
+          <p class="text-sm font-semibold">María García</p>
+          <p class="text-gray-600 mt-2">¡Excelente producto! Cumple perfectamente con lo prometido.</p>
+        </article>
+  
+        <article class="border-b border-gray-200 pb-6">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <div class="flex">
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-empty.svg" class="w-5 h-5" alt="empty star" />
+              </div>
+              <span class="text-sm text-gray-500">14 de febrero, 2024</span>
+            </div>
+          </div>
+          <p class="text-sm font-semibold">Juan Pérez</p>
+          <p class="text-gray-600 mt-2">Muy buen producto, aunque la entrega tardó un poco más de lo esperado.</p>
+        </article>
+  
+        <article class="border-b border-gray-200 pb-6">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <div class="flex">
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
+                <img src="star-empty.svg" class="w-5 h-5" alt="empty star" />
+                <img src="star-empty.svg" class="w-5 h-5" alt="empty star" />
+              </div>
+              <span class="text-sm text-gray-500">13 de febrero, 2024</span>
+            </div>
+          </div>
+          <p class="text-sm font-semibold">Ana Martínez</p>
+          <p class="text-gray-600 mt-2">El producto está bien, pero esperaba un poco más de calidad por el precio.</p>
+        </article>
+      </div>
+    </section>
   </div>
 </div>

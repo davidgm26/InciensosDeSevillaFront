@@ -7,19 +7,22 @@ import { Producto } from '../../models/producto';
 import { CarruselComponent } from '../carrusel/carrusel.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { Rating } from 'primeng/rating';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-view',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CarruselComponent, SpinnerComponent, Rating],
+  imports: [CommonModule, NavbarComponent, CarruselComponent, SpinnerComponent, Rating,FormsModule],
   templateUrl: './product-view.component.html',
   styleUrls: ['./product-view.component.css']
 })
 export class ProductViewComponent implements OnInit {
 
   productId!: string;
-
   producto!: Producto;
+  valoracion!: number;
+  loading: boolean = true;
+  comentarios: String[] = ['hola', 'adios', 'que tal'];
 
   productosRelacionados!: Producto[];
   constructor(
@@ -42,6 +45,8 @@ export class ProductViewComponent implements OnInit {
       (res) => {
         this.producto = res;
         console.log(this.producto);
+        this.valoracion = this.producto.valoracion;
+        console.log(this.producto);
       },
       (err) => {
         console.log(err);
@@ -53,12 +58,17 @@ export class ProductViewComponent implements OnInit {
     this.productoService.getProductosLimitados().subscribe(
       res => {
         this.productosRelacionados = res;
+        this.loading = false;
       },
       error => {
         console.error("Eror al realizar la carga de productos");
 
       }
     )
+  }
+  
+  agregarAlCarrito() {
+
   }
 
 

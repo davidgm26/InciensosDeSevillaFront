@@ -6,12 +6,12 @@ import { CarritoService } from '../../services/carrito.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { Rating } from 'primeng/rating';
-import { Form, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Form, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tarjeta-producto',
   standalone: true,
-  imports: [CommonModule,RouterLink,Rating,ReactiveFormsModule],
+  imports: [CommonModule,RouterLink,Rating,ReactiveFormsModule,FormsModule],
   templateUrl: './tarjeta-producto.component.html',
   styleUrls: ['./tarjeta-producto.component.css'],
   providers: [],
@@ -23,20 +23,19 @@ export class TarjetaProductoComponent implements OnInit{
   constructor(
     private carritoService: CarritoService,
     private messageService: MessageService,
-    private fb: FormBuilder
   ){
     
   }
 
   @Input() producto!: Producto;
-  valoracionForm!: FormGroup;
-  valoracion = 'valoración';
-  valoraciones = 'valoraciones';
+  valoracion!:number;
 
   ngOnInit(): void {
-      this.valoracionForm = this.fb.group({
-        value: [this.producto.valoracion]
-      })
+    console.log(this.producto);
+    
+    this.valoracion = this.producto.valoracion;
+    console.log(this.valoracion);
+    
   }
 
   cargarDefault():string {

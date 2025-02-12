@@ -27,7 +27,6 @@ export class CarruselComponent implements OnChanges{
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['productos']) {
-      // Aquí puedes agregar lógica para manejar el cambio de productos
       console.log('Productos cambiados:', this.productos);
     }
   }
