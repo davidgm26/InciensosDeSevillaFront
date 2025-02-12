@@ -5,11 +5,12 @@
   import { ProductoService } from '../../services/producto.service';
   import { Producto } from '../../models/producto';
   import { CarruselComponent } from '../carrusel/carrusel.component';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
   @Component({
     selector: 'app-product-view',
     standalone: true,
-    imports: [CommonModule, NavbarComponent,CarruselComponent],
+    imports: [CommonModule, NavbarComponent,CarruselComponent,SpinnerComponent],
     templateUrl: './product-view.component.html',
     styleUrls: ['./product-view.component.css']
   })

@@ -1,31 +1,57 @@
 <app-navbar></app-navbar>
+<app-spinner></app-spinner>
 
-<!-- Contenedor general -->
-<div class="container mx-auto px-4 py-8">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-    <!-- Imagen -->
-    <div class="flex justify-center">
-      <img [src]="producto.imagen" alt="Nombre del producto" class="w-full max-w-sm rounded-lg shadow-lg">
+<!-- Main container -->
+<div class="container mx-auto px-4 py-4">
+  <!-- Product section -->
+  <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 items-start">
+    <!-- Image container -->
+    <div class="flex justify-center w-full">
+      <div class="relative w-full max-w-[300px] sm:max-w-[400px]">
+        <img 
+          [src]="producto.imagen" 
+          alt="Nombre del producto" 
+          class="w-full h-auto object-contain rounded-lg shadow-lg"
+        >
+      </div>
     </div>
 
-    <!-- Información del producto -->
-    <div>
-      <h2 class="text-2xl font-bold text-gray-800">{{producto.nombre}}</h2>
-      <p class="text-gray-600 mt-2">{{producto.descripcion}}</p>
-      <p class="text-lg font-semibold text-red-600 mt-4">Precio: {{producto.precio}} €</p>
-        <div class="flex items-center mt-4">
-            <p class="text-yellow-500 text-sm">★★★★☆</p>
-            <p class="ml-2 text-gray-500 text-sm">
-            ({{ producto.totalResenias }}) {{ producto.totalResenias > 1 ? 'valoraciones' : 'valoración' }}
-            </p>
-        </div>
-      <button class="mt-6 bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition">
+    <!-- Product information -->
+    <div class="w-full space-y-3">
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800">{{producto.nombre}}</h2>
+      <p class="text-sm sm:text-base text-gray-600">{{producto.descripcion}}</p>
+      
+      <p class="text-lg font-semibold text-red-600">
+        Precio: {{producto.precio}} €
+      </p>
+
+      <div class="flex items-center gap-2">
+        <p class="text-yellow-500">★★★★☆</p>
+        <p class="text-gray-500 text-sm">
+          ({{ producto.totalResenias }}) 
+          {{ producto.totalResenias > 1 ? 'valoraciones' : 'valoración' }}
+        </p>
+      </div>
+
+      <button class="w-full sm:w-[200px] mt-4 bg-[#A4122C] text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
         Agregar al carrito
       </button>
     </div>
   </div>
-  <!-- Carrusel debajo -->
-  <div class="mt-8">
-    <h2 class="text-2xl font-bold text-gray-800">Productos relacionados</h2>
-    <app-carrusel [productos]="productosRelacionados"></app-carrusel>
+
+  <!-- Carousel section with improved responsive handling -->
+  <div class="w-full mt-6 overflow-hidden">
+    <h2 class="text-xl font-bold text-gray-800 mb-4 px-2">
+      Productos relacionados
+    </h2>
+    <!-- Carousel wrapper with specific width control -->
+    <div class="w-full overflow-x-auto pb-4">
+      <div class="min-w-full">
+        <app-carrusel 
+          [productos]="productosRelacionados"
+          class="block w-full"
+        ></app-carrusel>
+      </div>
+    </div>
   </div>
+</div>

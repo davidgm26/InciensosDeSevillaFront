@@ -11,7 +11,6 @@ import { FilaCarritoComponent } from './shared/components/fila-carrito/fila-carr
 
 export const routes: Routes = [
     {path: "home", component: HomeComponent},
-    {path: "fila", component: FilaCarritoComponent},
     {path: "producto/:id", component: ProductViewComponent},
     {path: "catalogo/categoria/:id", component: CatalogoComponent},
     {path: "login", component: LoginComponent},
