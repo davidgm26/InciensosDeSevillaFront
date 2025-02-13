@@ -5,6 +5,7 @@ export interface Producto {
     descripcion: string;
     categoria: string;
     totalResenias: number;
+    valoracion: number;
     imagen: string;
     activo: boolean;
 }

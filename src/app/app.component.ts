@@ -8,7 +8,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Toast, SpinnerComponent],
+  imports: [RouterOutlet, Toast],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   standalone: true,

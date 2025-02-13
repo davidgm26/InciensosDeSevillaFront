@@ -1,35 +1,38 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Producto } from '../../models/producto';
 import { RouterLink } from '@angular/router';
 import { CarritoService } from '../../services/carrito.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
+import { Rating } from 'primeng/rating';
+import { Form, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tarjeta-producto',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule,RouterLink,Rating,ReactiveFormsModule,FormsModule],
   templateUrl: './tarjeta-producto.component.html',
   styleUrls: ['./tarjeta-producto.component.css'],
-  providers: []
+  providers: [],
+  encapsulation: ViewEncapsulation.None
 })
-export class TarjetaProductoComponent {
+export class TarjetaProductoComponent implements OnInit{
 
 
   constructor(
     private carritoService: CarritoService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ){
     
   }
 
   @Input() producto!: Producto;
+  valoracion!:number;
 
-  valoracion = 'valoración';
-  valoraciones = 'valoraciones';
-
-  
+  ngOnInit(): void {
+      
+  }
 
   cargarDefault():string {
     return "https://inciensosdesevilla.es/175-large_default/incienso-aroma-de-la-cava.jpg";

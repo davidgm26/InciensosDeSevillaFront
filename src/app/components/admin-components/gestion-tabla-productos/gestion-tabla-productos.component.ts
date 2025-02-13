@@ -52,7 +52,8 @@ export class GestionTablaProductosComponent implements OnInit {
     categoria: "",
     totalResenias: 0,
     imagen: "",
-    activo: false
+    activo: false,
+    valoracion: 0    
    } 
   ref: DynamicDialogRef | undefined;
   

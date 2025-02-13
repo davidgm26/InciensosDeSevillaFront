@@ -41,7 +41,7 @@ export class CatalogoComponent implements OnInit {
     if (id) {
       this.productoService.getAllProductosActivos(id).subscribe(
         (res) => {
-          this.productos = res;
+          this.productos = res.sort((a,b) => a.id - b.id);
           this.loadingData = false;
         },
         (err) => {
