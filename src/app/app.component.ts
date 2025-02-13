@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
-import { SpinnerComponent } from "./shared/components/spinner/spinner.component";
 import { loadingInterceptor } from './shared/interceptors/loading.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
