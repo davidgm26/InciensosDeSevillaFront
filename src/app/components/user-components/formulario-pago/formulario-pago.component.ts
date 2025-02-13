@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-formulario-pago',
-  imports: [ButtonModule, StepperModule, NavbarComponent,ReactiveFormsModule],
+  imports: [ButtonModule, StepperModule, NavbarComponent, ReactiveFormsModule],
   templateUrl: './formulario-pago.component.html',
   styleUrl: './formulario-pago.component.css',
   standalone: true,
@@ -14,6 +14,8 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 })
 export class FormularioPagoComponent implements OnInit {
 
+
+  datosDePago!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -23,9 +25,25 @@ export class FormularioPagoComponent implements OnInit {
 
   }
 
-  verificarDatosPago(activateCallback: any){
+  verificarDatosPago(activateCallback: any) {
     console.log("Verificar datos de pago");
     activateCallback(2)
-    return ;
+    return;
+  }
+
+  verificarDatosEnvio(activateCallback: any) {
+
+  }
+
+  inicializarFormularioPago() {
+    this.datosDePago = this.fb.group({
+      
+    });
+
+
+  }
+
+  onSubmitPago(){
+    
   }
 }
