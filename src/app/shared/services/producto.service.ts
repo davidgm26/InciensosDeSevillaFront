@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Producto } from '../models/producto';
 import { Observable } from 'rxjs';
+import { Resenia } from '../models/resenia';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,13 @@ export class ProductoService {
   constructor(
     private http: HttpClient,
   ) { }
+
+  obtenerToken(){
+      return new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+      
+    }
 
 
   getAllProductosByCategoria(id:string):Observable <Producto[]>{
@@ -44,4 +52,14 @@ export class ProductoService {
   deleteProducto(id:number):Observable<any>{
     return this.http.delete('/api/api/producto/'+ id);
   }
+
+  getResenias(id:string):Observable<Resenia[]>{
+    return this.http.get<Resenia[]>('/api/api/producto/resenias/'+ id);
+  }
+
+  addResenia(id:string, resenia:Resenia):Observable<Resenia>{
+    debugger;
+    return this.http.post<Resenia>('/api/api/producto/resenia/new/'+ id, resenia , {headers: this.obtenerToken()});
+  }
+
 }

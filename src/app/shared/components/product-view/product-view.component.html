@@ -1,107 +1,85 @@
 <app-navbar></app-navbar>
+<p-toast></p-toast>
 <app-spinner></app-spinner>
-<div *ngIf="loading">
-  <div class="container mx-auto px-4 py-4">
-    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 items-start">
-        <!-- Image skeleton -->
-        <div class="flex justify-center w-full">
-            <div class="relative w-full max-w-[300px] sm:max-w-[400px]">
-                <div class="w-full h-[300px] bg-gray-200 rounded-lg animate-pulse"></div>
-            </div>
-        </div>
-
-        <!-- Product info skeleton -->
-        <div class="w-full space-y-3">
-            <!-- Title skeleton -->
-            <div class="h-8 bg-gray-200 rounded w-3/4 animate-pulse"></div>
-            
-            <!-- Description skeleton -->
-            <div class="space-y-2">
-                <div class="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
-                <div class="h-4 bg-gray-200 rounded w-5/6 animate-pulse"></div>
-                <div class="h-4 bg-gray-200 rounded w-4/6 animate-pulse"></div>
-            </div>
-
-            <!-- Price skeleton -->
-            <div class="h-6 bg-gray-200 rounded w-32 animate-pulse"></div>
-
-            <!-- Rating skeleton -->
-            <div class="flex items-center gap-2">
-                <div class="flex gap-1">
-                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
-                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
-                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
-                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
-                    <div class="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
-                </div>
-                <div class="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-            </div>
-
-            <!-- Button skeleton -->
-            <div class="w-full sm:w-[200px] h-10 bg-gray-200 rounded-md animate-pulse"></div>
-        </div>
-    </div>
-
-    <!-- Related products skeleton -->
-    <div class="w-full mt-6 overflow-hidden">
-        <div class="h-8 bg-gray-200 rounded w-48 mb-4 animate-pulse"></div>
-        <div class="w-full overflow-x-auto pb-4">
-            <div class="flex gap-4">
-                <div class="w-[200px] h-[250px] bg-gray-200 rounded animate-pulse flex-shrink-0"></div>
-                <div class="w-[200px] h-[250px] bg-gray-200 rounded animate-pulse flex-shrink-0"></div>
-                <div class="w-[200px] h-[250px] bg-gray-200 rounded animate-pulse flex-shrink-0"></div>
-                <div class="w-[200px] h-[250px] bg-gray-200 rounded animate-pulse flex-shrink-0"></div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<div *ngIf="!loading">
-  <div class="container mx-auto px-4 py-4">
-    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 items-start">
+<div *ngIf="loading" class="min-h-screen bg-gray-50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
       <div class="flex justify-center w-full">
-        <div class="relative w-full max-w-[300px] sm:max-w-[400px]">
+        <div class="relative w-full max-w-[300px] sm:max-w-[400px] lg:max-w-[500px]">
+          <div class="w-full aspect-square bg-gray-200 rounded-lg animate-pulse"></div>
+        </div>
+      </div>
+
+      <div class="w-full space-y-4 sm:space-y-6">
+        <div class="h-8 sm:h-10 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+        <div class="space-y-3">
+          <div class="h-4 sm:h-5 bg-gray-200 rounded w-full animate-pulse"></div>
+          <div class="h-4 sm:h-5 bg-gray-200 rounded w-5/6 animate-pulse"></div>
+          <div class="h-4 sm:h-5 bg-gray-200 rounded w-4/6 animate-pulse"></div>
+        </div>
+        <div class="h-6 sm:h-8 bg-gray-200 rounded w-32 sm:w-40 animate-pulse"></div>
+        <div class="flex items-center gap-3">
+          <div class="flex gap-1 sm:gap-2">
+            <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 rounded animate-pulse"></div>
+            <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 rounded animate-pulse"></div>
+            <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 rounded animate-pulse"></div>
+            <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 rounded animate-pulse"></div>
+            <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div class="h-4 sm:h-5 bg-gray-200 rounded w-24 sm:w-32 animate-pulse"></div>
+        </div>
+        <div class="w-full sm:w-[200px] h-10 sm:h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="min-h-screen bg-gray-50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
+      <div class="flex justify-center w-full">
+        <div class="relative w-full max-w-[300px] sm:max-w-[400px] lg:max-w-[500px]">
           <img 
             [src]="producto.imagen" 
-            alt="Nombre del producto" 
-            class="w-full h-auto object-contain rounded-lg shadow-lg"
+            [alt]="producto.nombre" 
+            class="w-full aspect-square object-contain rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
           >
         </div>
       </div>
-  
-      <div class="w-full space-y-3">
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-800">{{producto.nombre}}</h2>
-        <p class="text-sm sm:text-base text-gray-600">{{producto.descripcion}}</p>
+
+      <div class="w-full space-y-4 sm:space-y-6">
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800">{{producto.nombre}}</h2>
+        <p class="text-sm sm:text-base lg:text-lg text-gray-600 leading-relaxed">{{producto.descripcion}}</p>
         
-        <p class="text-lg font-semibold text-red-600">
+        <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-red-600">
           Precio: {{producto.precio}} €
         </p>
-  
-        <div class="flex items-center gap-2">
+
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
           <p-rating stars="5" [(ngModel)]="valoracion" readonly="true">
             <ng-template #onicon>
-                <img src="star-filled.svg" height="24" width="24" />
+              <img src="star-filled.svg" class="w-5 h-5 sm:w-6 sm:h-6" />
             </ng-template>
             <ng-template #officon>
-                <img src="star-empty.svg" height="24"  width="24" />
+              <img src="star-empty.svg" class="w-5 h-5 sm:w-6 sm:h-6" />
             </ng-template>
-        </p-rating>        <p class="text-gray-500 text-sm">
+          </p-rating>
+          <p class="text-sm sm:text-base text-gray-600">
             ({{ producto.totalResenias }}) 
             {{ producto.totalResenias > 1 ? 'valoraciones' : 'valoración' }}
           </p>
         </div>
-  
-        <button class="w-full sm:w-[200px] mt-4 bg-[#A4122C] text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+
+        <button class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-[#A4122C] text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-red-700 transition-all duration-300 shadow-md hover:shadow-lg">
           Agregar al carrito
         </button>
       </div>
     </div>
-  
-    <div class="w-full mt-6 overflow-hidden">
-      <h2 class="text-xl font-bold text-gray-800 mb-4 px-2">
+
+    <div class="mt-12 sm:mt-16 lg:mt-20">
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 px-2">
         Productos relacionados
       </h2>
-      <!-- Carousel wrapper with specific width control -->
       <div class="w-full overflow-x-auto pb-4">
         <div class="min-w-full">
           <app-carrusel 
@@ -111,62 +89,63 @@
         </div>
       </div>
     </div>
-    <section>
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">Comentarios</h2>
-  
-      <!-- Static Reviews List -->
-      <div class="space-y-6">
-        <article class="border-b border-gray-200 pb-6">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <div class="flex">
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-              </div>
-              <span class="text-sm text-gray-500">15 de febrero, 2024</span>
-            </div>
+
+    <div class="mt-12 sm:mt-16 lg:mt-20">
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6">
+        Comentarios
+      </h2>
+    
+      <form *ngIf="login" class="mb-8 bg-white rounded-lg shadow-md p-4 sm:p-6" [formGroup]="formularioResenia">
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-gray-700 font-medium">Tu valoración:</label>
+            <p-rating 
+              formControlName="valoracion" 
+              [stars]="5"
+              class="flex"
+            >
+              <ng-template #onicon>
+                <img src="star-filled.svg" class="w-6 h-6" />
+              </ng-template>
+              <ng-template #officon>
+                <img src="star-empty.svg" class="w-6 h-6" />
+              </ng-template>
+            </p-rating>
           </div>
-          <p class="text-sm font-semibold">María García</p>
-          <p class="text-gray-600 mt-2">¡Excelente producto! Cumple perfectamente con lo prometido.</p>
-        </article>
-  
-        <article class="border-b border-gray-200 pb-6">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <div class="flex">
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-empty.svg" class="w-5 h-5" alt="empty star" />
-              </div>
-              <span class="text-sm text-gray-500">14 de febrero, 2024</span>
-            </div>
+    
+          <div class="flex flex-col gap-2">
+            <label for="comment" class="text-gray-700 font-medium">Tu comentario:</label>
+            <textarea
+              id="comment"
+              rows="4"
+              formControlName="texto"
+              placeholder="Escribe tu comentario aquí..."
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 resize-none"
+            ></textarea>
           </div>
-          <p class="text-sm font-semibold">Juan Pérez</p>
-          <p class="text-gray-600 mt-2">Muy buen producto, aunque la entrega tardó un poco más de lo esperado.</p>
-        </article>
-  
-        <article class="border-b border-gray-200 pb-6">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <div class="flex">
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-filled.svg" class="w-5 h-5" alt="filled star" />
-                <img src="star-empty.svg" class="w-5 h-5" alt="empty star" />
-                <img src="star-empty.svg" class="w-5 h-5" alt="empty star" />
-              </div>
-              <span class="text-sm text-gray-500">13 de febrero, 2024</span>
-            </div>
+    
+          <div class="flex justify-end">
+            <button 
+              class="px-6 py-2 bg-[#A4122C] text-white font-semibold rounded-lg hover:bg-red-700 transition-colors duration-300 shadow-md hover:shadow-lg"
+              (click)="onSubmit()"
+            >
+              Publicar comentario
+            </button>
           </div>
-          <p class="text-sm font-semibold">Ana Martínez</p>
-          <p class="text-gray-600 mt-2">El producto está bien, pero esperaba un poco más de calidad por el precio.</p>
-        </article>
+        </div>
+      </form>
+    
+      <div class="space-y-4 sm:space-y-6">
+        <app-comentario
+          *ngFor="let resenia of resenias"
+          [comentario]="resenia"
+          class="block w-full"
+        ></app-comentario>
       </div>
-    </section>
+    
+      <div *ngIf="resenias.length === 0" class="text-center py-8">
+        <p class="text-gray-600">No hay comentarios todavía. ¡Sé el primero en comentar!</p>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { ActivatedRoute } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
@@ -7,14 +7,19 @@ import { Producto } from '../../models/producto';
 import { CarruselComponent } from '../carrusel/carrusel.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { Rating } from 'primeng/rating';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Resenia } from '../../models/resenia';
+import { ComentarioComponent } from "../comentario/comentario.component";
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-product-view',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CarruselComponent, SpinnerComponent, Rating,FormsModule],
+  imports: [CommonModule, NavbarComponent, CarruselComponent, ReactiveFormsModule, SpinnerComponent, Rating,Toast, FormsModule, ComentarioComponent,NgIf],
   templateUrl: './product-view.component.html',
-  styleUrls: ['./product-view.component.css']
+  styleUrls: ['./product-view.component.css'],
+  providers: [MessageService]
 })
 export class ProductViewComponent implements OnInit {
 
@@ -22,20 +27,28 @@ export class ProductViewComponent implements OnInit {
   producto!: Producto;
   valoracion!: number;
   loading: boolean = true;
-  comentarios: String[] = ['hola', 'adios', 'que tal'];
+  resenias!: Resenia[];
+  valoracionNueva: number = 0;
+  reseniaNueva: string = '';
+  formularioResenia!: FormGroup;
+  login!: boolean;
 
   productosRelacionados!: Producto[];
   constructor(
     private route: ActivatedRoute,
     private productoService: ProductoService,
+    private fb: FormBuilder,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       window.scrollTo(0, 0);
       this.productId = params.get('id')!;
+      this.comprobarRegistro();
       this.getInformacionProducto(this.productId);
       this.cargarProductos();
+      this.inicializarFormulario();
     }
     );
   }
@@ -44,9 +57,8 @@ export class ProductViewComponent implements OnInit {
     this.productoService.getInformacionProducto(id).subscribe(
       (res) => {
         this.producto = res;
-        console.log(this.producto);
         this.valoracion = this.producto.valoracion;
-        console.log(this.producto);
+        this.obtenerResenias();
       },
       (err) => {
         console.log(err);
@@ -62,14 +74,59 @@ export class ProductViewComponent implements OnInit {
       },
       error => {
         console.error("Eror al realizar la carga de productos");
-
       }
     )
   }
-  
+
+  comprobarRegistro(){
+    if(localStorage.getItem('token') == null){
+      this.login = false;
+    }else{
+      this.login = true;
+    }
+  }
+
   agregarAlCarrito() {
 
   }
 
+  obtenerResenias() {
+    this.productoService.getResenias(this.productId.toString()).subscribe({
+      next: (res) => {
+        this.resenias = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+
+  }
+
+
+  inicializarFormulario() {
+    this.formularioResenia = this.fb.group({
+      valoracion: [this.valoracionNueva],
+      texto: [this.reseniaNueva]
+    });
+  }
+
+
+  onSubmit() {
+    if (localStorage.getItem('token') == null) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debes iniciar sesion para poder dejar una reseña' });
+      return;
+    } else {
+      debugger;
+      this.productoService.addResenia(this.productId.toString(), this.formularioResenia.value).subscribe({
+        next: (res) => {
+          this.obtenerResenias();
+          this.formularioResenia.reset();
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+  }
 
 }
