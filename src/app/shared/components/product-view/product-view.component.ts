@@ -12,11 +12,12 @@ import { Resenia } from '../../models/resenia';
 import { ComentarioComponent } from "../comentario/comentario.component";
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-product-view',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CarruselComponent, ReactiveFormsModule, SpinnerComponent, Rating,Toast, FormsModule, ComentarioComponent,NgIf],
+  imports: [CommonModule, NavbarComponent, CarruselComponent, ReactiveFormsModule, SpinnerComponent, Rating, Toast, FormsModule, ComentarioComponent, NgIf],
   templateUrl: './product-view.component.html',
   styleUrls: ['./product-view.component.css'],
   providers: [MessageService]
@@ -38,7 +39,8 @@ export class ProductViewComponent implements OnInit {
     private route: ActivatedRoute,
     private productoService: ProductoService,
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private carritoService: CarritoService
   ) { }
 
   ngOnInit(): void {
@@ -73,21 +75,25 @@ export class ProductViewComponent implements OnInit {
         this.loading = false;
       },
       error => {
-        console.error("Eror al realizar la carga de productos");
       }
     )
   }
 
-  comprobarRegistro(){
-    if(localStorage.getItem('token') == null){
+  comprobarRegistro() {
+    if (localStorage.getItem('token') == null) {
       this.login = false;
-    }else{
+    } else {
       this.login = true;
     }
   }
 
   agregarAlCarrito() {
-
+    if(localStorage.getItem('token') == null) {
+      this.messageService.add({severity:'error', summary:'Error', detail:'Debes iniciar sesión para agregar productos al carrito', life: 2000});
+    }else{
+      this.carritoService.agregarProductoACarrito(this.producto);
+      this.messageService.add({severity:'success', summary:'Producto añadido', detail:'Producto añadido al carrito',life: 2000});
+    }
   }
 
   obtenerResenias() {
@@ -96,7 +102,7 @@ export class ProductViewComponent implements OnInit {
         this.resenias = res;
       },
       error: (err) => {
-        console.log(err);
+
       }
     })
 
@@ -116,14 +122,20 @@ export class ProductViewComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debes iniciar sesion para poder dejar una reseña' });
       return;
     } else {
-      debugger;
       this.productoService.addResenia(this.productId.toString(), this.formularioResenia.value).subscribe({
         next: (res) => {
           this.obtenerResenias();
           this.formularioResenia.reset();
+          this.getInformacionProducto(this.productId.toString());
         },
         error: (err) => {
-          console.log(err);
+          debugger;
+          if (err.status == 401) {
+            localStorage.removeItem('token');
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe volver a iniciar sesion para dejar una reseña' });
+          }
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.detail });
+          this.formularioResenia.reset();
         }
       });
     }

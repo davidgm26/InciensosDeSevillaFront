@@ -31,11 +31,7 @@ export class TarjetaProductoComponent implements OnInit{
   valoracion!:number;
 
   ngOnInit(): void {
-    console.log(this.producto);
-    
-    this.valoracion = this.producto.valoracion;
-    console.log(this.valoracion);
-    
+      
   }
 
   cargarDefault():string {
