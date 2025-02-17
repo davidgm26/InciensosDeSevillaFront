@@ -1,12 +1,48 @@
+<app-spinner></app-spinner>
 <app-navbar></app-navbar>
 <p-toast></p-toast>
 <div class="card flex justify-center m-8">
-    <p-stepper [value]="1" class="w-full md:w-[50rem]" [linear]="true">
+    <p-stepper [value]="currentStep" class="w-full md:w-[50rem]" [linear]="true">
         <p-step-list>
-            <p-step [value]="1">Pago</p-step>
-            <p-step [value]="2">Direccion de entrega</p-step>
-            <p-step [value]="3">Resumen</p-step>
-        </p-step-list>
+            <p-step [value]="1" class="flex flex-row flex-auto gap-2">
+                <ng-template #content let-activateCallback="activateCallback" let-value="value">
+                    <div class="flex flex-col items-center flex-1">
+                        <div [class]="'w-10 h-10 rounded-full flex items-center justify-center ' + 
+                            (currentStep >= 1 ? 'bg-[#A4122C] text-white' : 'bg-gray-300 text-gray-600')">1
+                        </div>
+                        <span class="text-sm mt-2">Pago</span>
+                        <div [class]="'h-1 w-full mt-2 ' + 
+                            (currentStep >= 1 ? 'bg-[#A4122C]' : 'bg-gray-300')"></div>
+                    </div>
+                </ng-template>
+            </p-step>
+
+            <p-step [value]="2" class="flex flex-row flex-auto gap-2">
+                <ng-template #content let-activateCallback="activateCallback" let-value="value">
+                    <div class="flex flex-col items-center flex-1">
+                        <div [class]="'w-10 h-10 rounded-full flex items-center justify-center ' + 
+                            (currentStep >= 2 ? 'bg-[#A4122C] text-white' : 'bg-gray-300 text-gray-600')">2
+                        </div>
+                        <span class="text-sm mt-2">Direccion de entrega</span>
+                        <div [class]="'h-1 w-full mt-2 ' + 
+                            (currentStep >= 2 ? 'bg-[#A4122C]' : 'bg-gray-300')"></div>
+                    </div>
+                </ng-template>
+            </p-step>
+
+            <p-step [value]="3" class="flex flex-row flex-auto gap-2">
+                <ng-template #content let-activateCallback="activateCallback" let-value="value">
+                    <div class="flex flex-col items-center flex-1">
+                        <div [class]="'w-10 h-10 rounded-full flex items-center justify-center ' + 
+                            (currentStep >= 3 ? 'bg-[#A4122C] text-white' : 'bg-gray-300 text-gray-600')">3
+                        </div>
+                        <span class="text-sm mt-2">Resumen</span>
+                        <div [class]="'h-1 w-full mt-2 ' + 
+                            (currentStep >= 3 ? 'bg-[#A4122C]' : 'bg-gray-300')"></div>
+                    </div>
+                </ng-template>
+            </p-step>
+        </p-step-list>  
         <p-step-panels>
             <p-step-panel [value]="1">
                 <ng-template #content let-activateCallback="activateCallback">
@@ -26,23 +62,32 @@
                                     <input id="numeroTarjeta" type="text"
                                         class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-red-600"
                                         formControlName="numeroTarjeta" placeholder="#### - #### - #### - ####"
-                                        [maxLength]="16">
-                                    <p-message *ngIf="datosDePago.get('numeroTarjeta')?.errors?.['minlength']"
-                                        severity="error" text="El numero de tarjeta solo puede contener 16"
-                                        variant="simple" size="small"></p-message>
-                                    <p-message *ngIf="datosDePago.get('numeroTarjeta')?.errors?.['pattern']"
-                                        severity="error" text="El numero de tarjeta solo puede contener numeros"
-                                        variant="simple" size="small"></p-message>
+                                        (input)="formatearNumeroTarjeta($event)" maxlength="25">
+                                    <p-message
+                                        *ngIf="datosDePago.get('numeroTarjeta')?.touched && datosDePago.get('numeroTarjeta')?.errors?.['required']"
+                                        severity="error" text="El número de tarjeta es obligatorio" variant="simple"
+                                        size="small">
+                                    </p-message>
+                                    <p-message
+                                        *ngIf="datosDePago.get('numeroTarjeta')?.touched && datosDePago.get('numeroTarjeta')?.errors?.['pattern']"
+                                        severity="error"
+                                        text="El formato de la tarjeta debe ser #### - #### - #### - ####"
+                                        variant="simple" size="small">
+                                    </p-message>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="nombre" class="mb-2 font-medium text-gray-700">Nombre</label>
                                     <input id="nombre" type="text"
                                         class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-red-600"
                                         formControlName="nombre">
-                                    <p-message *ngIf="datosDePago.get('nombre')?.errors?.['required']" severity="error"
-                                        text="El nombre es obligatorio" variant="simple" size="small"></p-message>
-                                        <p-message *ngIf="datosDePago.get('nombre')?.errors?.['pattern']" severity="error"
-                                        text="El nombre solo puede contener letras" variant="simple" size="small"></p-message>
+                                    <p-message
+                                        *ngIf="datosDePago.get('nombre')?.touched && datosDePago.get('nombre')?.errors?.['required']"
+                                        severity="error" text="El nombre es obligatorio" variant="simple"
+                                        size="small"></p-message>
+                                    <p-message
+                                        *ngIf="datosDePago.get('nombre')?.touched && datosDePago.get('nombre')?.errors?.['pattern']"
+                                        severity="error" text="El nombre solo puede contener letras" variant="simple"
+                                        size="small"></p-message>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="fechaExpiracion" class="mb-2 font-medium text-gray-700">Fecha de
@@ -51,49 +96,243 @@
                                         class="p-2 border rounded w-20 text-center focus:outline-none focus:ring-2 focus:ring-red-600"
                                         formControlName="fechaExpiracion" (input)="formatearFechaExpiracion($event)"
                                         maxlength="7" placeholder="MM / YY">
+                                    <p-message
+                                        *ngIf="datosDePago.get('fechaExpiracion')?.touched && datosDePago.get('fechaExpiracion')?.errors?.['formatoInvalido']"
+                                        severity="error" text="El formato debe ser MM / YY" variant="simple"
+                                        size="small">
+                                    </p-message>
+                                    <p-message
+                                        *ngIf="datosDePago.get('fechaExpiracion')?.touched && datosDePago.get('fechaExpiracion')?.errors?.['fechaExpirada']"
+                                        severity="error" text="La tarjeta está expirada" variant="simple" size="small">
+                                    </p-message>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="cvv" class="mb-2 font-medium text-gray-700">CVV</label>
                                     <input id="cvv" type="text"
                                         class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-red-600 w-14"
-                                        formControlName="cvv" maxlength = "3" placeholder="###">
+                                        formControlName="cvv" maxlength="3" placeholder="###">
+                                    <p-message
+                                        *ngIf="datosDePago.get('cvv')?.touched && datosDePago.get('cvv')?.errors?.['required']"
+                                        severity="error" text="El CVV es obligatorio" variant="simple" size="small">
+                                    </p-message>
+                                    <p-message
+                                        *ngIf="datosDePago.get('cvv')?.touched && datosDePago.get('cvv')?.errors?.['pattern']"
+                                        severity="error" text="El CVV debe tener 3 dígitos" variant="simple"
+                                        size="small">
+                                    </p-message>
                                 </div>
                             </form>
                         </div>
                         <div class="flex justify-end pt-6 h-16">
-                            <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
-                                (onClick)="verificarDatosPago(activateCallback)" />
+                            <button
+                                class="bg-[#A4122C] text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors flex items-center gap-2"
+                                (click)="verificarDatosPago(activateCallback)">
+                                Next
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </ng-template>
             </p-step-panel>
             <p-step-panel [value]="2">
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-auto md:h-48">
-                        <div
-                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
-                            Aquí vas a poner tu dirección de entrega
+                    <div class="flex flex-col h-auto md:h-[600px]">
+                        <div class="border border-gray-100 rounded-xl bg-white p-8 shadow-lg">
+                            <div class="mb-8">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Dirección de Entrega</h2>
+                                <p class="text-gray-500">Por favor, rellena los datos de envío</p>
+                            </div>
+
+                            <form [formGroup]="datosDeEnvio" class="flex flex-col gap-6">
+                                <!-- Dirección Principal -->
+                                <div class="flex flex-col">
+                                    <label for="direccion" class="text-sm font-semibold text-gray-700 mb-2">Dirección
+                                        completa</label>
+                                    <div class="relative">
+                                        <i
+                                            class="pi pi-home absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                        <input id="direccion" type="text"
+                                            class="w-full p-3 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+                                            formControlName="direccion" placeholder="Calle, número, piso...">
+                                    </div>
+                                    <p-message
+                                        *ngIf="datosDeEnvio.get('direccion')?.touched && datosDeEnvio.get('direccion')?.errors?.['required']"
+                                        severity="error" text="La dirección es obligatoria" variant="simple"
+                                        size="small">
+                                    </p-message>
+                                </div>
+
+                                <!-- Ciudad y Código Postal -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex flex-col">
+                                        <label for="ciudad"
+                                            class="text-sm font-semibold text-gray-700 mb-2">Ciudad</label>
+                                        <div class="relative">
+                                            <i
+                                                class="pi pi-building absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                            <input id="ciudad" type="text"
+                                                class="w-full p-3 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+                                                formControlName="ciudad" placeholder="Ej: Madrid">
+                                        </div>
+                                        <p-message
+                                            *ngIf="datosDeEnvio.get('ciudad')?.touched && datosDeEnvio.get('ciudad')?.errors?.['required']"
+                                            severity="error" text="La ciudad es obligatoria" variant="simple"
+                                            size="small">
+                                        </p-message>
+                                    </div>
+
+                                    <div class="flex flex-col">
+                                        <label for="codigoPostal"
+                                            class="text-sm font-semibold text-gray-700 mb-2">Código Postal</label>
+                                        <div class="relative">
+                                            <i
+                                                class="pi pi-map-marker absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                            <input id="codigoPostal" type="text"
+                                                class="w-full p-3 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+                                                formControlName="codigoPostal" placeholder="28001" maxlength="5">
+                                        </div>
+                                        <p-message
+                                            *ngIf="datosDeEnvio.get('codigoPostal')?.touched && datosDeEnvio.get('codigoPostal')?.errors?.['pattern']"
+                                            severity="error" text="El código postal debe tener 5 dígitos"
+                                            variant="simple" size="small">
+                                        </p-message>
+                                    </div>
+                                </div>
+
+                                <!-- Provincia y Teléfono -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex flex-col">
+                                        <label for="provincia"
+                                            class="text-sm font-semibold text-gray-700 mb-2">Provincia</label>
+                                        <div class="relative">
+                                            <i
+                                                class="pi pi-globe absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                            <input id="provincia" type="text"
+                                                class="w-full p-3 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+                                                formControlName="provincia" placeholder="Ej: Madrid">
+                                        </div>
+                                        <p-message
+                                            *ngIf="datosDeEnvio.get('provincia')?.touched && datosDeEnvio.get('provincia')?.errors?.['required']"
+                                            severity="error" text="La provincia es obligatoria" variant="simple"
+                                            size="small">
+                                        </p-message>
+                                    </div>
+
+                                    <div class="flex flex-col">
+                                        <label for="telefono" class="text-sm font-semibold text-gray-700 mb-2">Teléfono
+                                            de contacto</label>
+                                        <div class="relative">
+                                            <i
+                                                class="pi pi-phone absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                            <input id="telefono" type="tel"
+                                                class="w-full p-3 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+                                                formControlName="telefono" placeholder="612345678" maxlength="9">
+                                        </div>
+                                        <p-message
+                                            *ngIf="datosDeEnvio.get('telefono')?.touched && datosDeEnvio.get('telefono')?.errors?.['pattern']"
+                                            severity="error" text="El teléfono debe tener 9 dígitos" variant="simple"
+                                            size="small">
+                                        </p-message>
+                                    </div>
+                                </div>
+
+                                <!-- Instrucciones de entrega -->
+                                <div class="flex flex-col">
+                                    <label for="instrucciones"
+                                        class="text-sm font-semibold text-gray-700 mb-2">Instrucciones especiales de
+                                        entrega</label>
+                                    <div class="relative">
+                                        <i class="pi pi-info-circle absolute left-3 top-3 text-gray-400"></i>
+                                        <textarea id="instrucciones"
+                                            class="w-full p-3 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all min-h-[100px] resize-none"
+                                            formControlName="instrucciones"
+                                            placeholder="Añade cualquier información adicional para la entrega...">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </div>
-                    <div class="flex pt-6 justify-between">
-                        <p-button label="Atras" severity="secondary" icon="pi pi-arrow-left"
-                            (onClick)="activateCallback(1)" />
-                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
-                            (onClick)="verificarDatosEnvio(activateCallback)" />
+
+                        <!-- Botones de navegación -->
+                        <div class="flex pt-8 justify-between">
+                            <button
+                                class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200 flex items-center gap-2 font-medium"
+                                (click)="activateCallback(1)">
+                                <i class="pi pi-arrow-left"></i>
+                                Volver al pago
+                            </button>
+                            <button
+                                class="px-6 py-3 bg-[#A4122C] text-white rounded-lg hover:bg-[#8B0F25] transition-all duration-200 flex items-center gap-2 font-medium shadow-lg shadow-red-500/20"
+                                (click)="verificarDatosEnvio(activateCallback)">
+                                Continuar
+                                <i class="pi pi-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </ng-template>
             </p-step-panel>
             <p-step-panel [value]="3">
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-auto md:h-48">
-                        <div
-                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
-                            Aquí vas a ver un resumen de tu compra
+                    <div class="flex flex-col h-auto md:h-[600px]">
+                        <div class="border border-gray-100 rounded-xl bg-white p-8 shadow-lg">
+                            <div class="mb-8">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Resumen de tu pedido</h2>
+                                <p class="text-gray-500">Revisa los detalles de tu compra</p>
+                            </div>
+                            <div class="mb-8">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Productos</h3>
+                                <app-fila-carrito *ngFor="let linea of carrito" [linea]="linea"></app-fila-carrito>
+                            </div>
+                            <div class="mb-8">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Dirección de envío</h3>
+                                <div class="p-4 bg-gray-50 rounded-lg">
+                                    <p class="text-gray-600">Juan Pérez</p>
+                                    <p class="text-gray-600">Calle Principal 123</p>
+                                    <p class="text-gray-600">28001 Madrid, España</p>
+                                    <p class="text-gray-600">Tel: 612345678</p>
+                                </div>
+                            </div>
+                            <div class="border-t border-gray-200 pt-6">
+                                <div class="space-y-2" *ngIf="carrito.length == 0">
+                                    <p class="text-gray-600">Tu carrito está vacío.</p>
+                                    <a href="/catalogo/categoria/1" class="text-[#A4122C] hover:underline">Explora nuestros productos</a>
+                                </div>
+                                <div class="space-y-2" *ngIf="carrito.length > 0">
+                                    <div class="flex justify-between text-gray-600">
+                                        <span>Subtotal</span>
+                                        <span>{{getTotalCarrito().toFixed(2)}}</span>
+                                    </div>
+                                    <div class="flex justify-between text-gray-600">
+                                        <span>Gastos de envío</span>
+                                        <span *ngIf="carrito.length >= 3">GRATIS</span>
+                                    </div>
+                                    <div class="flex justify-between font-semibold text-lg text-gray-800 pt-4">
+                                        <span>Total</span>
+                                        <span *ngIf="carrito.length < 3" >{{(getTotalCarrito() + 4.99).toFixed(2)}}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex pt-6 justify-start">
-                        <p-button label="Atras" icon="pi pi-arrow-left" iconPos="right"
-                            (onClick)="activateCallback(2)" />
+                        <div class="flex pt-8 justify-between">
+                            <button
+                                class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200 flex items-center gap-2 font-medium"
+                                (click)="activateCallback(2)">
+                                <i class="pi pi-arrow-left"></i>
+                                Volver a dirección
+                            </button>
+                            <button
+                                (click)="confirmarPedido()"
+                                *ngIf="carrito.length > 0"
+                                class="px-6 py-3 bg-[#A4122C] text-white rounded-lg hover:bg-[#8B0F25] transition-all duration-200 flex items-center gap-2 font-medium shadow-lg shadow-red-500/20">
+                                Confirmar pedido
+                                <i class="pi pi-check"></i>
+                            </button>
+                        </div>
                     </div>
                 </ng-template>
             </p-step-panel>

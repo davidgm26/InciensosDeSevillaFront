@@ -20,7 +20,7 @@ export class CarritoService {
 
   obtenerToken(){
     return new HttpHeaders({
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
     })
     
   }
@@ -75,13 +75,13 @@ export class CarritoService {
   }
 
   getCarrito() {
-    localStorage.setItem('carrito', JSON.stringify(this.carrito()));
+    sessionStorage.setItem('carrito', JSON.stringify(this.carrito()));
     return this.carrito();
   }
 
   borrarCarrito() {
     this.carrito.set([]);
-    localStorage.removeItem('carrito');
+    sessionStorage.removeItem('carrito');
   }
 
   calcularCarrito() {
@@ -89,21 +89,23 @@ export class CarritoService {
   }
 
   cargarCarritoDesdeLocalStorage() {
-    const carritoGuardado = localStorage.getItem('carrito');
+    const carritoGuardado = sessionStorage.getItem('carrito');
     if (carritoGuardado) {
       this.carrito.set(JSON.parse(carritoGuardado));
     }
   }
 
   guardarCarritoEnLocalStorage() {
-    localStorage.setItem('carrito', JSON.stringify(this.carrito()));
+    debugger;
+    sessionStorage.setItem('carrito', JSON.stringify(this.carrito()));
   }
 
-  tramitarPedido(){
+  tramitarPedido(direccion: string) {
    const pedido: CrearPedido = {
       lineasPedidosDto: this.carrito(),
       fecha: new Date(),
-      total: this.calcularCarrito()
+      total: this.calcularCarrito(),
+      direccionDeEntrega: direccion,
    }
    return this.http.post('/api/api/pedido/new', pedido , { headers: this.obtenerToken()});
   }

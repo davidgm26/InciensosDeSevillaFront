@@ -1,23 +1,50 @@
-<div class="w-[320px] sm:w-[450px] md:w-[450px] h-[300px] bg-gradient-to-r from-[#A4122C] to-[#00051C] border-2 rounded-xl mx-auto text-white font-sans relative">
-    <div class="bg-[#dcb416] w-full h-[50px] flex p-1 mt-5">
-    </div>
-   
-    <div class="h-[50px] rounded-xl mt-6">
-        <p class="font-mono text-xl sm:text-3xl md:text-4xl text-center">{{ numeroTarjetaFormateado }}</p>
-    </div>
-   
-    <div class="h-[25px] m-5">
-        <p class="uppercase text-sm sm:text-base md:text-base">{{ nombre }}</p>
-    </div>
-   
-    <div class="h-[50px] rounded-xl m-5 flex">
-        <div class="m-1 w-1/2">
-            <p class="text-sm sm:text-base md:text-base">Fecha expiracion</p>
-            <p class="text-sm sm:text-base md:text-base">{{ fechaExpiracion }}</p> <!-- Asegúrate de que este nombre coincida con el componente TypeScript -->
+<div class="w-[320px] sm:w-[450px] md:w-[450px] h-[300px] bg-gradient-to-br from-[#A4122C] via-[#8B0000] to-[#00051C] rounded-2xl mx-auto text-white font-sans relative overflow-hidden shadow-xl">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-32 translate-x-32"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-10 rounded-full translate-y-32 -translate-x-32"></div>
+    
+    <!-- EMV Chip -->
+    <div class="absolute top-8 left-8">
+        <div class="w-12 h-10 bg-[#dcb416] rounded-md grid grid-cols-2 grid-rows-2 gap-1 p-1">
+            <div class="bg-[#b39200] rounded-sm"></div>
+            <div class="bg-[#b39200] rounded-sm"></div>
+            <div class="bg-[#b39200] rounded-sm"></div>
+            <div class="bg-[#b39200] rounded-sm"></div>
         </div>
-        <div class="m-1 w-1/2 text-right mr-20">
-            <p class="text-sm sm:text-base md:text-base">CVV</p>
-            <p class="text-sm sm:text-base md:text-base">{{ cvv }}</p>
-        </div>  
+    </div>
+
+    <!-- Bank Logo -->
+    <div class="absolute top-8 right-8">
+        <div class="w-16 h-8 bg-white bg-opacity-20 rounded-md flex items-center justify-center">
+            <img src="bbva.svg" alt="">
+        </div>
+    </div>
+
+    <!-- Card Number - Increased width and added background -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] bg-white bg-opacity-5 rounded-lg py-4">
+        <p class="font-mono text-xl sm:text-3xl md:text-4xl text-center tracking-wider">{{ numeroTarjetaFormateado }}</p>
+    </div>
+
+    <!-- Card Holder Name -->
+    <div class="absolute bottom-20 left-8">
+        <p class="text-xs text-gray-300">CARD HOLDER</p>
+        <p class="uppercase text-sm sm:text-base md:text-base font-medium mt-1">{{ nombre }}</p>
+    </div>
+
+    <!-- Expiration Date -->
+    <div class="absolute bottom-20 right-8">
+        <p class="text-xs text-gray-300">VALID THRU</p>
+        <p class="text-sm sm:text-base md:text-base font-medium mt-1">{{ fechaExpiracion }}</p>
+    </div>
+
+    <!-- CVV -->
+    <div class="absolute bottom-6 right-8">
+        <p class="text-xs text-gray-300">CVV</p>
+        <p class="text-sm sm:text-base md:text-base font-medium mt-1">{{ cvv }}</p>
+    </div>
+
+    <!-- Network Logo -->
+    <div class="absolute bottom-6 left-8">
+        <div class="text-2xl font-bold italic tracking-wider text-white opacity-80">VISA</div>
     </div>
 </div>
