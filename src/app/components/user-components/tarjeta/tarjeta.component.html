@@ -1,0 +1,23 @@
+<div class="w-[320px] sm:w-[450px] md:w-[450px] h-[300px] bg-gradient-to-r from-[#A4122C] to-[#00051C] border-2 rounded-xl mx-auto text-white font-sans relative">
+    <div class="bg-[#dcb416] w-full h-[50px] flex p-1 mt-5">
+    </div>
+   
+    <div class="h-[50px] rounded-xl mt-6">
+        <p class="font-mono text-xl sm:text-3xl md:text-4xl text-center">{{ numeroTarjetaFormateado }}</p>
+    </div>
+   
+    <div class="h-[25px] m-5">
+        <p class="uppercase text-sm sm:text-base md:text-base">{{ nombre }}</p>
+    </div>
+   
+    <div class="h-[50px] rounded-xl m-5 flex">
+        <div class="m-1 w-1/2">
+            <p class="text-sm sm:text-base md:text-base">Fecha expiracion</p>
+            <p class="text-sm sm:text-base md:text-base">{{ fechaExpiracion }}</p> <!-- Asegúrate de que este nombre coincida con el componente TypeScript -->
+        </div>
+        <div class="m-1 w-1/2 text-right mr-20">
+            <p class="text-sm sm:text-base md:text-base">CVV</p>
+            <p class="text-sm sm:text-base md:text-base">{{ cvv }}</p>
+        </div>  
+    </div>
+</div>

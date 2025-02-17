@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
+<p-toast></p-toast>
 <div class="card flex justify-center m-8">
-    <p-stepper [value]="1" class="basis-[50rem]" [linear]="true">
+    <p-stepper [value]="1" class="w-full md:w-[50rem]" [linear]="true">
         <p-step-list>
             <p-step [value]="1">Pago</p-step>
             <p-step [value]="2">Direccion de entrega</p-step>
@@ -9,46 +10,90 @@
         <p-step-panels>
             <p-step-panel [value]="1">
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-48">
-                        <div class="border-2 border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-mediumb bg-white">
-                            <form (ngSubmit)="onSubmitPago()" [formGroup]=datosDePago>
-
+                    <div class="flex flex-col h-auto md:h-[950px]">
+                        <div
+                            class="border-2 border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex flex-col items-center p-5 font-medium bg-white">
+                            <app-tarjeta [numeroTarjeta]="datosDePago.get('numeroTarjeta')?.value"
+                                [nombre]="datosDePago.get('nombre')?.value"
+                                [fechaExpiracion]="datosDePago.get('fechaExpiracion')?.value"
+                                [cvv]="datosDePago.get('cvv')?.value">
+                            </app-tarjeta>
+                            <form [formGroup]="datosDePago"
+                                class="w-3/4 mt-5 border border-gray-300 p-6 flex flex-col gap-4 bg-white rounded-lg shadow-lg">
+                                <div class="flex flex-col">
+                                    <label for="numeroTarjeta" class="mb-2 font-medium text-gray-700">Número de
+                                        Tarjeta</label>
+                                    <input id="numeroTarjeta" type="text"
+                                        class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-red-600"
+                                        formControlName="numeroTarjeta" placeholder="#### - #### - #### - ####"
+                                        [maxLength]="16">
+                                    <p-message *ngIf="datosDePago.get('numeroTarjeta')?.errors?.['minlength']"
+                                        severity="error" text="El numero de tarjeta solo puede contener 16"
+                                        variant="simple" size="small"></p-message>
+                                    <p-message *ngIf="datosDePago.get('numeroTarjeta')?.errors?.['pattern']"
+                                        severity="error" text="El numero de tarjeta solo puede contener numeros"
+                                        variant="simple" size="small"></p-message>
+                                </div>
+                                <div class="flex flex-col">
+                                    <label for="nombre" class="mb-2 font-medium text-gray-700">Nombre</label>
+                                    <input id="nombre" type="text"
+                                        class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-red-600"
+                                        formControlName="nombre">
+                                    <p-message *ngIf="datosDePago.get('nombre')?.errors?.['required']" severity="error"
+                                        text="El nombre es obligatorio" variant="simple" size="small"></p-message>
+                                        <p-message *ngIf="datosDePago.get('nombre')?.errors?.['pattern']" severity="error"
+                                        text="El nombre solo puede contener letras" variant="simple" size="small"></p-message>
+                                </div>
+                                <div class="flex flex-col">
+                                    <label for="fechaExpiracion" class="mb-2 font-medium text-gray-700">Fecha de
+                                        Expiración</label>
+                                    <input id="fechaExpiracion" type="text"
+                                        class="p-2 border rounded w-20 text-center focus:outline-none focus:ring-2 focus:ring-red-600"
+                                        formControlName="fechaExpiracion" (input)="formatearFechaExpiracion($event)"
+                                        maxlength="7" placeholder="MM / YY">
+                                </div>
+                                <div class="flex flex-col">
+                                    <label for="cvv" class="mb-2 font-medium text-gray-700">CVV</label>
+                                    <input id="cvv" type="text"
+                                        class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-red-600 w-14"
+                                        formControlName="cvv" maxlength = "3" placeholder="###">
+                                </div>
                             </form>
                         </div>
-                        <div class="flex pt-6 justify-end">
-                            <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="verificarDatosPago(activateCallback)" />
+                        <div class="flex justify-end pt-6 h-16">
+                            <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                                (onClick)="verificarDatosPago(activateCallback)" />
                         </div>
                     </div>
                 </ng-template>
             </p-step-panel>
-
             <p-step-panel [value]="2">
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-48">
+                    <div class="flex flex-col h-auto md:h-48">
                         <div
-                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
-                        >
-                            Aquí vas a poner tu dirección de entrega	
+                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
+                            Aquí vas a poner tu dirección de entrega
                         </div>
                     </div>
                     <div class="flex pt-6 justify-between">
-                        <p-button label="Atras" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
-                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="verificarDatosEnvio(activateCallback)" />
+                        <p-button label="Atras" severity="secondary" icon="pi pi-arrow-left"
+                            (onClick)="activateCallback(1)" />
+                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                            (onClick)="verificarDatosEnvio(activateCallback)" />
                     </div>
                 </ng-template>
             </p-step-panel>
-
             <p-step-panel [value]="3">
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-48">
+                    <div class="flex flex-col h-auto md:h-48">
                         <div
-                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
-                        >
+                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
                             Aquí vas a ver un resumen de tu compra
                         </div>
                     </div>
                     <div class="flex pt-6 justify-start">
-                        <p-button label="Atras" icon="pi pi-arrow-left" iconPos="right" (onClick)="activateCallback(2)" />
+                        <p-button label="Atras" icon="pi pi-arrow-left" iconPos="right"
+                            (onClick)="activateCallback(2)" />
                     </div>
                 </ng-template>
             </p-step-panel>
