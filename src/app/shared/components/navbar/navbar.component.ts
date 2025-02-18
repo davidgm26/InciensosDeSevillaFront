@@ -10,6 +10,7 @@ import { CrearLineaDto } from '../../models/crear-linea-dto';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-navbar',
@@ -36,7 +37,8 @@ export class NavbarComponent {
     private carritoService: CarritoService,
     private messageService: MessageService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
 
   ) {
     effect(() => {
@@ -48,9 +50,8 @@ export class NavbarComponent {
 
   ngOnInit(): void {
     this.getAllCategorias();
-    this.authService.getToken !=null ? this.login = true : this.login = false;
+    this.authService.getToken() == null ? this.login = false : this.login = true;
     console.log(this.login);
-    
   }
 
   getAllCategorias() {
@@ -69,11 +70,20 @@ export class NavbarComponent {
   }
 
   tramitarPedido(){
-    this.router.navigate(['/pago']);
+    this.router.navigate(['/pago']).then(() => {
+      if(this.carrito.length == 0){
+        this.messageService.add({severity: 'warn', summary: 'Error', detail: 'Para acceder debe añadir productos a su carrito'});
+      }
+    });
+    sessionStorage.setItem('compra', 'true')
   }
   cerrarSesion(){
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     this.login = false;
+    this.loadingService.show();
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 1000);
   }
 
 }

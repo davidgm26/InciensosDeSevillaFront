@@ -9,10 +9,13 @@ import { GestorProductosComponent } from './components/admin-components/gestor-p
 import { HomeComponent } from './shared/components/home/home.component';
 import { ComentarioComponent } from './shared/components/comentario/comentario.component';
 import { FormularioPagoComponent } from './components/user-components/formulario-pago/formulario-pago.component';
+import { compraGuard } from './shared/guards/compra.guard';
+import { FilaResumenComponent } from './components/user-components/filaResumen/filaResumen.component';
 
 export const routes: Routes = [
     {path: "home", component: HomeComponent},
-    {path: "pago", component: FormularioPagoComponent},
+    {path: "fila", component: FilaResumenComponent},
+    {path: "pago", component: FormularioPagoComponent, canActivate: [compraGuard]},
     {path: "producto/:id", component: ProductViewComponent},
     {path: "catalogo/categoria/:id", component: CatalogoComponent},
     {path: "login", component: LoginComponent},

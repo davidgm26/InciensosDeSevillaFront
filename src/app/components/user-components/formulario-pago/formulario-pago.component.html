@@ -1,6 +1,6 @@
+<p-toast></p-toast>
 <app-spinner></app-spinner>
 <app-navbar></app-navbar>
-<p-toast></p-toast>
 <div class="card flex justify-center m-8">
     <p-stepper [value]="currentStep" class="w-full md:w-[50rem]" [linear]="true">
         <p-step-list>
@@ -286,7 +286,10 @@
                             </div>
                             <div class="mb-8">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Productos</h3>
-                                <app-fila-carrito *ngFor="let linea of carrito" [linea]="linea"></app-fila-carrito>
+                                <div class="space-y-4">
+                                    <app-filaResumen *ngFor="let linea of carrito" [linea]="linea">
+                                    </app-filaResumen>
+                                </div>
                             </div>
                             <div class="mb-8">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Dirección de envío</h3>

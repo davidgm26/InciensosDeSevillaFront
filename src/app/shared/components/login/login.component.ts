@@ -57,7 +57,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginRequest).subscribe(
         (resp) => {
-          localStorage.setItem('token', resp.token);
+          sessionStorage.setItem('token', resp.token);
           this.messageService.add({severity:'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente'});
           this.router.navigate(['/home']);
         },

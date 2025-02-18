@@ -10,17 +10,16 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { CommonModule, NgIf } from '@angular/common';
 import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { CarritoService } from '../../../shared/services/carrito.service';
-import { FilaCarritoComponent } from "../../../shared/components/fila-carrito/fila-carrito.component";
 import { CrearLineaDto } from '../../../shared/models/crear-linea-dto';
 import { Router } from '@angular/router';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { FilaResumenComponent } from '../filaResumen/filaResumen.component';
 @Component({
   selector: 'app-formulario-pago',
   imports: [ButtonModule, StepperModule, NavbarComponent, ReactiveFormsModule, TarjetaComponent, InputGroupModule,
-    InputGroupAddonModule, InputTextModule, FormsModule, MessageModule, Toast, NgIf, CommonModule, FilaCarritoComponent,
-  SpinnerComponent],
+    InputGroupAddonModule, InputTextModule, FormsModule, MessageModule, ToastModule, NgIf, CommonModule, FilaResumenComponent,SpinnerComponent],
   templateUrl: './formulario-pago.component.html',
   styleUrl: './formulario-pago.component.css',
   standalone: true,

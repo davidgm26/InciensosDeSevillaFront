@@ -96,7 +96,6 @@ export class CarritoService {
   }
 
   guardarCarritoEnLocalStorage() {
-    debugger;
     sessionStorage.setItem('carrito', JSON.stringify(this.carrito()));
   }
 
