@@ -4,4 +4,5 @@ export interface CrearPedido {
     lineasPedidosDto: CrearLineaDto[];
     fecha:            Date;
     total:            number;
+    direccionDeEntrega: string;
 }

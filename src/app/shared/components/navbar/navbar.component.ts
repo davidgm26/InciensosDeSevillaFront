@@ -2,13 +2,15 @@ import { Component, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoriaService } from '../../services/categoria.service';
 import { Categoria } from '../../models/categoria';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Drawer } from 'primeng/drawer';
 import { CarritoService } from '../../services/carrito.service';
 import { FilaCarritoComponent } from "../fila-carrito/fila-carrito.component";
 import { CrearLineaDto } from '../../models/crear-linea-dto';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../../services/auth.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-navbar',
@@ -33,7 +35,10 @@ export class NavbarComponent {
   constructor(
     private categoriaService: CategoriaService,
     private carritoService: CarritoService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService,
+    private router: Router,
+    private loadingService: LoadingService
 
   ) {
     effect(() => {
@@ -45,9 +50,8 @@ export class NavbarComponent {
 
   ngOnInit(): void {
     this.getAllCategorias();
-    localStorage.getItem('token') ? this.login = true : this.login = false;
+    this.authService.getToken() == null ? this.login = false : this.login = true;
     console.log(this.login);
-    
   }
 
   getAllCategorias() {
@@ -66,21 +70,20 @@ export class NavbarComponent {
   }
 
   tramitarPedido(){
-    this.carritoService.tramitarPedido().subscribe(
-      (resp) =>{
-        this.messageService.add({severity:'success', summary: 'Pedido Tramitado', detail: 'Compra realizada'});
-        this.carritoService.borrarCarrito();
-        this.totalCarrito = 0;
-      },
-      (err) =>{
-        this.messageService.add({severity:'error', summary: 'Error al tramitar Pedido', detail: 'No se pudo tramitar el pedido'});
-        console.log(err);
+    this.router.navigate(['/pago']).then(() => {
+      if(this.carrito.length == 0){
+        this.messageService.add({severity: 'warn', summary: 'Error', detail: 'Para acceder debe añadir productos a su carrito'});
       }
-    )
+    });
+    sessionStorage.setItem('compra', 'true')
   }
   cerrarSesion(){
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     this.login = false;
+    this.loadingService.show();
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 1000);
   }
 
 }

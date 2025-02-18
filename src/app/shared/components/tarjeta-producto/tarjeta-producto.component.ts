@@ -7,6 +7,7 @@ import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { Rating } from 'primeng/rating';
 import { Form, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-tarjeta-producto',
@@ -23,6 +24,7 @@ export class TarjetaProductoComponent implements OnInit{
   constructor(
     private carritoService: CarritoService,
     private messageService: MessageService,
+    private authService: AuthService
   ){
     
   }
@@ -39,7 +41,7 @@ export class TarjetaProductoComponent implements OnInit{
   }
 
   agregarCarrito(producto: Producto) {
-    if(localStorage.getItem('token') == null) {
+    if(this.authService.getToken() == null) {
       this.messageService.add({severity:'error', summary:'Error', detail:'Debes iniciar sesión para agregar productos al carrito', life: 2000});
     }else{
       this.carritoService.agregarProductoACarrito(producto);
