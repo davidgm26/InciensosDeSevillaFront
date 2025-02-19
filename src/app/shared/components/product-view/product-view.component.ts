@@ -13,6 +13,7 @@ import { ComentarioComponent } from "../comentario/comentario.component";
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { CarritoService } from '../../services/carrito.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-view',
@@ -40,7 +41,8 @@ export class ProductViewComponent implements OnInit {
     private productoService: ProductoService,
     private fb: FormBuilder,
     private messageService: MessageService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -80,7 +82,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   comprobarRegistro() {
-    if (localStorage.getItem('token') == null) {
+    if (sessionStorage.getItem('token') == null) {
       this.login = false;
     } else {
       this.login = true;
@@ -88,7 +90,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   agregarAlCarrito() {
-    if(localStorage.getItem('token') == null) {
+    if(sessionStorage.getItem('token') == null) {
       this.messageService.add({severity:'error', summary:'Error', detail:'Debes iniciar sesión para agregar productos al carrito', life: 2000});
     }else{
       this.carritoService.agregarProductoACarrito(this.producto);
@@ -118,7 +120,7 @@ export class ProductViewComponent implements OnInit {
 
 
   onSubmit() {
-    if (localStorage.getItem('token') == null) {
+    if (this.authService.getToken() == null) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debes iniciar sesion para poder dejar una reseña' });
       return;
     } else {
@@ -131,7 +133,7 @@ export class ProductViewComponent implements OnInit {
         error: (err) => {
           debugger;
           if (err.status == 401) {
-            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe volver a iniciar sesion para dejar una reseña' });
           }
           this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.detail });

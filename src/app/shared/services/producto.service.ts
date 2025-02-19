@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Producto } from '../models/producto';
 import { Observable } from 'rxjs';
 import { Resenia } from '../models/resenia';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +12,14 @@ export class ProductoService {
 
   constructor(
     private http: HttpClient,
+    private authService: AuthService
   ) { }
 
   obtenerToken(){
       return new HttpHeaders({
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      })
+        Authorization: 'Bearer ' + this.authService.getToken()})
+      }
       
-    }
-
 
   getAllProductosByCategoria(id:string):Observable <Producto[]>{
     return this.http.get<Producto[]>('/api/api/producto/categoria/'+ id);
