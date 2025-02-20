@@ -103,6 +103,7 @@ export class FormularioPagoComponent implements OnInit {
 
     this.datosDePago.patchValue({ fechaExpiracion: input }, { emitEvent: false });
   }
+
   formatearNumeroTarjeta(event: any) {
     let input = event.target.value.replace(/\D/g, '');
 
