@@ -1,0 +1,50 @@
+<div class="min-h-screen bg-gray-100 flex flex-col">
+    <div class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4">
+            <h1 class="font-serif font-bold text-[#A4122C] text-xl lg:text-2xl tracking-wide uppercase">Inciensos de
+                Sevilla</h1>
+        </div>
+    </div>
+
+    <div class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-6 sm:p-8">
+            <div class="w-16 h-16 mx-auto mb-6 bg-[#A4122C] rounded-full flex items-center justify-center">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+
+            <h2 class="text-center font-serif font-bold text-[#A4122C] text-2xl sm:text-3xl mb-4">Verificación</h2>
+            <p class="text-gray-600 text-center mb-8 font-light">Hemos enviado un código a su correo electrónico. Por
+                favor, introdúzcalo a continuación para verificar su cuenta.</p>
+            <form action="" [formGroup]="validForm" class="space-y-6">
+                <div class="hidden">
+                    <input formControlName="token" type="text" id="tokenField">
+                </div>
+                <div class="flex justify-center space-x-2">
+                    <input type="text" maxlength="1"
+                        class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
+                        data-index="0">
+                    <input type="text" maxlength="1"
+                        class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
+                        data-index="1">
+                    <input type="text" maxlength="1"
+                        class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
+                        data-index="2">
+                    <input type="text" maxlength="1"
+                        class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
+                        data-index="3">
+                </div>
+            </form>
+
+            <button (click)="onSubmit()"
+                class="w-full mt-8 bg-[#A4122C] hover:bg-[#8a0f25] text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                Verificar Cuenta
+            </button>
+
+            <div class="mt-6 text-center">
+            </div>
+        </div>
+    </div>
+</div>

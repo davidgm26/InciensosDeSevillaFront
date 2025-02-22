@@ -4,6 +4,7 @@ import { LoginRequest } from '../models/login-request';
 import { Observable } from 'rxjs';
 import { LoginResponse } from '../models/login-response';
 import { RegisterRequest } from '../models/register-request';
+import { UserValidationRequest } from '../models/userValidationRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,11 @@ export class AuthService {
    */
   login (loginRequest: LoginRequest):Observable<LoginResponse>{
       return this.http.post<LoginResponse>('/api/api/login_check', loginRequest);
+  }
+
+
+  validarUsuario(token: UserValidationRequest){
+    return this.http.post('/api/api/auth/validar',token);
   }
 
   registroUsuario(request: RegisterRequest){

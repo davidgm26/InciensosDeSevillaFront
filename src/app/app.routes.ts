@@ -11,10 +11,11 @@ import { ComentarioComponent } from './shared/components/comentario/comentario.c
 import { FormularioPagoComponent } from './components/user-components/formulario-pago/formulario-pago.component';
 import { compraGuard } from './shared/guards/compra.guard';
 import { FilaResumenComponent } from './components/user-components/filaResumen/filaResumen.component';
+import { VerificacionMailComponent } from './components/user-components/verificacion-mail/verificacion-mail.component';
 
 export const routes: Routes = [
     {path: "home", component: HomeComponent},
-    {path: "fila", component: FilaResumenComponent},
+    {path: "mail", component: VerificacionMailComponent},
     {path: "pago", component: FormularioPagoComponent, canActivate: [compraGuard]},
     {path: "producto/:id", component: ProductViewComponent},
     {path: "catalogo/categoria/:id", component: CatalogoComponent},
