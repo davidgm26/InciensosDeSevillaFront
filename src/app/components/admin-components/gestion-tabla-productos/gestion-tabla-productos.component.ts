@@ -80,7 +80,6 @@ export class GestionTablaProductosComponent implements OnInit {
   }
 
   inicializarFormulario() {
-    console.log(this.selectedProducto);
     this.editForm = this.fb.group({
       nombre: [this.selectedProducto.nombre,[Validators.required,Validators.pattern('^[a-zA-Z ]+$')]],
       descripcion: [this.selectedProducto.descripcion,[Validators.required,Validators.pattern('^[a-zA-Z0-]+$')]],
@@ -108,8 +107,8 @@ export class GestionTablaProductosComponent implements OnInit {
     }
     this.productoServicio.getAllProductosByCategoria(idCategoria?.toString()).subscribe(
       resp => {
-        this.totalRecords = resp.length;
-        this.listaProductos = resp.slice(this.first, this.first + this.rows);
+        this.totalRecords = resp.length;      
+        this.listaProductos = resp.sort((a, b) => a.id - b.id).slice(this.first, this.first + this.rows);
         this.listaProductosOriginal = resp;
       }
     )
