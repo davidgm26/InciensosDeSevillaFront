@@ -1,4 +1,5 @@
 <div class="min-h-screen bg-gray-100 flex flex-col">
+    <p-toast></p-toast>
     <div class="bg-white shadow-sm py-4">
         <div class="container mx-auto px-4">
             <h1 class="font-serif font-bold text-[#A4122C] text-xl lg:text-2xl tracking-wide uppercase">Inciensos de
@@ -18,25 +19,38 @@
             <h2 class="text-center font-serif font-bold text-[#A4122C] text-2xl sm:text-3xl mb-4">Verificación</h2>
             <p class="text-gray-600 text-center mb-8 font-light">Hemos enviado un código a su correo electrónico. Por
                 favor, introdúzcalo a continuación para verificar su cuenta.</p>
-            <form action="" [formGroup]="validForm" class="space-y-6">
-                <div class="hidden">
-                    <input formControlName="token" type="text" id="tokenField">
-                </div>
-                <div class="flex justify-center space-x-2">
-                    <input type="text" maxlength="1"
-                        class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
-                        data-index="0">
-                    <input type="text" maxlength="1"
-                        class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
-                        data-index="1">
-                    <input type="text" maxlength="1"
-                        class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
-                        data-index="2">
-                    <input type="text" maxlength="1"
-                        class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
-                        data-index="3">
-                </div>
-            </form>
+                <form action="" [formGroup]="validForm" class="space-y-6">
+                    <div class="hidden">
+                        <input formControlName="token" type="text" id="tokenField">
+                    </div>
+                    <div class="flex justify-center space-x-2">
+                        <input type="text" maxlength="1"
+                            class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
+                            data-index="0" (input)="actualizarToken(0, $event)">
+                        <input type="text" maxlength="1"
+                            class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
+                            data-index="1" (input)="actualizarToken(1, $event)">
+                        <input type="text" maxlength="1"
+                            class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
+                            data-index="2" (input)="actualizarToken(2, $event)">
+                        <input type="text" maxlength="1"
+                            class="verification-digit w-12 h-14 text-center text-xl border border-gray-300 rounded-md bg-gray-50 focus:border-[#A4122C] focus:ring focus:ring-[#A4122C] focus:ring-opacity-20 outline-none"
+                            data-index="3" (input)="actualizarToken(3, $event)">
+                    </div>
+                </form>
+                <p class="text-center text-gray-600 mt-4">¿No ha recibido el código?</p>    
+                <p class="text-center text-[#A4122C] font-medium">
+                    <p-button [link]="true" [style]="{'color': '#A4122C'}" (click)="showDialog()">Reenviar código</p-button>
+                </p>
+                <p-dialog header="Confirmar correo" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+                    <form [formGroup]="correoForm" class="space-y-6">
+                        <input type="text" class="w-full border border-gray-300 rounded-md p-2" placeholder="Correo electrónico" formControlName="email">
+                        <button (click)="reenviarCorreo()" class="w-full mt-4 bg-[#A4122C] hover:bg-[#8a0f25] text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            Reenviar código
+                        </button>
+                    </form>
+                </p-dialog>
+                
 
             <button (click)="onSubmit()"
                 class="w-full mt-8 bg-[#A4122C] hover:bg-[#8a0f25] text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
