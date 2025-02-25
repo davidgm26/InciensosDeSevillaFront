@@ -131,7 +131,6 @@ export class ProductViewComponent implements OnInit {
           this.getInformacionProducto(this.productId.toString());
         },
         error: (err) => {
-          debugger;
           if (err.status == 401) {
             sessionStorage.removeItem('token');
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe volver a iniciar sesion para dejar una reseña' });

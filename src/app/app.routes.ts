@@ -11,6 +11,7 @@ import { ComentarioComponent } from './shared/components/comentario/comentario.c
 import { FormularioPagoComponent } from './components/user-components/formulario-pago/formulario-pago.component';
 import { compraGuard } from './shared/guards/compra.guard';
 import { FilaResumenComponent } from './components/user-components/filaResumen/filaResumen.component';
+import { PerfilComponent } from './components/user-components/perfil/perfil.component';
 
 export const routes: Routes = [
     {path: "home", component: HomeComponent},
@@ -21,6 +22,7 @@ export const routes: Routes = [
     {path: "login", component: LoginComponent},
     {path: "comentario", component: ComentarioComponent},
     {path: "registro", component: FormularioRegistroComponent},
+    {path: "perfil", component: PerfilComponent},
     {path: "admin", component: AdminComponent , children:[
         {path: "", redirectTo: "productos", pathMatch: "full"},
         {path:"productos", component: GestorProductosComponent }
