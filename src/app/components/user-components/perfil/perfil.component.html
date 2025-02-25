@@ -1,9 +1,6 @@
 <app-navbar></app-navbar>
 
-<!-- Main Content -->
 <div class="container mx-auto px-4 py-8 max-w-7xl">
-
-    <!-- Main Heading -->
     <div class="flex m-5">
         <!-- <div class="relative">
             <img src="avatar.png" alt="User Profile"
@@ -14,14 +11,9 @@
                 <i class="pi pi-pencil text-gray-600"></i>
             </button>
         </div> -->
-        <h1 class="text-4xl font-bold mb-8 text-gray-900 align-middle m-5">Bienvenido Manuel</h1>
-
+        <h1 class="text-4xl font-bold mb-8 text-gray-900 align-middle m-5">Bienvenido {{perfilUsuario.nombre}}</h1>
     </div>
-
-    <!-- Two Column Layout -->
     <div class="flex flex-col md:flex-row gap-8">
-
-        <!-- Left Column: Menu -->
         <div class="w-full md:w-1/4 bg-white rounded-lg shadow-md p-4 h-fit">
             <h2 class="text-xl font-semibold mb-4 text-gray-700">Menú</h2>
             <div class="space-y-1">
@@ -40,14 +32,10 @@
             </div>
         </div>
 
-        <!-- Right Column: Content Area -->
         <div class="w-full md:w-3/4">
-            <!-- Activity Section: Wishlist, Reviews, Orders -->
             <div class="bg-white rounded-lg shadow-md p-6 mb-8">
                 <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-2">Tu Actividad</h3>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Wishlist Card -->
                     <!-- <div class="bg-gray-50 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
                         <div class="flex justify-between items-start mb-4">
                             <div class="flex items-center">
@@ -60,7 +48,6 @@
                         <p class="text-sm text-gray-600 mb-3">Productos guardados para comprar más tarde.</p>
                         <a href="#" class="text-indigo-600 text-sm font-medium hover:underline">Ver Wishlist →</a>
                     </div> -->
-                    <!-- Reviews Card -->
                     <div class="bg-gray-50 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
                         <div class="flex justify-between items-start mb-4">
                             <div class="flex items-center">
@@ -68,14 +55,13 @@
                                 <h4 class="font-medium text-gray-800">Reseñas</h4>
                             </div>
                             <span
-                                class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">2</span>
+                                class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">{{perfilUsuario.numeroResenias}}</span>
                         </div>
                         <p class="text-sm text-gray-600 mb-3">Tus reseñas y valoraciones.</p>
                         <a href="#" class="text-indigo-600 text-sm font-medium hover:underline">Administrar Reseñas
                             →</a>
                     </div>
 
-                    <!-- Orders Card -->
                     <div class="bg-gray-50 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
                         <div class="flex justify-between items-start mb-4">
                             <div class="flex items-center">
@@ -83,7 +69,7 @@
                                 <h4 class="font-medium text-gray-800">Pedidos</h4>
                             </div>
                             <span
-                                class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">4</span>
+                                class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">{{perfilUsuario.numeroPedidos}}</span>
                         </div>
                         <p class="text-sm text-gray-600 mb-3">Seguimiento y gestión de tus pedidos.</p>
                         <a href="#" class="text-indigo-600 text-sm font-medium hover:underline">Ver Pedidos →</a>
@@ -91,7 +77,6 @@
                 </div>
             </div>
 
-            <!-- Personal Information Section -->
             <div class="bg-white rounded-lg shadow-md p-6 mb-8">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-semibold text-gray-700">Información Personal</h3>
@@ -102,43 +87,38 @@
                     </button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Contact Details -->
                     <div>
                         <h4 class="text-sm font-medium text-gray-500 uppercase mb-3">Datos de Contacto</h4>
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
-                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">John Doe</p>
+                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">{{perfilUsuario.nombre}} {{perfilUsuario.apellidos}}</p>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">john.doe#example.com</p>
+                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">{{perfilUsuario.email}}</p>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">+1 234 567 890</p>
+                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">{{perfilUsuario.telefono}}</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Shipping Address -->
                     <div>
                         <h4 class="text-sm font-medium text-gray-500 uppercase mb-3">Dirección de Envío</h4>
                         <div class="space-y-4"></div>
-                        <p class="text-gray-800 bg-gray-50 p-2 rounded-md">123 Main St</p>
-                        <p class="text-gray-800 bg-gray-50 p-2 rounded-md">Springfield, IL 62704</p>
-                        <p class="text-gray-800 bg-gray-50 p-2 rounded-md">USA</p>
+                        <p class="text-gray-800 bg-gray-50 p-2 rounded-md">{{perfilUsuario.direccion}}</p>
+                        <!-- <p class="text-gray-800 bg-gray-50 p-2 rounded-md">Springfield, IL 62704</p>
+                        <p class="text-gray-800 bg-gray-50 p-2 rounded-md">USA</p> -->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Subscriptions Section -->
         <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-2">Suscripciones & Notificaciones</h3>
 
             <div class="space-y-4">
-                <!-- Email Subscriptions -->
                 <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div class="flex items-center">
                         <i class="pi pi-envelope text-gray-500 mr-3"></i>
@@ -147,7 +127,6 @@
                             <p class="text-sm text-gray-600">Recibe actualizaciones y ofertas exclusivas.</p>
                         </div>
                     </div>
-                    <!-- Toggle Switch -->
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" class="sr-only peer">
                         <div
@@ -163,7 +142,6 @@
     </div>
 </div>
 
-<!-- Footer -->
 <footer class="bg-gray-800 text-white py-6 mt-8">
     <div class="container mx-auto px-4 text-center">
         <p>&copy; 2023 Mi Ecommerce. Todos los derechos reservados.</p>

@@ -51,7 +51,6 @@ export class NavbarComponent {
   ngOnInit(): void {
     this.getAllCategorias();
     this.authService.getToken() == null ? this.login = false : this.login = true;
-    console.log(this.login);
   }
 
   getAllCategorias() {

@@ -12,20 +12,20 @@ import { FormularioPagoComponent } from './components/user-components/formulario
 import { compraGuard } from './shared/guards/compra.guard';
 import { FilaResumenComponent } from './components/user-components/filaResumen/filaResumen.component';
 import { PerfilComponent } from './components/user-components/perfil/perfil.component';
+import { loginGuardGuard } from './shared/guards/login-guard.guard';
 
 export const routes: Routes = [
     {path: "home", component: HomeComponent},
-    {path: "fila", component: FilaResumenComponent},
     {path: "pago", component: FormularioPagoComponent, canActivate: [compraGuard]},
     {path: "producto/:id", component: ProductViewComponent},
     {path: "catalogo/categoria/:id", component: CatalogoComponent},
     {path: "login", component: LoginComponent},
-    {path: "comentario", component: ComentarioComponent},
     {path: "registro", component: FormularioRegistroComponent},
-    {path: "perfil", component: PerfilComponent},
+    {path: "perfil", component: PerfilComponent, canActivate: [loginGuardGuard]},
     {path: "admin", component: AdminComponent , children:[
         {path: "", redirectTo: "productos", pathMatch: "full"},
         {path:"productos", component: GestorProductosComponent }
     ]},
-    {path: "", redirectTo: "home", pathMatch: "full"}
+    {path: "", redirectTo: "home", pathMatch: "full"},
+    {path: "**", redirectTo: "home"}
 ];
