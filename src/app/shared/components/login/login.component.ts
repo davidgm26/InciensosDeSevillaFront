@@ -76,7 +76,8 @@ export class LoginComponent {
         (resp) => {
           this.comprobarValidacion();
           sessionStorage.setItem('token', resp.token);
-
+          this.messageService.add({ severity: 'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente' });
+          this.router.navigate(['/home']);
         },
         (error) => {
           this.messageService.add({ severity: 'error', summary: 'Error de Login', detail: error.error.message });

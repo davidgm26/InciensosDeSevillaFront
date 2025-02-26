@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { LoginResponse } from '../models/login-response';
 import { RegisterRequest } from '../models/register-request';
 import { PerfilUsuarioResponse } from '../models/PerfilUsuarioResponse';
+import { UserValidationRequest } from '../models/userValidationRequest';
+import { ReenvioCorreo } from '../models/reenvio-correo';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +36,16 @@ export class AuthService {
     return this.http.get('/api/api/user/validar',{ headers: this.obtenerToken()});
   }
 
+  validarUsuario(token: UserValidationRequest){
+    return this.http.post('/api/api/auth/validar',token);
+  }
+
   registroUsuario(request: RegisterRequest){
     return this.http.post('/api/api/auth/registro',request);
+  }
+
+  reenviarCorreo(correo: ReenvioCorreo){
+    return this.http.post('/api/api/auth/renovar_token', correo);
   }
 
   /**

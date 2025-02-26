@@ -52,7 +52,7 @@ export class FormularioRegistroComponent implements OnInit {
       this.authService.registroUsuario(data).subscribe(
         (resp) => {
           console.log(resp);
-          this.messageService.add({severity:'success', summary: 'Usuario Registrado Con Éxito', detail: 'Registro exitoso'});
+          this.messageService.add({severity:'success', summary: 'Usuario Registrado Con Éxito', detail: 'Se le ha enviado un correo para validar su cuenta'});
           this.router.navigate(['/home']);
         },
         (error) => {
