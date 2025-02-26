@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder,FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/login-request';
@@ -15,10 +15,10 @@ import { MessageModule } from 'primeng/message';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink,PasswordModule,InputTextModule,IftaLabelModule,Message,NgIf,Toast, MessageModule],
+  imports: [ReactiveFormsModule, RouterLink, PasswordModule, InputTextModule, IftaLabelModule, Message, NgIf, Toast, MessageModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [MessageService] 
+  providers: [MessageService]
 })
 export class LoginComponent {
 
@@ -48,8 +48,25 @@ export class LoginComponent {
   crearFormulario() {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$'), Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(6)]] 
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  comprobarValidacion() {
+    this.authService.comprobarValidacionUsuario().subscribe(
+      (resp) => {
+        console.log(resp);
+
+        this.messageService.add({ severity: 'success', summary: 'Usuario Validado', detail: '' });
+        this.messageService.add({ severity: 'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente' });
+        this.router.navigate(['/home']);
+
+      },
+      (error) => {
+        console.log(error);
+        this.messageService.add({ severity: 'error', summary: 'Error de Validación', detail: error.error });
+      }
+    )
   }
 
   onSubmit() {
@@ -57,16 +74,16 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginRequest).subscribe(
         (resp) => {
+          this.comprobarValidacion();
           sessionStorage.setItem('token', resp.token);
-          this.messageService.add({severity:'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente'});
-          this.router.navigate(['/home']);
+
         },
         (error) => {
-          this.messageService.add({severity:'error', summary: 'Error de Login', detail: error.error.message});
+          this.messageService.add({ severity: 'error', summary: 'Error de Login', detail: error.error.message });
         })
     } else {
       this.loginForm.markAllAsTouched();
-      this.setFormErrors(); 
+      this.setFormErrors();
     }
   }
 

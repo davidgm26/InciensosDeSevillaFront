@@ -30,6 +30,10 @@ export class AuthService {
       return this.http.post<LoginResponse>('/api/api/login_check', loginRequest);
   }
 
+  comprobarValidacionUsuario(){
+    return this.http.get('/api/api/user/validar',{ headers: this.obtenerToken()});
+  }
+
   registroUsuario(request: RegisterRequest){
     return this.http.post('/api/api/auth/registro',request);
   }
