@@ -11,11 +11,12 @@ import { NgIf } from '@angular/common';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
+import { Dialog } from 'primeng/dialog';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, PasswordModule, InputTextModule, IftaLabelModule, Message, NgIf, Toast, MessageModule],
+  imports: [ReactiveFormsModule, RouterLink, PasswordModule, InputTextModule, IftaLabelModule, Message, NgIf, Toast, MessageModule,Dialog],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   providers: [MessageService]
@@ -29,6 +30,8 @@ export class LoginComponent {
   errorPassword: string = '';
   logged: boolean = true;
   errorMessage: string = '';
+  correoForm!: FormGroup;
+  visible: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -39,6 +42,9 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.crearFormulario();
+    this.correoForm = this.fb.group({
+      correo: ['']
+    })
   }
 
   get formControls() {
@@ -56,15 +62,14 @@ export class LoginComponent {
     this.authService.comprobarValidacionUsuario().subscribe(
       (resp) => {
         console.log(resp);
-
         this.messageService.add({ severity: 'success', summary: 'Usuario Validado', detail: '' });
         this.messageService.add({ severity: 'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente' });
         this.router.navigate(['/home']);
 
       },
       (error) => {
-        console.log(error);
-        this.messageService.add({ severity: 'error', summary: 'Error de Validación', detail: error.error });
+        this.authService.clearToken();
+        this.messageService.add({ severity: 'error', summary: 'Error de Validación', detail: error.error});
       }
     )
   }
@@ -74,10 +79,8 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginRequest).subscribe(
         (resp) => {
-          this.comprobarValidacion();
           sessionStorage.setItem('token', resp.token);
-          this.messageService.add({ severity: 'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente' });
-          this.router.navigate(['/home']);
+          this.comprobarValidacion();
         },
         (error) => {
           this.messageService.add({ severity: 'error', summary: 'Error de Login', detail: error.error.message });
@@ -106,6 +109,21 @@ export class LoginComponent {
     this.hidePassword = !this.hidePassword;
   }
 
+  showDialog() {
+    this.visible = true;
+}
+reenviarCorreo(){
+  this.authService.reenviarCorreo(this.correoForm.value).subscribe(
+    resp =>{
+      this.messageService.add({severity:'success', summary:'¡Éxito!', detail:'Correo reenviado correctamente'});
+      this.visible = false;
+    },
+    err=>{
+      console.log(err);
+      this.messageService.add({severity:'error', summary:'¡Error!', detail: 'Correo no encontrado'});
+    }
+  );
+}
 
 
 }

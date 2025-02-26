@@ -82,20 +82,26 @@
           </a>
         </li>
       </ul>
-
-      <a [routerLink]="['/login']" *ngIf="!login"
+      <div>
+        <a *ngIf="login" [routerLink]="['/perfil']"
+        class="text-xs md:text-sm text-white uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 relative group font-serif whitespace-nowrap ml-4">
+        Perfil
+        <span
+          class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+        <a [routerLink]="['/login']" *ngIf="!login"
         class="text-xs md:text-sm text-white uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 relative group font-serif whitespace-nowrap ml-4">
         Iniciar sesión
         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
-
       </a>
-
       <a *ngIf="login" (click)="cerrarSesion()"
         class="text-xs md:text-sm text-white uppercase tracking-wide hover:text-gray-200 transition-colors duration-300 relative group font-serif whitespace-nowrap ml-4">
         Cerrar sesión
         <span
           class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
       </a>
+      </div>
+
     </div>
   </div>
 </nav>

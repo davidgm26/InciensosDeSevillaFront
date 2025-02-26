@@ -4,14 +4,13 @@ import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-spinner',
-  imports: [NgIf,CommonModule],
+  imports: [NgIf, CommonModule],
   templateUrl: './spinner.component.html',
-  styleUrl: './spinner.component.css'
+  styleUrls: ['./spinner.component.css'],
+  standalone: true
 })
 export class SpinnerComponent {
-
   constructor(
     public loadingService: LoadingService
   ) { }
-
 }

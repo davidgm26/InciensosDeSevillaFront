@@ -3,32 +3,38 @@ import { NavbarComponent } from "../../../shared/components/navbar/navbar.compon
 import { NgFor, NgIf } from '@angular/common';
 import { AuthService } from '../../../shared/services/auth.service';
 import { PerfilUsuarioResponse } from '../../../shared/models/PerfilUsuarioResponse';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-perfil',
-  imports: [NavbarComponent,NgFor,NgIf],
+  imports: [NavbarComponent, SpinnerComponent, NgFor, NgIf],
   templateUrl: './perfil.component.html',
-  styleUrl: './perfil.component.css'
+  styleUrls: ['./perfil.component.css'],
+  standalone: true
 })
-export class PerfilComponent implements OnInit{
-
+export class PerfilComponent implements OnInit {
   perfilUsuario!: PerfilUsuarioResponse;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    public loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
-      this.cargarInfo();
+    this.loadingService.show();
+    this.cargarInfo();
   }
 
-  cargarInfo(){
+  cargarInfo() {
     this.authService.getUserProfileInfo().subscribe(
       resp => {
         this.perfilUsuario = resp;
-        console.log(this.perfilUsuario);
+        this.loadingService.hide();
+      },
+      error => {
+        this.loadingService.hide();
       }
     );
   }
-
 }
