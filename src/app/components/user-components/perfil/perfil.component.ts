@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
+import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { LoadingService } from '../../../shared/services/loading.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -110,6 +110,4 @@ export class PerfilComponent implements OnInit {
       }
     );
   }
-
-
 }

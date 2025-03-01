@@ -17,19 +17,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  
-    obtenerToken(){
-      return new HttpHeaders({
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      })
-      
-    }
-
-  /**
-   * Método para hacer login
-   */
-  login (loginRequest: LoginRequest):Observable<LoginResponse>{
-      return this.http.post<LoginResponse>('/api/api/login_check', loginRequest);
+  login(loginRequest: LoginRequest):Observable<LoginResponse>{
+    return this.http.post<LoginResponse>('/api/api/login_check', loginRequest);
   }
 
   comprobarValidacionUsuario(){
@@ -48,28 +37,17 @@ export class AuthService {
     return this.http.post('/api/api/auth/renovar_token', correo);
   }
 
-  /**
-   * Método para guardar el token
-   * @param token
-   */
   setToken(token: string): void {
     sessionStorage.setItem(this.tokenKey, token);
   }
 
-  /**
-   * Método para obtener el token
-   */
   getToken(): string | null {
     return sessionStorage.getItem(this.tokenKey);
   }
 
-  /**
-   * Método para borrar el token(logout)
-   */
   clearToken(): void {
     sessionStorage.removeItem(this.tokenKey);
   }
-
 
   getUserProfileInfo(): Observable<PerfilUsuarioResponse>{
     return this.http.get<PerfilUsuarioResponse>('/api/api/user/profile/details',{ headers: this.obtenerToken()});
@@ -79,5 +57,9 @@ export class AuthService {
     return this.http.put('/api/api/user/profile/editar', perfil, { headers: this.obtenerToken()});
   }
 
+  obtenerToken(){
+    return new HttpHeaders({
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
+    })
+  }
 }
-

@@ -9,7 +9,6 @@ export const loginGuardGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (!authService.getToken()) {
-
     messageService.add({
       severity: 'error',
       summary: 'Error',
