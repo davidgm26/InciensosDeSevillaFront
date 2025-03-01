@@ -75,5 +75,9 @@ export class AuthService {
     return this.http.get<PerfilUsuarioResponse>('/api/api/user/profile/details',{ headers: this.obtenerToken()});
   }
 
+  editarPerfil(perfil: any){
+    return this.http.put('/api/api/user/profile/editar', perfil, { headers: this.obtenerToken()});
+  }
+
 }
 
