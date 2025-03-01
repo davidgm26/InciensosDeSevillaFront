@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Producto } from '../models/producto';
+import { Producto } from '../models/producto.interface';
 import { Observable } from 'rxjs';
-import { Resenia } from '../models/resenia';
+import { Resenia } from '../models/resenia.interface';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -58,7 +58,6 @@ export class ProductoService {
   }
 
   addResenia(id:string, resenia:Resenia):Observable<Resenia>{
-    debugger;
     return this.http.post<Resenia>('/api/api/producto/resenia/new/'+ id, resenia , {headers: this.obtenerToken()});
   }
 

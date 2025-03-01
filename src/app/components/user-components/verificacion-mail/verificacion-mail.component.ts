@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
-import { UserValidationRequest } from '../../../shared/models/userValidationRequest';
+import { UserValidationRequest } from '../../../shared/models/userValidationRequest.interface';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Dialog } from 'primeng/dialog';

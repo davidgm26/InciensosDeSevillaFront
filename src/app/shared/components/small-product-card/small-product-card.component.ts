@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Producto } from '../../models/producto';
+import { Producto } from '../../models/producto.interface';
 import { RouterModule } from '@angular/router';
 import { CarritoService } from '../../services/carrito.service';
 import { MessageService } from 'primeng/api';

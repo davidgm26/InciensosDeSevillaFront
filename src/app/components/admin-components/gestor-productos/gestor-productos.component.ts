@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ProductoService } from '../../../shared/services/producto.service';
-import { Producto } from '../../../shared/models/producto';
+import { Producto } from '../../../shared/models/producto.interface';
 import { GestionTablaProductosComponent } from "../gestion-tabla-productos/gestion-tabla-productos.component";
 
 @Component({

@@ -1,17 +1,23 @@
 import { CommonModule, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-spinner',
-  imports: [NgIf,CommonModule],
+  imports: [NgIf, CommonModule],
   templateUrl: './spinner.component.html',
-  styleUrl: './spinner.component.css'
+  styleUrls: ['./spinner.component.css'],
+  standalone: true
 })
-export class SpinnerComponent {
-
+export class SpinnerComponent implements OnInit{
   constructor(
     public loadingService: LoadingService
   ) { }
 
+  ngOnInit() {
+    this.loadingService.loading$.subscribe(isLoading => {
+      console.log('Spinner loading state changed:', isLoading);
+    });
+  }
 }
+

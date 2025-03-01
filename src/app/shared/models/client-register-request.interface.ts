@@ -1,4 +1,4 @@
-import { RegisterRequest } from "./register-request";
+import { RegisterRequest } from "./register-request.interface";
 
 export interface ClientRegisterRequest extends RegisterRequest{
     username: string;

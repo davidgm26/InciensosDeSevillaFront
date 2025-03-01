@@ -1,0 +1,38 @@
+/* Animaciones y transiciones */
+.p-dialog {
+    transform: translateY(20px);
+    animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Personalización de elementos PrimeNG */
+:host ::ng-deep {
+    .p-rating .p-rating-icon {
+        color: #FFB800;
+    }
+
+    .p-dialog .p-dialog-header {
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .p-dialog .p-dialog-footer {
+        border-top: 1px solid #e2e8f0;
+        padding: 1.5rem;
+    }
+
+    .p-inputtextarea {
+        resize: vertical;
+    }
+}
+
+/* Estilos para hover en las tarjetas */
+.hover\:shadow-lg:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}

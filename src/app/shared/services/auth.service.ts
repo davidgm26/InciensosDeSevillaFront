@@ -1,11 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginRequest } from '../models/login-request';
+import { LoginRequest } from '../models/login-request.interface';
 import { Observable } from 'rxjs';
-import { LoginResponse } from '../models/login-response';
-import { RegisterRequest } from '../models/register-request';
-import { UserValidationRequest } from '../models/userValidationRequest';
-import { ReenvioCorreo } from '../models/reenvio-correo';
+import { LoginResponse } from '../models/login-response.interface';
+import { RegisterRequest } from '../models/register-request.interface';
+import { PerfilUsuarioResponse } from '../models/PerfilUsuarioResponse.interface';
+import { UserValidationRequest } from '../models/userValidationRequest.interface';
+import { ReenvioCorreo } from '../models/reenvio-correo.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,14 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  
+    obtenerToken(){
+      return new HttpHeaders({
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      })
+      
+    }
+
   /**
    * Método para hacer login
    */
@@ -23,6 +32,9 @@ export class AuthService {
       return this.http.post<LoginResponse>('/api/api/login_check', loginRequest);
   }
 
+  comprobarValidacionUsuario(){
+    return this.http.get('/api/api/user/validar',{ headers: this.obtenerToken()});
+  }
 
   validarUsuario(token: UserValidationRequest){
     return this.http.post('/api/api/auth/validar',token);
@@ -58,6 +70,14 @@ export class AuthService {
     sessionStorage.removeItem(this.tokenKey);
   }
 
+
+  getUserProfileInfo(): Observable<PerfilUsuarioResponse>{
+    return this.http.get<PerfilUsuarioResponse>('/api/api/user/profile/details',{ headers: this.obtenerToken()});
+  }
+
+  editarPerfil(perfil: any){
+    return this.http.put('/api/api/user/profile/editar', perfil, { headers: this.obtenerToken()});
+  }
 
 }
 

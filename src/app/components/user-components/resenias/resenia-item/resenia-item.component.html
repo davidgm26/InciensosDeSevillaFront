@@ -1,0 +1,39 @@
+<div class="grid gap-6">
+  <div class="bg-white rounded-lg shadow-md p-6 transition-all hover:shadow-lg">
+    <div class="flex items-start justify-between">
+      <div class="flex items-center space-x-4">
+        <img src="{{resenia.imagen}}" alt="Incienso Mirra" class="w-16 h-16 object-cover rounded-lg">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-800">{{resenia.nombre}}</h3>
+          <p class="text-sm text-gray-500">{{resenia.fecha | date:'dd/MM/yyyy'}}</p>
+        </div>
+      </div>
+      <div>
+        <p-rating stars="5" [(ngModel)]="resenia.rating" readonly="true">
+          <ng-template #onicon>
+              <img src="star-filled.svg" height="24" width="24" />
+          </ng-template>
+          <ng-template #officon>
+              <img src="star-empty.svg" height="24"  width="24" />
+          </ng-template>
+      </p-rating>      </div>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-gray-700">{{resenia.resenia}}</p>
+    </div>
+
+    <div class="mt-4 flex justify-end space-x-2">
+      <button pButton type="button" class="p-button-text p-button-danger p-button-sm" icon="pi pi-trash"
+        label="Eliminar" (click)="showDialog()"></button>
+    </div>
+  </div>
+  <p-dialog header="¿Está seguro que desea eliminar esta reseña?" [modal]="true" [(visible)]="visible"
+    [style]="{ width: '25rem' }">
+    <p>Esta acción es irreversible</p>
+    <div class="flex justify-center gap-2 m-5">
+      <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+      <p-button label="Eliminar" severity="danger" (click)="eliminarResenia(resenia.id)" />
+    </div>
+  </p-dialog>
+</div>

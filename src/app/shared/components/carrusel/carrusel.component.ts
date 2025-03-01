@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule} from "primeng/tag";
-import { Producto } from '../../models/producto';
+import { Producto } from '../../models/producto.interface';
 import { SmallProductCardComponent } from '../small-product-card/small-product-card.component';
 import { ProductoService } from '../../services/producto.service';
 

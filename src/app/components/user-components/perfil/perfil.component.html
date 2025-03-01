@@ -1,0 +1,249 @@
+<app-navbar></app-navbar>
+<app-spinner></app-spinner>
+<ng-container *ngIf="loading">
+    <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl">
+        <div class="flex m-2 sm:m-5">
+            <div class="h-6 sm:h-8 bg-gray-200 rounded-md w-48 sm:w-64 animate-pulse"></div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-4 sm:gap-8">
+            <!-- Menu Skeleton -->
+            <div class="w-full lg:w-1/4 bg-white rounded-lg shadow-md p-3 sm:p-4 h-fit">
+                <div class="h-5 sm:h-6 bg-gray-200 rounded w-24 sm:w-32 mb-3 sm:mb-4 animate-pulse"></div>
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="flex items-center p-2 sm:p-3">
+                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 sm:mr-3 animate-pulse"></div>
+                        <div class="h-3 sm:h-4 bg-gray-200 rounded w-20 sm:w-24 animate-pulse"></div>
+                    </div>
+                    <div class="flex items-center p-2 sm:p-3">
+                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 sm:mr-3 animate-pulse"></div>
+                        <div class="h-3 sm:h-4 bg-gray-200 rounded w-16 sm:w-20 animate-pulse"></div>
+                    </div>
+                    <div class="flex items-center p-2 sm:p-3">
+                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 sm:mr-3 animate-pulse"></div>
+                        <div class="h-3 sm:h-4 bg-gray-200 rounded w-24 sm:w-28 animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full lg:w-3/4">
+                <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-8">
+                    <div class="h-5 sm:h-6 bg-gray-200 rounded w-32 sm:w-40 mb-4 sm:mb-6 animate-pulse"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                        <div class="bg-gray-50 rounded-lg p-3 sm:p-4">
+                            <div class="flex justify-between items-start mb-3 sm:mb-4">
+                                <div class="flex items-center">
+                                    <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 animate-pulse"></div>
+                                    <div class="h-4 sm:h-5 bg-gray-200 rounded w-20 sm:w-24 animate-pulse"></div>
+                                </div>
+                                <div class="h-4 sm:h-5 bg-gray-200 rounded-full w-6 sm:w-8 animate-pulse"></div>
+                            </div>
+                            <div class="h-3 sm:h-4 bg-gray-200 rounded w-36 sm:w-48 mb-2 sm:mb-3 animate-pulse"></div>
+                            <div class="h-3 sm:h-4 bg-gray-200 rounded w-24 sm:w-32 animate-pulse"></div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3 sm:p-4">
+                            <div class="flex justify-between items-start mb-3 sm:mb-4">
+                                <div class="flex items-center">
+                                    <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 animate-pulse"></div>
+                                    <div class="h-4 sm:h-5 bg-gray-200 rounded w-20 sm:w-24 animate-pulse"></div>
+                                </div>
+                                <div class="h-4 sm:h-5 bg-gray-200 rounded-full w-6 sm:w-8 animate-pulse"></div>
+                            </div>
+                            <div class="h-3 sm:h-4 bg-gray-200 rounded w-36 sm:w-48 mb-2 sm:mb-3 animate-pulse"></div>
+                            <div class="h-3 sm:h-4 bg-gray-200 rounded w-24 sm:w-32 animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<div class="container mx-auto px-4 py-8 max-w-7xl" *ngIf="!loading">
+    <div class="flex m-5">
+        <!-- <div class="relative">
+            <img src="avatar.png" alt="User Profile"
+                class="w-24 h-24 rounded-full object-cover border-4 border-white shadow">
+             Edit Button 
+            <button
+                class="absolute bottom-0 right-0 p-1 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors w-8">
+                <i class="pi pi-pencil text-gray-600"></i>
+            </button>
+        </div> -->
+        <h1 class="text-4xl font-bold mb-8 text-gray-900 align-middle m-5">Bienvenido {{perfilUsuario.nombre}}</h1>
+    </div>
+    <div class="flex flex-col md:flex-row gap-8">
+        <!-- <div class="w-full md:w-1/4 bg-white rounded-lg shadow-md p-4 h-fit">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Menú</h2>
+            <div class="space-y-1">
+                <a routerLink="/perfil" routerLinkActive="bg-gray-50" class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
+                    <i class="pi pi-user mr-3 text-gray-500" aria-label="Perfil"></i>
+                    <span>Perfil</span>
+                </a>
+                <a routerLink="/pedidos" routerLinkActive="bg-gray-50" class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
+                    <i class="pi pi-shopping-cart mr-3 text-gray-500" aria-label="Pedidos"></i>
+                    <span>Pedidos</span>
+                </a>
+                <a class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
+                    <i class="pi pi-cog mr-3 text-gray-500" aria-label="Configuración"></i>
+                    <span>Configuración</span>
+                </a>
+            </div>
+        </div> -->
+
+        <div class="w-full md:w-3/4">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-2">Tu Actividad</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- <div class="bg-gray-50 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center">
+                                <i class="pi pi-heart text-red-500 text-lg mr-2"></i>
+                                <h4 class="font-medium text-gray-800">Wishlist</h4>
+                            </div>
+                            <span
+                                class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">1</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Productos guardados para comprar más tarde.</p>
+                        <a href="#" class="text-indigo-600 text-sm font-medium hover:underline">Ver Wishlist →</a>
+                    </div> -->
+                    <div class="bg-gray-50 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center">
+                                <i class="pi pi-star text-amber-500 text-lg mr-2"></i>
+                                <h4 class="font-medium text-gray-800">Reseñas</h4>
+                            </div>
+                            <span
+                                class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">{{perfilUsuario.numeroResenias}}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Tus reseñas y valoraciones.</p>
+                        <a [routerLink]="['/resenias']" class="text-indigo-600 text-sm font-medium hover:underline">Administrar Reseñas
+                            →</a>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center">
+                                <i class="pi pi-truck text-green-500 text-lg mr-2"></i>
+                                <h4 class="font-medium text-gray-800">Pedidos</h4>
+                            </div>
+                            <span
+                                class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">{{perfilUsuario.numeroPedidos}}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Seguimiento y gestión de tus pedidos.</p>
+                        <a [routerLink]="['/pedidos']" class="text-indigo-600 text-sm font-medium hover:underline">Ver Pedidos →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold text-gray-700">Información Personal</h3>
+                    <button
+                        (click)="abrirEditar()"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2">
+                        <i class="pi pi-pencil"></i>
+                        <span>Editar Perfil</span>
+                    </button>
+                    <p-dialog header="Editar perfil" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+                        <form [formGroup]="editarForm">
+                            <div>
+                                <div class="mb-4">
+                                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                                    <input type="text" id="nombre" formControlName="nombre" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                                    <div *ngIf="editarForm.get('nombre')?.invalid && (editarForm.get('nombre')?.dirty || editarForm.get('nombre')?.touched)">
+                                        <p *ngIf="editarForm.get('nombre')?.hasError('required')" class="text-red-500 text-xs mt-1">El nombre es requerido.</p>
+                                        <p *ngIf="editarForm.get('nombre')?.hasError('pattern')" class="text-red-500 text-xs mt-1">El nombre solo puede contener letras.</p>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
+                                    <input type="text" id="apellidos" formControlName="apellidos" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                                    <div *ngIf="editarForm.get('apellidos')?.invalid && (editarForm.get('apellidos')?.dirty || editarForm.get('apellidos')?.touched)">
+                                        <p *ngIf="editarForm.get('apellidos')?.hasError('required')" class="text-red-500 text-xs mt-1">Los apellidos son requeridos.</p>
+                                        <p *ngIf="editarForm.get('apellidos')?.hasError('pattern')" class="text-red-500 text-xs mt-1">Los apellidos solo pueden contener letras.</p>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" id="email" formControlName="email" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                                    <div *ngIf="editarForm.get('email')?.invalid && (editarForm.get('email')?.dirty || editarForm.get('email')?.touched)">
+                                        <p *ngIf="editarForm.get('email')?.hasError('required')" class="text-red-500 text-xs mt-1">El email es requerido.</p>
+                                        <p *ngIf="editarForm.get('email')?.hasError('email')" class="text-red-500 text-xs mt-1">El email debe ser válido.</p>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="telefono" class="block text-sm font-medium text-gray-700">Telefono</label>
+                                    <input type="text" id="telefono" formControlName="telefono" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                                    <div *ngIf="editarForm.get('telefono')?.invalid && (editarForm.get('telefono')?.dirty || editarForm.get('telefono')?.touched)">
+                                        <p *ngIf="editarForm.get('telefono')?.hasError('required')" class="text-red-500 text-xs mt-1">El telefono es requerido.</p>
+                                        <p *ngIf="editarForm.get('telefono')?.hasError('pattern')" class="text-red-500 text-xs mt-1">El telefono debe tener 9 digitos.</p>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="direccion" class="block text-sm font-medium text-gray-700">Direccion</label>
+                                    <input type="text" id="direccion" formControlName="direccion" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                                    <div *ngIf="editarForm.get('direccion')?.invalid && (editarForm.get('direccion')?.dirty || editarForm.get('direccion')?.touched)">
+                                        <p *ngIf="editarForm.get('direccion')?.hasError('required')" class="text-red-500 text-xs mt-1">La direccion es requerida.</p>
+                                    </div>
+                                    <div class="flex justify-center space-x-2 m-5">
+                                        <button (click)="cerrarEditar()" class="text-sm py-2 px-4 font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cerrar</button>
+                                        <button (click)="editar()" class="text-sm py-2 px-4 font-medium text-white bg-[#A4122C] border border-transparent rounded-md shadow-sm hover:bg-[#A4122C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A4122C]">Editar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </p-dialog>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-500 uppercase mb-3">Datos de Contacto</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">{{perfilUsuario.nombre}} {{perfilUsuario.apellidos}}</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">{{perfilUsuario.email}}</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                                <p class="text-gray-800 bg-gray-50 p-2 rounded-md">{{perfilUsuario.telefono}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-500 uppercase mb-3">Dirección de Envío</h4>
+                        <div class="space-y-4"></div>
+                        <p class="text-gray-800 bg-gray-50 p-2 rounded-md">{{perfilUsuario.direccion}}</p>
+                        <!-- <p class="text-gray-800 bg-gray-50 p-2 rounded-md">Springfield, IL 62704</p>
+                        <p class="text-gray-800 bg-gray-50 p-2 rounded-md">USA</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-2">Suscripciones & Notificaciones</h3>
+
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="pi pi-envelope text-gray-500 mr-3"></i>
+                        <div>
+                            <h4 class="font-medium text-gray-800">Emails de Marketing</h4>
+                            <p class="text-sm text-gray-600">Recibe actualizaciones y ofertas exclusivas.</p>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div
+                            class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-indigo-600 transition-colors">
+                        </div>
+                        <div
+                            class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5">
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
