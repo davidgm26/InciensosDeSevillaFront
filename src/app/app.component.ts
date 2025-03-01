@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { loadingInterceptor } from './shared/interceptors/loading.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Toast],
+  imports: [RouterOutlet, ToastModule, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
   standalone: true,
-  providers: [MessageService,
+  providers: [
     { provide: HTTP_INTERCEPTORS, useFactory: () => loadingInterceptor, multi: true }
-
   ]
 })
 export class AppComponent {

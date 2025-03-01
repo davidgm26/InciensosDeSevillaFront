@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Resenia } from '../../models/resenia';
+import { Resenia } from '../../models/resenia.interface';
 import { Rating } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';

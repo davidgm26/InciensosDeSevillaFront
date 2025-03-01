@@ -12,7 +12,7 @@ import { CommonModule, NgIf } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CarritoService } from '../../../shared/services/carrito.service';
-import { CrearLineaDto } from '../../../shared/models/crear-linea-dto';
+import { CrearLineaDto } from '../../../shared/models/crear-linea-dto.interface';
 import { Router } from '@angular/router';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { FilaResumenComponent } from '../filaResumen/filaResumen.component';

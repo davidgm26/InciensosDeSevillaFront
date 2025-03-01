@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginRequest } from '../models/login-request';
+import { LoginRequest } from '../models/login-request.interface';
 import { Observable } from 'rxjs';
-import { LoginResponse } from '../models/login-response';
-import { RegisterRequest } from '../models/register-request';
-import { PerfilUsuarioResponse } from '../models/PerfilUsuarioResponse';
-import { UserValidationRequest } from '../models/userValidationRequest';
-import { ReenvioCorreo } from '../models/reenvio-correo';
+import { LoginResponse } from '../models/login-response.interface';
+import { RegisterRequest } from '../models/register-request.interface';
+import { PerfilUsuarioResponse } from '../models/PerfilUsuarioResponse.interface';
+import { UserValidationRequest } from '../models/userValidationRequest.interface';
+import { ReenvioCorreo } from '../models/reenvio-correo.interface';
 
 @Injectable({
   providedIn: 'root'

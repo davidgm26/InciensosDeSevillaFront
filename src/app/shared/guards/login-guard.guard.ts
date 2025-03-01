@@ -9,12 +9,13 @@ export const loginGuardGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (!authService.getToken()) {
+
     messageService.add({
       severity: 'error',
       summary: 'Error',
+      sticky: true,
       detail: 'No tienes permisos para acceder a esta página',
     });
-    alert('No tienes permisos para acceder a esta página');
     router.navigate(['/home']);
     return false;
   }

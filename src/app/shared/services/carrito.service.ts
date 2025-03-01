@@ -1,9 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import { Producto } from '../models/producto';
-import { CrearLineaDto } from '../models/crear-linea-dto';
+import { Producto } from '../models/producto.interface';
+import { CrearLineaDto } from '../models/crear-linea-dto.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CrearPedido } from '../models/crear-pedido';
-import { Header } from 'primeng/api';
+import { CrearPedido } from '../models/crear-pedido.interface';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Producto } from '../../models/producto';
+import { Producto } from '../../models/producto.interface';
 import { CarritoService } from '../../services/carrito.service';
-import { CrearLineaDto } from '../../models/crear-linea-dto';
+import { CrearLineaDto } from '../../models/crear-linea-dto.interface';
 import { ProductoService } from '../../services/producto.service';
 
 @Component({

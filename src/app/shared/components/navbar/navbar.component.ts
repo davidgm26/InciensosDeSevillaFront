@@ -1,12 +1,12 @@
 import { Component, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoriaService } from '../../services/categoria.service';
-import { Categoria } from '../../models/categoria';
+import { Categoria } from '../../models/categoria.interface';
 import { Router, RouterLink } from '@angular/router';
 import { Drawer } from 'primeng/drawer';
 import { CarritoService } from '../../services/carrito.service';
 import { FilaCarritoComponent } from "../fila-carrito/fila-carrito.component";
-import { CrearLineaDto } from '../../models/crear-linea-dto';
+import { CrearLineaDto } from '../../models/crear-linea-dto.interface';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';

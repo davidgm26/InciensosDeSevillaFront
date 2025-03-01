@@ -1,40 +1,62 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
-import { NgFor, NgIf } from '@angular/common';
-import { AuthService } from '../../../shared/services/auth.service';
-import { PerfilUsuarioResponse } from '../../../shared/models/PerfilUsuarioResponse';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { LoadingService } from '../../../shared/services/loading.service';
+import { AuthService } from '../../../shared/services/auth.service';
+import { PerfilUsuarioResponse } from '../../../shared/models/PerfilUsuarioResponse.interface';
+import { catchError, finalize } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { PedidoService } from '../../../shared/services/pedido.service';
 
 @Component({
   selector: 'app-perfil',
-  imports: [NavbarComponent, SpinnerComponent, NgFor, NgIf],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css'],
-  standalone: true
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    NavbarComponent,
+    SpinnerComponent
+  ]
 })
 export class PerfilComponent implements OnInit {
   perfilUsuario!: PerfilUsuarioResponse;
+  loading: boolean = true;
 
   constructor(
     private authService: AuthService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private pedidoService: PedidoService
   ) { }
 
   ngOnInit(): void {
-    this.loadingService.show();
     this.cargarInfo();
   }
 
   cargarInfo() {
-    this.authService.getUserProfileInfo().subscribe(
-      resp => {
-        this.perfilUsuario = resp;
-        this.loadingService.hide();
-      },
-      error => {
-        this.loadingService.hide();
-      }
-    );
+    Promise.resolve().then(() => {
+      this.loadingService.show();
+    });
+    
+    this.authService.getUserProfileInfo()
+      .pipe(
+        finalize(() => {
+          Promise.resolve().then(() => {
+            this.loadingService.hide();
+          });
+        })
+      )
+      .subscribe({
+        next: (resp) => {
+          this.perfilUsuario = resp;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error loading profile:', error);
+        }
+      });
   }
 }

@@ -1,6 +1,63 @@
 <app-navbar></app-navbar>
-<app-spinner *ngIf="true"></app-spinner>
-<div class="container mx-auto px-4 py-8 max-w-7xl">
+<app-spinner></app-spinner>
+<ng-container *ngIf="loading">
+    <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl">
+        <div class="flex m-2 sm:m-5">
+            <div class="h-6 sm:h-8 bg-gray-200 rounded-md w-48 sm:w-64 animate-pulse"></div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-4 sm:gap-8">
+            <!-- Menu Skeleton -->
+            <div class="w-full lg:w-1/4 bg-white rounded-lg shadow-md p-3 sm:p-4 h-fit">
+                <div class="h-5 sm:h-6 bg-gray-200 rounded w-24 sm:w-32 mb-3 sm:mb-4 animate-pulse"></div>
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="flex items-center p-2 sm:p-3">
+                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 sm:mr-3 animate-pulse"></div>
+                        <div class="h-3 sm:h-4 bg-gray-200 rounded w-20 sm:w-24 animate-pulse"></div>
+                    </div>
+                    <div class="flex items-center p-2 sm:p-3">
+                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 sm:mr-3 animate-pulse"></div>
+                        <div class="h-3 sm:h-4 bg-gray-200 rounded w-16 sm:w-20 animate-pulse"></div>
+                    </div>
+                    <div class="flex items-center p-2 sm:p-3">
+                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 sm:mr-3 animate-pulse"></div>
+                        <div class="h-3 sm:h-4 bg-gray-200 rounded w-24 sm:w-28 animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full lg:w-3/4">
+                <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-8">
+                    <div class="h-5 sm:h-6 bg-gray-200 rounded w-32 sm:w-40 mb-4 sm:mb-6 animate-pulse"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                        <div class="bg-gray-50 rounded-lg p-3 sm:p-4">
+                            <div class="flex justify-between items-start mb-3 sm:mb-4">
+                                <div class="flex items-center">
+                                    <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 animate-pulse"></div>
+                                    <div class="h-4 sm:h-5 bg-gray-200 rounded w-20 sm:w-24 animate-pulse"></div>
+                                </div>
+                                <div class="h-4 sm:h-5 bg-gray-200 rounded-full w-6 sm:w-8 animate-pulse"></div>
+                            </div>
+                            <div class="h-3 sm:h-4 bg-gray-200 rounded w-36 sm:w-48 mb-2 sm:mb-3 animate-pulse"></div>
+                            <div class="h-3 sm:h-4 bg-gray-200 rounded w-24 sm:w-32 animate-pulse"></div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3 sm:p-4">
+                            <div class="flex justify-between items-start mb-3 sm:mb-4">
+                                <div class="flex items-center">
+                                    <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full mr-2 animate-pulse"></div>
+                                    <div class="h-4 sm:h-5 bg-gray-200 rounded w-20 sm:w-24 animate-pulse"></div>
+                                </div>
+                                <div class="h-4 sm:h-5 bg-gray-200 rounded-full w-6 sm:w-8 animate-pulse"></div>
+                            </div>
+                            <div class="h-3 sm:h-4 bg-gray-200 rounded w-36 sm:w-48 mb-2 sm:mb-3 animate-pulse"></div>
+                            <div class="h-3 sm:h-4 bg-gray-200 rounded w-24 sm:w-32 animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<div class="container mx-auto px-4 py-8 max-w-7xl" *ngIf="!loading">
     <div class="flex m-5">
         <!-- <div class="relative">
             <img src="avatar.png" alt="User Profile"
@@ -14,23 +71,23 @@
         <h1 class="text-4xl font-bold mb-8 text-gray-900 align-middle m-5">Bienvenido {{perfilUsuario.nombre}}</h1>
     </div>
     <div class="flex flex-col md:flex-row gap-8">
-        <div class="w-full md:w-1/4 bg-white rounded-lg shadow-md p-4 h-fit">
+        <!-- <div class="w-full md:w-1/4 bg-white rounded-lg shadow-md p-4 h-fit">
             <h2 class="text-xl font-semibold mb-4 text-gray-700">Menú</h2>
             <div class="space-y-1">
-                <a href="#" class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
-                    <i class="pi pi-home mr-3 text-gray-500" aria-label="Dashboard"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
+                <a routerLink="/perfil" routerLinkActive="bg-gray-50" class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
                     <i class="pi pi-user mr-3 text-gray-500" aria-label="Perfil"></i>
                     <span>Perfil</span>
                 </a>
-                <a href="#" class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
+                <a routerLink="/pedidos" routerLinkActive="bg-gray-50" class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
+                    <i class="pi pi-shopping-cart mr-3 text-gray-500" aria-label="Pedidos"></i>
+                    <span>Pedidos</span>
+                </a>
+                <a class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors cursor-pointer">
                     <i class="pi pi-cog mr-3 text-gray-500" aria-label="Configuración"></i>
                     <span>Configuración</span>
                 </a>
             </div>
-        </div>
+        </div> -->
 
         <div class="w-full md:w-3/4">
             <div class="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -58,7 +115,7 @@
                                 class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">{{perfilUsuario.numeroResenias}}</span>
                         </div>
                         <p class="text-sm text-gray-600 mb-3">Tus reseñas y valoraciones.</p>
-                        <a href="#" class="text-indigo-600 text-sm font-medium hover:underline">Administrar Reseñas
+                        <a [routerLink]="['/resenias']" class="text-indigo-600 text-sm font-medium hover:underline">Administrar Reseñas
                             →</a>
                     </div>
 
@@ -72,7 +129,7 @@
                                 class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">{{perfilUsuario.numeroPedidos}}</span>
                         </div>
                         <p class="text-sm text-gray-600 mb-3">Seguimiento y gestión de tus pedidos.</p>
-                        <a href="#" class="text-indigo-600 text-sm font-medium hover:underline">Ver Pedidos →</a>
+                        <a [routerLink]="['/pedidos']" class="text-indigo-600 text-sm font-medium hover:underline">Ver Pedidos →</a>
                     </div>
                 </div>
             </div>
@@ -115,7 +172,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6">
+        <!-- <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-2">Suscripciones & Notificaciones</h3>
 
             <div class="space-y-4">
@@ -138,13 +195,8 @@
                     </label>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
-<footer class="bg-gray-800 text-white py-6 mt-8">
-    <div class="container mx-auto px-4 text-center">
-        <p>&copy; 2023 Mi Ecommerce. Todos los derechos reservados.</p>
-    </div>
-</footer>
 <app-spinner></app-spinner>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
-import { Producto } from '../../models/producto';
+import { Producto } from '../../models/producto.interface';
 import { TarjetaProductoComponent } from "../tarjeta-producto/tarjeta-producto.component";
 import { ProductoService } from '../../services/producto.service';
 import { NavbarComponent } from "../navbar/navbar.component";

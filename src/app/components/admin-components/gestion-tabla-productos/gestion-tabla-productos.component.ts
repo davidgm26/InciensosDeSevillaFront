@@ -1,11 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ProductoService } from '../../../shared/services/producto.service';
-import { Producto } from '../../../shared/models/producto';
+import { Producto } from '../../../shared/models/producto.interface';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { SelectModule } from 'primeng/select';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Categoria } from '../../../shared/models/categoria';
+import { Categoria } from '../../../shared/models/categoria.interface';
 import { CategoriaService } from '../../../shared/services/categoria.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';

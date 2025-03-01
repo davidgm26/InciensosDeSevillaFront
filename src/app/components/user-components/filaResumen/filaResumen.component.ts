@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CrearLineaDto } from '../../../shared/models/crear-linea-dto';
+import { CrearLineaDto } from '../../../shared/models/crear-linea-dto.interface';
 import { ProductoService } from '../../../shared/services/producto.service';
-import { Producto } from '../../../shared/models/producto';
+import { Producto } from '../../../shared/models/producto.interface';
 
 @Component({
   selector: 'app-filaResumen',
