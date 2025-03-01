@@ -1,4 +1,4 @@
-import { CrearLineaDto } from "./crear-linea-dto";
+import { CrearLineaDto } from "./crear-linea-dto.interface";
 
 export interface CrearPedido {
     lineasPedidosDto: CrearLineaDto[];
