@@ -3,111 +3,140 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
-import { LoadingService } from '../../../shared/services/loading.service';
 import { AuthService } from '../../../shared/services/auth.service';
-import { PerfilUsuarioResponse } from '../../../shared/models/PerfilUsuarioResponse.interface';
 import { PedidoService } from '../../../shared/services/pedido.service';
-import { Dialog } from 'primeng/dialog';
-import { finalize } from 'rxjs';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReseniaService } from '../../../shared/services/resenia.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { PerfilUsuarioEditarRequest } from '../../../shared/models/perfil-usuario-editar-request.interface';
+import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-import { RatingModule } from 'primeng/rating';
-import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
+import { PerfilUsuarioResponse } from '../../../shared/models/PerfilUsuarioResponse.interface';
 
 @Component({
   selector: 'app-perfil',
-  templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css'],
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
     NavbarComponent,
     SpinnerComponent,
-    Dialog,
-    FormsModule,
     ReactiveFormsModule,
+    DialogModule,
     ButtonModule,
-    RatingModule,
-    ToastModule
-  ]
+    InputTextModule,
+  
+  ],
+  templateUrl: './perfil.component.html'
 })
 export class PerfilComponent implements OnInit {
   perfilUsuario!: PerfilUsuarioResponse;
   loading: boolean = true;
   visible: boolean = false;
   editarForm!: FormGroup;
+  estadisticas = {
+    totalPedidos: 0,
+    totalResenias: 0
+  };
 
   constructor(
     private authService: AuthService,
-    public loadingService: LoadingService,
     private pedidoService: PedidoService,
+    private fb: FormBuilder,
     private messageService: MessageService,
-    private fb: FormBuilder
-  ) { }
+    private reseniaService: ReseniaService
+  ) {
+    this.editarForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      apellidos: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      email: ['', [Validators.required, Validators.email]],
+      telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
+    });
+  }
 
   ngOnInit(): void {
     this.cargarInfo();
+    this.cargarEstadisticas();
   }
 
   cargarInfo() {
-    Promise.resolve().then(() => {
-      this.loadingService.show();
+    this.loading = true;
+    this.authService.getUserProfileInfo().subscribe({
+      next: (resp) => {
+        this.perfilUsuario = resp;
+        this.editarForm.patchValue({
+          nombre: this.perfilUsuario.nombre,
+          apellidos: this.perfilUsuario.apellidos,
+          email: this.perfilUsuario.email,
+          telefono: this.perfilUsuario.telefono
+        });
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading profile:', error);
+        this.loading = false;
+      }
     });
-    
-    this.authService.getUserProfileInfo()
-      .pipe(
-        finalize(() => {
-          Promise.resolve().then(() => {
-            this.loadingService.hide();
-          });
-        })
-      )
-      .subscribe({
-        next: (resp) => {
-          this.perfilUsuario = resp;
-          this.loading = false;
-          this.editarPerfil();
-        },
-        error: (error) => {
-          console.error('Error loading profile:', error);
-        }
-      });
   }
 
-  get formControls(){
+  cargarEstadisticas() {
+    this.pedidoService.getAllPedidosDeUsuario().subscribe({
+      next: (pedidos) => {
+        this.estadisticas.totalPedidos = pedidos.length;
+      },
+      error: (error) => {
+        console.error('Error al cargar los pedidos:', error);
+      }
+    });
+
+    this.reseniaService.obtenerReseniasDeUnUsuario().subscribe({
+      next: (resenias) => {
+        this.estadisticas.totalResenias = resenias.length;
+      },
+      error: (error) => {
+        console.error('Error al cargar las reseñas:', error);
+      }
+    });
+  }
+
+  get formControls() {
     return this.editarForm.controls;
   }
 
-  abrirEditar() {
+  showDialog() {
     this.visible = true;
   }
 
-  cerrarEditar(){
-    this.visible = false;
-  }
+  editarPerfil() {
+    if (this.editarForm.valid) {
+      const perfilEditado: PerfilUsuarioEditarRequest = {
+        nombre: this.editarForm.get('nombre')?.value,
+        apellidos: this.editarForm.get('apellidos')?.value,
+        email: this.editarForm.get('email')?.value,
+        telefono: this.editarForm.get('telefono')?.value,
+        direccion: this.editarForm.get('direccion')?.value
+      };
 
-  editarPerfil(){
-    this.editarForm = this.fb.group({
-      nombre: [this.perfilUsuario.nombre, [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-      apellidos: [this.perfilUsuario.apellidos, [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-      email: [this.perfilUsuario.email, [Validators.required, Validators.email]],
-      telefono: [this.perfilUsuario.telefono, [Validators.required, Validators.pattern('^[0-9]{9}$')]],
-      direccion: [this.perfilUsuario.direccion, [Validators.required]],
-    })
-  }
-
-  editar(){
-    this.authService.editarPerfil(this.editarForm.value).subscribe(
-      (response: any)=> {
-        this.messageService.add({severity:'success', summary:'Perfil editado', detail:'Tu perfil ha sido editado correctamente'});
-        this.cerrarEditar();
-        this.cargarInfo();
-      },
-      (error)=>{
-        this.messageService.add({severity:'error', summary:'Error', detail:'Ha ocurrido un error al editar tu perfil'});
-      }
-    );
+      this.authService.editarPerfil(perfilEditado).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Perfil actualizado correctamente'
+          });
+          this.visible = false;
+          this.cargarInfo();
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo actualizar el perfil'
+          });
+          console.error('Error updating profile:', error);
+        }
+      });
+    }
   }
 }

@@ -6,7 +6,7 @@ import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-home',
-  imports: [NavbarComponent,TarjetaHomeComponent,RouterLink],
+  imports: [NavbarComponent,TarjetaHomeComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true

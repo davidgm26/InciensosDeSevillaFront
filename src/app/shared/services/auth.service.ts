@@ -7,6 +7,8 @@ import { RegisterRequest } from '../models/register-request.interface';
 import { PerfilUsuarioResponse } from '../models/PerfilUsuarioResponse.interface';
 import { UserValidationRequest } from '../models/userValidationRequest.interface';
 import { ReenvioCorreo } from '../models/reenvio-correo.interface';
+import { UserResponse } from '../models/user-response.interface';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +19,27 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(loginRequest: LoginRequest):Observable<LoginResponse>{
-    return this.http.post<LoginResponse>('/api/api/login_check', loginRequest);
+  login(loginRequest: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('/api/api/auth/login', loginRequest).pipe(
+      tap(response => {
+        if (response && response.token) {
+          this.setToken(response.token);
+          
+          // Decodificar el token para obtener el rol y guardarlo
+          try {
+            const tokenParts = response.token.split('.');
+            if (tokenParts.length === 3) {
+              const payload = JSON.parse(atob(tokenParts[1]));
+              if (payload && payload.role) {
+                sessionStorage.setItem('rol', payload.role);
+              }
+            }
+          } catch (error) {
+            console.error('Error al decodificar el token:', error);
+          }
+        }
+      })
+    );
   }
 
   comprobarValidacionUsuario(){
@@ -47,6 +68,7 @@ export class AuthService {
 
   clearToken(): void {
     sessionStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem('rol');
   }
 
   getUserProfileInfo(): Observable<PerfilUsuarioResponse>{
@@ -61,5 +83,48 @@ export class AuthService {
     return new HttpHeaders({
       Authorization: 'Bearer ' + sessionStorage.getItem('token')
     })
+  }
+
+  obtenerUsuario(): Observable<UserResponse>{
+    return this.http.get<UserResponse>('/api/api/user/me',{ headers: this.obtenerToken()});
+  }
+
+  esAdmin(): Observable<boolean> {
+    return this.obtenerUsuario().pipe(
+      map(resp => {
+        return resp.rol == 'ROLE_ADMIN';
+      })
+    );
+  }
+  
+  estaActivo(): Observable<boolean> {
+    return this.obtenerUsuario().pipe(
+      map(resp => {
+        return resp.activo;
+      })
+    );
+  }
+
+  obtenerRolUsuario(): string | null {
+    try {
+      const token = this.getToken();
+      if (!token) return null;
+      
+      // Decodificar el token JWT para obtener el payload
+      const tokenParts = token.split('.');
+      if (tokenParts.length !== 3) return null;
+      
+      const payload = JSON.parse(atob(tokenParts[1]));
+      
+      // Extraer el rol del payload
+      if (payload && payload.role) {
+        return payload.role;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Error al decodificar el token:', error);
+      return null;
+    }
   }
 }
