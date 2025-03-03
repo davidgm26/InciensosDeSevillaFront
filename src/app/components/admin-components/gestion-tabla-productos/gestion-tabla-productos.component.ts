@@ -175,13 +175,14 @@ export class GestionTablaProductosComponent implements OnInit {
   onSubmit(){
     this.productoServicio.updateProducto(this.selectedProducto.id.toString(),this.editForm.value).subscribe(
      resp => {
-      console.log("Producto editado correctamente");
       this.cargarListaProductos(this.selectedCategoria.id);
       this.visible = false;
+      this.messageService.add({ severity: 'success', summary: 'Producto editado', detail: 'El producto ha sido editado correctamente', life: 3000 });
+      
 
      },
      error => {
-        console.log("Error al editar producto");
+      this.messageService.add({ severity: 'error', summary: 'Error al editar el producto', detail: 'El producto no ha podido ser editado correctamente', life: 3000 });
      }
 
     );
