@@ -1,0 +1,107 @@
+<app-navbar></app-navbar>
+<div class="w-full h-full bg-gray-100 min-h-screen">
+    <div class="w-full flex flex-col lg:flex-row lg:h-[560px]">
+        <div class="w-full lg:w-[40%] h-[300px] lg:h-[560px]">
+            <img src="inciensoFondo.jpeg" class="w-full h-full object-cover" alt="Incienso background">
+        </div>
+        <div class="w-full lg:w-[60%] bg-white p-6 sm:p-8 lg:p-12 shadow-lg">
+            <h1 class="text-center font-serif font-bold mb-4 lg:mb-8 text-[#A4122C] text-3xl lg:text-5xl tracking-wide uppercase">
+                Inciensos de Sevilla
+            </h1>
+            <div class="space-y-4 lg:space-y-6 text-base lg:text-lg">
+                <p class="text-gray-800 leading-relaxed font-light">
+                    Inciensos de Sevilla es una empresa sevillana dedicada a la elaboración y comercialización de
+                    inciensos. Basados en las técnicas tradicionales estamos introduciendo elementos innovadores que dan
+                    unas fragancias diferentes y más duraderas.
+                </p>
+                <p class="text-gray-800 leading-relaxed font-light">
+                    En Inciensos de Sevilla trabajamos diariamente muy a fondo para conseguir hacer llegar a cualquier
+                    punto el mejor aroma de nuestras Semanas Santas. Para ello, con la mejor materia prima te
+                    proporcionamos la esencia del buen cofrade: el incienso.
+                </p>
+                <p class="text-gray-800 leading-relaxed font-light">
+                    Pero no queremos quedarnos ahí, tenemos las mejores formas de presentación de los inciensos que
+                    serán la delicia para los buenos cofrades. Un magnífico regalo para cualquier ocasión.
+                    Incensarios, cajas, carbón y todo lo necesario para quemar incienso en tu hogar o hermandad.
+                    En Inciensos de Sevilla trabajamos por y para ti.
+                </p>
+                <div class="flex justify-center mt-6 lg:mt-8">
+                    <button class="w-full sm:w-auto bg-[#A4122C] hover:bg-[#8a0f25] text-white font-medium 
+                                 py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg 
+                                 transform hover:-translate-y-0.5 text-sm lg:text-base">
+                        Prueba uno de nuestros inciensos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <h2 class="text-3xl font-serif font-bold text-center mb-12 text-gray-800">Tradición Artesanal</h2>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-[#A4122C] rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Selección de Materias Primas</h3>
+                <p class="text-gray-600">Cuidadosa selección de las mejores resinas y esencias naturales.</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-[#A4122C] rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Elaboración Tradicional</h3>
+                <p class="text-gray-600">Proceso artesanal siguiendo recetas centenarias.</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-[#A4122C] rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Control de Calidad</h3>
+                <p class="text-gray-600">Cada lote es probado para garantizar su excelencia.</p>
+            </div>
+        </div>
+    </div>
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-100">
+        <h2 class="text-3xl font-serif font-bold text-center mb-12 text-gray-800">Nuestros Productos</h2>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <app-tarjeta-home></app-tarjeta-home>
+            <app-tarjeta-home></app-tarjeta-home>
+            <app-tarjeta-home></app-tarjeta-home>
+        </div>
+    </div>
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-serif font-bold mb-12 text-gray-800">Testimonios</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-100 p-6 rounded-lg">
+                    <p class="text-gray-600 italic mb-4">"El aroma transporta directamente a la Semana Santa. Calidad excepcional."</p>
+                    <p class="font-semibold text-gray-800">- Hermandad de la Macarena</p>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg">
+                    <p class="text-gray-600 italic mb-4">"Los mejores inciensos que hemos probado. Servicio impecable."</p>
+                    <p class="font-semibold text-gray-800">- Hermandad del Gran Poder</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-[#A4122C]">
+        <div class="max-w-5xl mx-auto text-center text-white">
+            <h2 class="text-3xl font-serif font-bold mb-6">Mantente Informado</h2>
+            <p class="mb-8 text-lg">Recibe las últimas novedades, ofertas especiales y consejos para el cuidado de tus inciensos</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                <input type="email" 
+                       placeholder="Tu correo electrónico" 
+                       class="px-4 py-2 rounded text-gray-800 flex-grow">
+                <button class="bg-white text-[#A4122C] px-6 py-2 rounded font-medium hover:bg-gray-100 transition-colors duration-300">
+                    Suscribirse
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

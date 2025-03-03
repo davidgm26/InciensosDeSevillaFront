@@ -1,0 +1,12 @@
+<div class="bg-gray-100 p-5 rounded-lg mb-6 flex justify-between items-center">
+  <div class="flex items-center gap-4">
+    <div class="w-16 h-16 bg-gray-300 rounded">
+      <img [src]="producto.imagen ? producto.imagen : 'https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'" class="w-full h-full object-cover">
+    </div>
+    <div>
+      <h3 class="text-base font-medium">{{producto.nombre}}</h3>
+      <div class="text-sm text-gray-600">Cantidad: {{linea.cantidad}}</div>
+    </div>
+  </div>
+  <div class="text-lg font-semibold">{{linea.subtotal.toFixed(2)}}</div>
+</div>

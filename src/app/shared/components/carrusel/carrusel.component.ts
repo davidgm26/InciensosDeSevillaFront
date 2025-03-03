@@ -1,26 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CarouselModule } from 'primeng/carousel';
+import { ButtonModule } from 'primeng/button';
+import { TagModule} from "primeng/tag";
+import { Producto } from '../../models/producto.interface';
+import { SmallProductCardComponent } from '../small-product-card/small-product-card.component';
+import { ProductoService } from '../../services/producto.service';
 
 @Component({
   selector: 'app-carrusel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,CarouselModule,ButtonModule,TagModule,SmallProductCardComponent],
   templateUrl: './carrusel.component.html',
   styleUrls: ['./carrusel.component.css']
 })
-export class CarruselComponent {
+export class CarruselComponent implements OnChanges{
+
+  constructor(
+    private productoServicio: ProductoService
+  ){}
 
   currentIndex = 0;
-  productos: string []= ['Producto 1', 'Producto 2', 'Producto 3', 'Producto 4', 'Producto 5'];
+  @Input() productos!: Producto[];
 
-  nextSlide() {
-    this.currentIndex = (this.currentIndex + 1) % this.productos.length;
+  responsiveOptions: any[] | undefined;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['productos']) {
+      console.log('Productos cambiados:', this.productos);
+    }
   }
-  prevSlide(){
-    this.currentIndex = (this.currentIndex - 1 + this.productos.length) % this.productos.length;
-  }
 
 
+  getSeverity(status: string) {
+    switch (status) {
+        case 'INSTOCK':
+            return 'success';
+        case 'LOWSTOCK':
+            return 'warn';
+        case 'OUTOFSTOCK':
+            return 'danger';
+    }
 
+    return "";
+}
 
 }

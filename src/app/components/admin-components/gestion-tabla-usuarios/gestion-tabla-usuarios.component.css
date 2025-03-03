@@ -1,0 +1,10 @@
+/* Asegura que las celdas del estado tengan un ancho fijo */
+td.w-32 {
+  width: 8rem; /* Ajusta este valor según sea necesario */
+  min-width: 8rem; /* Asegura que no se reduzca más allá de este ancho */
+}
+
+/* También puedes definir el ancho para el th */
+th.w-32 {
+  width: 8rem; /* Asegúrate de que coincida con el ancho de las celdas */
+}
