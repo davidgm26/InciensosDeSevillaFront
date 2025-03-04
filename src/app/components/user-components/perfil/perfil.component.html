@@ -117,18 +117,74 @@
                         <a [routerLink]="['/resenias']" class="text-indigo-600 text-sm font-medium hover:underline">Administrar Reseñas
                             →</a>
                     </div>
+    <div class="bg-gradient-to-r from-[#A4122C] to-[#7e1220] rounded-lg shadow-lg p-6 mb-8">
+        <h1 class="text-4xl font-bold text-white">Bienvenido {{perfilUsuario.nombre}}</h1>
+        <p class="text-indigo-100 mt-2">Gestiona tu información personal y mantén tus datos actualizados</p>
+    </div>
 
-                    <div class="bg-gray-50 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex items-center">
-                                <i class="pi pi-truck text-green-500 text-lg mr-2"></i>
-                                <h4 class="font-medium text-gray-800">Pedidos</h4>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8 transform transition-all duration-300 hover:shadow-xl">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-3">
+                        <i class="pi pi-user text-2xl text-[#A4122C]"></i>
+                        <h3 class="text-xl font-semibold text-gray-800">Información Personal</h3>
+                    </div>
+                    <button
+                        (click)="showDialog()"
+                        class="bg-[#A4122C] hover:bg-[#7e1220] text-white px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center gap-2 shadow-md">
+                        <i class="pi pi-pencil"></i>
+                        <span>Editar Perfil</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 rounded-lg p-4 transform transition-all duration-300 hover:shadow-md">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="pi pi-id-card text-[#A4122C]"></i>
+                                <label class="text-sm font-medium text-gray-700">Nombre Completo</label>
                             </div>
-                            <span
-                                class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">{{perfilUsuario.numeroPedidos}}</span>
+                            <p class="text-gray-800">{{perfilUsuario.nombre}} {{perfilUsuario.apellidos}}</p>
                         </div>
-                        <p class="text-sm text-gray-600 mb-3">Seguimiento y gestión de tus pedidos.</p>
-                        <a [routerLink]="['/pedidos']" class="text-indigo-600 text-sm font-medium hover:underline">Ver Pedidos →</a>
+                        <div class="bg-gray-50 rounded-lg p-4 transform transition-all duration-300 hover:shadow-md">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="pi pi-envelope text-[#A4122C]"></i>
+                                <label class="text-sm font-medium text-gray-700">Correo Electrónico</label>
+                            </div>
+                            <p class="text-gray-800">{{perfilUsuario.email}}</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4 transform transition-all duration-300 hover:shadow-md">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="pi pi-phone text-[#A4122C]"></i>
+                                <label class="text-sm font-medium text-gray-700">Teléfono</label>
+                            </div>
+                            <p class="text-gray-800">{{perfilUsuario.telefono}}</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 rounded-lg p-6 transform transition-all duration-300 hover:shadow-md">
+                            <h4 class="text-lg font-semibold text-gray-700 mb-3">Estadísticas</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-600">Pedidos Realizados</span>
+                                    <a routerLink="/pedidos" class="text-[#A4122C] hover:text-[#7e1220] font-semibold flex items-center gap-2">
+                                        {{estadisticas.totalPedidos || 0}}
+                                        <i class="pi pi-arrow-right text-sm"></i>
+                                    </a>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-600">Reseñas Escritas</span>
+                                    <a routerLink="/resenias" class="text-[#A4122C] hover:text-[#7e1220] font-semibold flex items-center gap-2">
+                                        {{estadisticas.totalResenias || 0}}
+                                        <i class="pi pi-arrow-right text-sm"></i>
+                                    </a>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-600">Cliente desde</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,7 +193,7 @@
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-semibold text-gray-700">Información Personal</h3>
                     <button
-                        (click)="abrirEditar()"
+                        (click)="showDialog()"
                         class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2">
                         <i class="pi pi-pencil"></i>
                         <span>Editar Perfil</span>
@@ -185,7 +241,7 @@
                                     </div>
                                     <div class="flex justify-center space-x-2 m-5">
                                         <button (click)="cerrarEditar()" class="text-sm py-2 px-4 font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cerrar</button>
-                                        <button (click)="editar()" class="text-sm py-2 px-4 font-medium text-white bg-[#A4122C] border border-transparent rounded-md shadow-sm hover:bg-[#A4122C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A4122C]">Editar</button>
+                                        <button (click)="editarPerfil()" class="text-sm py-2 px-4 font-medium text-white bg-[#A4122C] border border-transparent rounded-md shadow-sm hover:bg-[#A4122C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A4122C]">Editar</button>
                                     </div>
                                 </div>
                             </div>
@@ -247,3 +303,117 @@
     </div>
 </div>
 
+
+    </div>
+</div>
+
+<p-dialog 
+    header="Editar perfil" 
+    [modal]="true" 
+    [(visible)]="visible" 
+    [style]="{ width: '35rem' }"
+    [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+    class="p-fluid">
+    <form [formGroup]="editarForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-field">
+                <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="pi pi-user mr-2 text-[#A4122C]"></i>Nombre
+                </label>
+                <input type="text" 
+                    id="nombre" 
+                    formControlName="nombre" 
+                    pInputText 
+                    class="w-full p-3 rounded-lg border-2 focus:border-[#A4122C] transition-colors" 
+                    [ngClass]="{'ng-invalid ng-dirty': editarForm.get('nombre')?.invalid && editarForm.get('nombre')?.touched}"/>
+                <div *ngIf="editarForm.get('nombre')?.invalid && (editarForm.get('nombre')?.dirty || editarForm.get('nombre')?.touched)" 
+                    class="text-red-500 text-xs mt-1 ml-1">
+                    <p *ngIf="editarForm.get('nombre')?.hasError('required')">
+                        <i class="pi pi-exclamation-circle mr-1"></i>El nombre es requerido
+                    </p>
+                    <p *ngIf="editarForm.get('nombre')?.hasError('pattern')">
+                        <i class="pi pi-exclamation-circle mr-1"></i>El nombre solo puede contener letras
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="apellidos" class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="pi pi-id-card mr-2 text-[#A4122C]"></i>Apellidos
+                </label>
+                <input type="text" 
+                    id="apellidos" 
+                    formControlName="apellidos" 
+                    pInputText 
+                    class="w-full p-3 rounded-lg border-2 focus:border-[#A4122C] transition-colors"
+                    [ngClass]="{'ng-invalid ng-dirty': editarForm.get('apellidos')?.invalid && editarForm.get('apellidos')?.touched}"/>
+                <div *ngIf="editarForm.get('apellidos')?.invalid && (editarForm.get('apellidos')?.dirty || editarForm.get('apellidos')?.touched)"
+                    class="text-red-500 text-xs mt-1 ml-1">
+                    <p *ngIf="editarForm.get('apellidos')?.hasError('required')">
+                        <i class="pi pi-exclamation-circle mr-1"></i>Los apellidos son requeridos
+                    </p>
+                    <p *ngIf="editarForm.get('apellidos')?.hasError('pattern')">
+                        <i class="pi pi-exclamation-circle mr-1"></i>Los apellidos solo pueden contener letras
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="pi pi-envelope mr-2 text-[#A4122C]"></i>Email
+            </label>
+            <input type="email" 
+                id="email" 
+                formControlName="email" 
+                pInputText 
+                class="w-full p-3 rounded-lg border-2 focus:border-[#A4122C] transition-colors"
+                [ngClass]="{'ng-invalid ng-dirty': editarForm.get('email')?.invalid && editarForm.get('email')?.touched}"/>
+            <div *ngIf="editarForm.get('email')?.invalid && (editarForm.get('email')?.dirty || editarForm.get('email')?.touched)"
+                class="text-red-500 text-xs mt-1 ml-1">
+                <p *ngIf="editarForm.get('email')?.hasError('required')">
+                    <i class="pi pi-exclamation-circle mr-1"></i>El email es requerido
+                </p>
+                <p *ngIf="editarForm.get('email')?.hasError('email')">
+                    <i class="pi pi-exclamation-circle mr-1"></i>El email no es válido
+                </p>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="telefono" class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="pi pi-phone mr-2 text-indigo-600"></i>Teléfono
+            </label>
+            <input type="tel" 
+                id="telefono" 
+                formControlName="telefono" 
+                pInputText 
+                class="w-full p-3 rounded-lg border-2 focus:border-indigo-500 transition-colors"
+                [ngClass]="{'ng-invalid ng-dirty': editarForm.get('telefono')?.invalid && editarForm.get('telefono')?.touched}"/>
+            <div *ngIf="editarForm.get('telefono')?.invalid && (editarForm.get('telefono')?.dirty || editarForm.get('telefono')?.touched)"
+                class="text-red-500 text-xs mt-1 ml-1">
+                <p *ngIf="editarForm.get('telefono')?.hasError('required')">
+                    <i class="pi pi-exclamation-circle mr-1"></i>El teléfono es requerido
+                </p>
+                <p *ngIf="editarForm.get('telefono')?.hasError('pattern')">
+                    <i class="pi pi-exclamation-circle mr-1"></i>El teléfono debe tener 9 dígitos
+                </p>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-3 mt-6">
+            <button pButton 
+                type="button" 
+                label="Cancelar" 
+                class="p-button-text" 
+                (click)="visible = false"
+                icon="pi pi-times"></button>
+            <button pButton 
+                type="submit" 
+                label="Guardar" 
+                [disabled]="editarForm.invalid"
+                icon="pi pi-check"
+                class="p-button-raised"></button>
+        </div>
+    </form>
+</p-dialog>

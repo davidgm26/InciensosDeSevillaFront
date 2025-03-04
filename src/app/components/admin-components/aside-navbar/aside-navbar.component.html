@@ -17,17 +17,17 @@
                         <li>
                             <ul class="list-none p-0 m-0 overflow-hidden">
                                 <li>
-                                    <a [routerLink]="['/productos']" pRipple
+                                    <a [routerLink]="['/admin/productos']" pRipple
                                         class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
                                         <i class="pi pi-box mr-2"></i>
                                         <span class="font-medium">Gestión de Productos</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a pRipple
+                                    <a [routerLink]="['/admin/usuarios']" pRipple 
                                         class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-                                        <i class="pi pi-bookmark mr-2"></i>
-                                        <span class="font-medium">Bookmarks</span>
+                                        <i class="pi pi-users mr-2"></i>
+                                        <span class="font-medium">Gestion de Usuarios</span>
                                     </a>
                                 </li>
                                 <li>
@@ -103,9 +103,10 @@
                                 </li>
                                 <li>
                                     <a pRipple
+                                        (click)="cerrarSesion()"
                                         class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-                                        <i class="pi pi-cog mr-2"></i>
-                                        <span class="font-medium">Settings</span>
+                                        <i class="pi pi-sign-out mr-2"></i>
+                                        <span class="font-medium">Cerrar sesion</span>
                                     </a>
                                 </li>
                             </ul>
