@@ -3,11 +3,14 @@ import { Producto } from '../models/producto.interface';
 import { CrearLineaDto } from '../models/crear-linea-dto.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CrearPedido } from '../models/crear-pedido.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
+
+  baseUrl = environment.baseURL
 
   constructor(
     private http: HttpClient,
@@ -105,7 +108,7 @@ export class CarritoService {
       total: this.calcularCarrito(),
       direccionDeEntrega: direccion,
    }
-   return this.http.post('/api/api/pedido/new', pedido , { headers: this.obtenerToken()});
+   return this.http.post(this.baseUrl+'/api/pedido/new', pedido , { headers: this.obtenerToken()});
   }
 
 

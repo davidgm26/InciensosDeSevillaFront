@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { UserResponse } from '../models/user-response.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  baseUrl = environment.baseURL
 
   constructor(
     private http: HttpClient,
@@ -21,14 +24,14 @@ export class UserService {
   }
 
   cargarTodosLosUsuarios():Observable<UserResponse[]> {
-    return this.http.get<UserResponse[]>("/api/api/user/admin/userlist", { headers: this.obtenerToken() });
+    return this.http.get<UserResponse[]>(this.baseUrl + "/api/user/admin/userlist", { headers: this.obtenerToken() });
   }
 
   cambiarEstado(id: number){
-    return this.http.put("/api/api/user/admin/status/"+id, {} , {headers: this.obtenerToken()});
+    return this.http.put(this.baseUrl + "/api/user/admin/status/"+id, {} , {headers: this.obtenerToken()});
   }
 
   editarUsuario(id: number, usuario: UserResponse){
-    return this.http.put("/api/api/user/admin/editar/"+id, usuario , {headers: this.obtenerToken()});
+    return this.http.put(this.baseUrl + "/api/user/admin/editar/"+id, usuario , {headers: this.obtenerToken()});
   }
 }

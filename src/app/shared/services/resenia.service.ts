@@ -5,11 +5,14 @@ import { Observable } from 'rxjs';
 import { Resenia } from '../models/resenia.interface';
 import { AuthService } from './auth.service';
 import { ReseniaResponse } from '../models/resenia-response.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ReseniaService {
+
+    baseUrl = environment.baseURL
 
     constructor(
         private http: HttpClient,
@@ -23,10 +26,10 @@ export class ReseniaService {
     }
 
     obtenerReseniasDeUnUsuario(): Observable<ReseniaResponse[]> {
-        return this.http.get<ReseniaResponse[]>("/api/api/user/resenias", { headers: this.obtenerToken() });
+        return this.http.get<ReseniaResponse[]>(this.baseUrl+"/api/user/resenias", { headers: this.obtenerToken() });
     }
 
     eliminarResenia(id: number){
-        return this.http.delete("/api/api/user/borrar/resenia/"+id, { headers: this.obtenerToken() });
+        return this.http.delete(this.baseUrl+"/api/user/borrar/resenia/"+id, { headers: this.obtenerToken() });
     }
 }

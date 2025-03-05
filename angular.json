@@ -62,7 +62,8 @@
               "buildTarget": "inciensosDeSevillaFront:build:production"
             },
             "development": {
-              "buildTarget": "inciensosDeSevillaFront:build:development"
+              "buildTarget": "inciensosDeSevillaFront:build:development",
+              "proxyConfig": "src/app/shared/proxy/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

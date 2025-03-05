@@ -9,18 +9,21 @@ import { UserValidationRequest } from '../models/userValidationRequest.interface
 import { ReenvioCorreo } from '../models/reenvio-correo.interface';
 import { UserResponse } from '../models/user-response.interface';
 import { map, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  baseUrl = environment.baseURL
+
   private tokenKey = 'token';
 
   constructor(private http: HttpClient) {}
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('/api/api/auth/login', loginRequest).pipe(
+    return this.http.post<LoginResponse>(this.baseUrl + '/api/auth/login', loginRequest).pipe(
       tap(response => {
         if (response && response.token) {
           this.setToken(response.token);
@@ -43,19 +46,19 @@ export class AuthService {
   }
 
   comprobarValidacionUsuario(){
-    return this.http.get('/api/api/user/validar',{ headers: this.obtenerToken()});
+    return this.http.get(this.baseUrl+'/api/user/validar',{ headers: this.obtenerToken()});
   }
 
   validarUsuario(token: UserValidationRequest){
-    return this.http.post('/api/api/auth/validar',token);
+    return this.http.post(this.baseUrl+'/api/auth/validar',token);
   }
 
   registroUsuario(request: RegisterRequest){
-    return this.http.post('/api/api/auth/registro',request);
+    return this.http.post(this.baseUrl+'/api/auth/registro',request);
   }
 
   reenviarCorreo(correo: ReenvioCorreo){
-    return this.http.post('/api/api/auth/renovar_token', correo);
+    return this.http.post(this.baseUrl+'/api/auth/renovar_token', correo);
   }
 
   setToken(token: string): void {
@@ -72,11 +75,11 @@ export class AuthService {
   }
 
   getUserProfileInfo(): Observable<PerfilUsuarioResponse>{
-    return this.http.get<PerfilUsuarioResponse>('/api/api/user/profile/details',{ headers: this.obtenerToken()});
+    return this.http.get<PerfilUsuarioResponse>(this.baseUrl+'/api/user/profile/details',{ headers: this.obtenerToken()});
   }
 
   editarPerfil(perfil: any){
-    return this.http.put('/api/api/user/profile/editar', perfil, { headers: this.obtenerToken()});
+    return this.http.put(this.baseUrl+'/api/user/profile/editar', perfil, { headers: this.obtenerToken()});
   }
 
   obtenerToken(){
@@ -86,7 +89,7 @@ export class AuthService {
   }
 
   obtenerUsuario(): Observable<UserResponse>{
-    return this.http.get<UserResponse>('/api/api/user/me',{ headers: this.obtenerToken()});
+    return this.http.get<UserResponse>(this.baseUrl+'/api/user/me',{ headers: this.obtenerToken()});
   }
 
   esAdmin(): Observable<boolean> {
