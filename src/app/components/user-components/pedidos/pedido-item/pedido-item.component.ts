@@ -28,6 +28,9 @@ import { PedidosUserResponse } from '../../../../shared/models/pedidos-user-resp
 export class PedidoItemComponent {
   @Input() pedido!: PedidosUserResponse;
   expanded = false;
+  
+  // Imagen por defecto para productos sin imagen
+  private readonly imagenPorDefecto = 'defecto.jpg';
 
   togglePedido() {
     this.expanded = !this.expanded;
@@ -44,5 +47,25 @@ export class PedidoItemComponent {
       default:
         return 'bg-gray-100 text-gray-800';
     }
+  }
+  
+  /**
+   * Obtiene la URL de la imagen del producto o devuelve una imagen por defecto si no existe
+   * @param imagenUrl URL de la imagen del producto
+   * @returns URL válida de imagen
+   */
+  obtenerImagenProducto(imagenUrl: string): string {
+    if (!imagenUrl || imagenUrl.trim() === '') {
+      return this.imagenPorDefecto;
+    }
+    return imagenUrl;
+  }
+  
+  /**
+   * Maneja el error de carga de imagen y muestra la imagen por defecto
+   * @param event Evento de error
+   */
+  cargarDefault(event: any): void {
+    event.target.src = this.imagenPorDefecto;
   }
 }

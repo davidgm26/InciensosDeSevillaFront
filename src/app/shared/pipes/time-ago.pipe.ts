@@ -5,42 +5,49 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class TimeAgoPipe implements PipeTransform {
-  transform(value: Date): string {
-
+  transform(value: Date | string): string {
     if (!value) return '';
 
-    const fecha = value instanceof Date ? value : new Date(value);
+    // Convertir el valor a objeto Date si es string
+    let fecha: Date;
+    if (typeof value === 'string') {
+      fecha = new Date(value);
+    } else {
+      fecha = value;
+    }
 
     if (isNaN(fecha.getTime())) {
+      console.error('Fecha inválida:', value);
       return ''; 
     }
 
+    // Normalizar la fecha para que solo considere día, mes y año
+    const fechaNormalizada = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+    
+    // Normalizar la fecha actual para que solo considere día, mes y año
     const ahora = new Date();
-    const diferencia = Math.floor((ahora.getTime() - fecha.getTime()) / 1000);
+    const ahoraNormalizada = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+    
+    // Calcular la diferencia en días
+    const diferenciaMilisegundos = ahoraNormalizada.getTime() - fechaNormalizada.getTime();
+    const diferenciaDias = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
 
-    const segundosEnMinuto = 60;
-    const segundosEnHora = 60 * segundosEnMinuto;
-    const segundosEnDia = 24 * segundosEnHora;
-    const segundosEnSemana = 7 * segundosEnDia;
-    const segundosEnMes = 30 * segundosEnDia;
-    const segundosEnAño = 365 * segundosEnDia;
-
-
-    if (diferencia < segundosEnMinuto) {
-      return 'Justo ahora';
-    } else if (diferencia < segundosEnHora) {
-      return `Hace ${Math.floor(diferencia / segundosEnMinuto)} min`;
-    } else if (diferencia < segundosEnDia) {
-      return `Hace ${Math.floor(diferencia / segundosEnHora)} h`;
-    } else if (diferencia < segundosEnSemana) {
-      return 'Hace una semana';
-    } else if (diferencia < segundosEnMes) {
-      return 'Hace un mes';
-    } else if (diferencia < segundosEnAño) {
-      return 'Hace un año';
+    // Convertir días a otras unidades de tiempo
+    if (diferenciaDias === 0) {
+      return 'Hoy';
+    } else if (diferenciaDias === 1) {
+      return 'Ayer';
+    } else if (diferenciaDias < 7) {
+      return `Hace ${diferenciaDias} días`;
+    } else if (diferenciaDias < 30) {
+      const semanas = Math.floor(diferenciaDias / 7);
+      return semanas === 1 ? 'Hace 1 semana' : `Hace ${semanas} semanas`;
+    } else if (diferenciaDias < 365) {
+      const meses = Math.floor(diferenciaDias / 30);
+      return meses === 1 ? 'Hace 1 mes' : `Hace ${meses} meses`;
     } else {
-      return 'Hace un tiempo';
+      const años = Math.floor(diferenciaDias / 365);
+      return años === 1 ? 'Hace 1 año' : `Hace ${años} años`;
     }
   }
-
 }

@@ -1,7 +1,7 @@
 <div
     class="max-w-sm mx-auto bg-white shadow-md rounded-lg overflow-hidden border border-gray-200 h-[520px] flex flex-col">
-    <img [src]="producto.imagen" [alt]="producto.nombre" class="w-full max-h-[250px] object-contain"
-        (error)="cargarDefault()">
+    <img [src]="obtenerImagenProducto()" [alt]="producto.nombre" class="w-full max-h-[250px] object-contain"
+        (error)="cargarDefault($event)">
     <div class="p-4 flex-grow">
         <p class="text-sm text-gray-500 uppercase font-semibold">{{producto.categoria}}</p>
         <div class="mt-2 space-y-2">

@@ -20,15 +20,14 @@ export class AuthService {
 
   private tokenKey = 'token';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.baseUrl + '/api/auth/login', loginRequest).pipe(
+    return this.http.post<LoginResponse>(this.baseUrl + '/api/login_check', loginRequest).pipe(
       tap(response => {
         if (response && response.token) {
           this.setToken(response.token);
-          
-          // Decodificar el token para obtener el rol y guardarlo
+
           try {
             const tokenParts = response.token.split('.');
             if (tokenParts.length === 3) {
@@ -45,20 +44,20 @@ export class AuthService {
     );
   }
 
-  comprobarValidacionUsuario(){
-    return this.http.get(this.baseUrl+'/api/user/validar',{ headers: this.obtenerToken()});
+  comprobarValidacionUsuario() {
+    return this.http.get(this.baseUrl + '/api/user/validar', { headers: this.obtenerToken() });
   }
 
-  validarUsuario(token: UserValidationRequest){
-    return this.http.post(this.baseUrl+'/api/auth/validar',token);
+  validarUsuario(token: UserValidationRequest) {
+    return this.http.post(this.baseUrl + '/api/auth/validar', token);
   }
 
-  registroUsuario(request: RegisterRequest){
-    return this.http.post(this.baseUrl+'/api/auth/registro',request);
+  registroUsuario(request: RegisterRequest) {
+    return this.http.post(this.baseUrl + '/api/auth/registro', request);
   }
 
-  reenviarCorreo(correo: ReenvioCorreo){
-    return this.http.post(this.baseUrl+'/api/auth/renovar_token', correo);
+  reenviarCorreo(correo: ReenvioCorreo) {
+    return this.http.post(this.baseUrl + '/api/auth/renovar_token', correo);
   }
 
   setToken(token: string): void {
@@ -74,60 +73,57 @@ export class AuthService {
     sessionStorage.removeItem('rol');
   }
 
-  getUserProfileInfo(): Observable<PerfilUsuarioResponse>{
-    return this.http.get<PerfilUsuarioResponse>(this.baseUrl+'/api/user/profile/details',{ headers: this.obtenerToken()});
+  getUserProfileInfo(): Observable<PerfilUsuarioResponse> {
+    return this.http.get<PerfilUsuarioResponse>(this.baseUrl + '/api/user/profile/details', { headers: this.obtenerToken() });
   }
 
-  editarPerfil(perfil: any){
-    return this.http.put(this.baseUrl+'/api/user/profile/editar', perfil, { headers: this.obtenerToken()});
+  editarPerfil(perfil: any) {
+    return this.http.put(this.baseUrl + '/api/user/profile/editar', perfil, { headers: this.obtenerToken() });
   }
 
-  obtenerToken(){
+  obtenerToken() {
     return new HttpHeaders({
       Authorization: 'Bearer ' + sessionStorage.getItem('token')
     })
   }
 
-  obtenerUsuario(): Observable<UserResponse>{
-    return this.http.get<UserResponse>(this.baseUrl+'/api/user/me',{ headers: this.obtenerToken()});
+  obtenerUsuario(): Observable<UserResponse> {
+    return this.http.get<UserResponse>(this.baseUrl + '/api/user/me', { headers: this.obtenerToken() });
   }
-
-  esAdmin(): Observable<boolean> {
-    return this.obtenerUsuario().pipe(
-      map(resp => {
-        return resp.rol == 'ROLE_ADMIN';
-      })
-    );
-  }
+  esAdmin(): boolean {
+    console.log(this.obtenerRolUsuario());
   
-  estaActivo(): Observable<boolean> {
-    return this.obtenerUsuario().pipe(
-      map(resp => {
-        return resp.activo;
-      })
-    );
+    return this.obtenerRolUsuario() === 'ROLE_ADMIN';
   }
 
-  obtenerRolUsuario(): string | null {
-    try {
-      const token = this.getToken();
-      if (!token) return null;
-      
-      // Decodificar el token JWT para obtener el payload
-      const tokenParts = token.split('.');
-      if (tokenParts.length !== 3) return null;
-      
-      const payload = JSON.parse(atob(tokenParts[1]));
-      
-      // Extraer el rol del payload
-      if (payload && payload.role) {
-        return payload.role;
-      }
-      
-      return null;
-    } catch (error) {
-      console.error('Error al decodificar el token:', error);
-      return null;
+estaActivo(): Observable < boolean > {
+  return this.obtenerUsuario().pipe(
+    map(resp => {
+      return resp.activo;
+    })
+  );
+}
+
+obtenerRolUsuario(): string | null {
+  try {
+    const token = this.getToken();
+    if (!token) return null;
+
+    // Decodificar el token JWT para obtener el payload
+    const tokenParts = token.split('.');
+    if (tokenParts.length !== 3) return null;
+
+    const payload = JSON.parse(atob(tokenParts[1]));
+
+    // Extraer el rol del payload
+    if (payload && payload.roles) {
+      return payload.roles[0];
     }
+
+    return null;
+  } catch (error) {
+    console.error('Error al decodificar el token:', error);
+    return null;
   }
+}
 }

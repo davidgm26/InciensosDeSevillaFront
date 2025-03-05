@@ -46,9 +46,8 @@
         <p-step-panels>
             <p-step-panel [value]="1">
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-auto md:h-[950px]">
-                        <div
-                            class="border-2 border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex flex-col items-center p-5 font-medium bg-white">
+                    <div class="flex flex-col h-auto md:h-auto min-h-[800px] relative">
+                        <div class="border-2 border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex flex-col items-center p-5 font-medium bg-white">
                             <app-tarjeta [numeroTarjeta]="datosDePago.get('numeroTarjeta')?.value"
                                 [nombre]="datosDePago.get('nombre')?.value"
                                 [fechaExpiracion]="datosDePago.get('fechaExpiracion')?.value"
@@ -122,26 +121,26 @@
                                     </p-message>
                                 </div>
                             </form>
-                        </div>
-                        <div class="flex justify-end pt-6 h-16">
-                            <button
-                                class="bg-[#A4122C] text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors flex items-center gap-2"
-                                (click)="verificarDatosPago(activateCallback)">
-                                Next
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </button>
+                            <div class="flex justify-end pt-6 h-16">
+                                <button
+                                    class="bg-[#A4122C] text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors flex items-center gap-2"
+                                    (click)="verificarDatosPago(activateCallback)">
+                                    Next
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </ng-template>
             </p-step-panel>
             <p-step-panel [value]="2">
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-auto md:h-[600px]">
+                    <div class="flex flex-col h-auto md:h-auto min-h-[800px] relative">
                         <div class="border border-gray-100 rounded-xl bg-white p-8 shadow-lg">
                             <div class="mb-8">
                                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Dirección de Entrega</h2>
@@ -241,8 +240,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Instrucciones de entrega -->
-                                <div class="flex flex-col">
+                                <!-- <div class="flex flex-col">
                                     <label for="instrucciones"
                                         class="text-sm font-semibold text-gray-700 mb-2">Instrucciones especiales de
                                         entrega</label>
@@ -254,11 +252,10 @@
                                             placeholder="Añade cualquier información adicional para la entrega...">
                                         </textarea>
                                     </div>
-                                </div>
+                                </div> -->
                             </form>
                         </div>
 
-                        <!-- Botones de navegación -->
                         <div class="flex pt-8 justify-between">
                             <button
                                 class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200 flex items-center gap-2 font-medium"
@@ -278,7 +275,7 @@
             </p-step-panel>
             <p-step-panel [value]="3">
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-auto md:h-[600px]">
+                    <div class="flex flex-col h-auto md:h-auto min-h-[800px] relative">
                         <div class="border border-gray-100 rounded-xl bg-white p-8 shadow-lg">
                             <div class="mb-8">
                                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Resumen de tu pedido</h2>
@@ -294,10 +291,9 @@
                             <div class="mb-8">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Dirección de envío</h3>
                                 <div class="p-4 bg-gray-50 rounded-lg">
-                                    <p class="text-gray-600">Juan Pérez</p>
-                                    <p class="text-gray-600">Calle Principal 123</p>
-                                    <p class="text-gray-600">28001 Madrid, España</p>
-                                    <p class="text-gray-600">Tel: 612345678</p>
+                                    <p class="text-gray-600">{{datosDePago.get('nombre')?.value}}</p>
+                                    <p class="text-gray-600"> {{montarDireccion()}}</p>
+                                    <p class="text-gray-600"></p>
                                 </div>
                             </div>
                             <div class="border-t border-gray-200 pt-6">
@@ -318,7 +314,7 @@
                                     </div>
                                     <div class="flex justify-between font-semibold text-lg text-gray-800 pt-4">
                                         <span>Total</span>
-                                        <span *ngIf="carrito.length < 3" >{{(getTotalCarrito() + 4.99).toFixed(2)}}</span>
+                                        <span>{{getTotalFinal().toFixed(2)}}€</span>
                                     </div>
                                 </div>
                             </div>

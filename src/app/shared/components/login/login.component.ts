@@ -12,11 +12,12 @@ import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { Dialog } from 'primeng/dialog';
+import { SpinnerComponent } from "../spinner/spinner.component";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, PasswordModule, InputTextModule, IftaLabelModule, Message, NgIf, Toast, MessageModule,Dialog],
+  imports: [ReactiveFormsModule, RouterLink, PasswordModule, InputTextModule, IftaLabelModule, Message, NgIf, Toast, MessageModule, Dialog, SpinnerComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   providers: [MessageService]
@@ -32,6 +33,7 @@ export class LoginComponent {
   errorMessage: string = '';
   correoForm!: FormGroup;
   visible: boolean = false;
+  activo!:boolean;
 
   constructor(
     private authService: AuthService,
@@ -58,20 +60,45 @@ export class LoginComponent {
     });
   }
 
+  comprobarSiActivo(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.authService.obtenerUsuario().subscribe(
+        resp => {
+          this.activo = resp.activo;
+          resolve(resp.activo);
+        },
+        error => {
+          console.error('Error al comprobar si el usuario está activo:', error);
+          this.activo = false;
+          resolve(false);
+        }
+      );
+    });
+  }
+
   comprobarValidacion() {
     this.authService.comprobarValidacionUsuario().subscribe(
-      (resp) => {
-        console.log(resp);
-        this.messageService.add({ severity: 'success', summary: 'Usuario Validado', detail: '' });
-        this.messageService.add({ severity: 'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente' });
-        this.router.navigate(['/home']);
-
+      async (resp) => {
+        if(this.authService.esAdmin()){
+          this.router.navigate(['/admin/productos']);
+        } else {
+          // Esperar a que se complete la comprobación de si el usuario está activo
+          const estaActivo = await this.comprobarSiActivo();
+          
+          if(estaActivo){
+            this.messageService.add({ severity: 'success', summary: 'Login Exitoso', detail: 'Has iniciado sesión correctamente' });
+            this.router.navigate(['/home']);          
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Cuenta Baneada', detail: 'El acceso de esta cuenta a la web ha sido restringido'});
+            this.authService.clearToken(); // Limpiar el token si la cuenta está baneada
+          }
+        }
       },
       (error) => {
         this.authService.clearToken();
         this.messageService.add({ severity: 'error', summary: 'Error de Validación', detail: error.error});
       }
-    )
+    );
   }
 
   onSubmit() {
@@ -124,6 +151,5 @@ reenviarCorreo(){
     }
   );
 }
-
 
 }

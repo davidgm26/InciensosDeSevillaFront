@@ -3,6 +3,9 @@
     "target": "https://inciensosdesevilla.onrender.com",
     "secure": false,
     "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    },
     "logLevel": "debug"
   }
 }

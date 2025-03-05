@@ -16,10 +16,12 @@ import { CrearLineaDto } from '../../../shared/models/crear-linea-dto.interface'
 import { Router } from '@angular/router';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { FilaResumenComponent } from '../filaResumen/filaResumen.component';
+import { LoadingService } from '../../../shared/services/loading.service';
+
 @Component({
   selector: 'app-formulario-pago',
   imports: [ButtonModule, StepperModule, NavbarComponent, ReactiveFormsModule, TarjetaComponent, InputGroupModule,
-    InputGroupAddonModule, InputTextModule, FormsModule, MessageModule, ToastModule, NgIf, CommonModule, FilaResumenComponent,SpinnerComponent],
+    InputGroupAddonModule, InputTextModule, FormsModule, MessageModule, ToastModule, NgIf, CommonModule, FilaResumenComponent, SpinnerComponent],
   templateUrl: './formulario-pago.component.html',
   styleUrl: './formulario-pago.component.css',
   standalone: true,
@@ -30,11 +32,14 @@ export class FormularioPagoComponent implements OnInit {
   datosDeEnvio!: FormGroup;
   currentStep: number = 1;
   carrito: CrearLineaDto[] = [];
+  usuario: any;
+
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
     private carritoService: CarritoService,
-    private router: Router
+    private router: Router,
+    public loadingService: LoadingService
   ) {
     effect(() => {
       this.carrito = this.carritoService.getCarrito();
@@ -49,21 +54,22 @@ export class FormularioPagoComponent implements OnInit {
 
   verificarDatosPago(activateCallback: any) {
     if (this.datosDePago.invalid) {
-      this.messageService.add({ severity: 'warn', summary: 'Error', detail: 'Por favor, complete todos los campos correctamente' });
-      this.datosDePago.markAllAsTouched();
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor, completa todos los campos requeridos correctamente' });
+      Object.keys(this.datosDePago.controls).forEach(key => {
+        const control = this.datosDePago.get(key);
+        if (control?.invalid) {
+          control.markAsTouched();
+        }
+      });
       return;
     }
-    if (Math.random() > 0.5) {
-      this.messageService.add({ severity: 'success', summary: 'Pago exitoso', detail: 'Pago realizado con éxito' });
-      activateCallback(2)
+
+    this.loadingService.show();
+    setTimeout(() => {
+      this.loadingService.hide();
+      activateCallback(2);
       this.currentStep = 2;
-      return;
-
-    } else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al realizar el pago' });
-      return;
-    }
-
+    }, 500);
   }
 
   get formControls() {
@@ -72,79 +78,70 @@ export class FormularioPagoComponent implements OnInit {
 
   inicializarFormularioPago() {
     this.datosDePago = this.fb.group({
-      numeroTarjeta: ['', [
-        Validators.required,
-        Validators.pattern(/^\d{4} - \d{4} - \d{4} - \d{4}$/)
-      ]],
-      nombre: ['', [
-        Validators.required,
-        Validators.pattern('^[a-zA-Z\u00E0-\u00FC ]*$')
-      ]],
-      fechaExpiracion: ['', [
-        Validators.required,
-        Validators.minLength(7),
-        Validators.maxLength(7),
-        this.fechaExpiracionValidator()
-      ]],
-      cvv: ['', [
-        Validators.required,
-        Validators.pattern('^[0-9]{3}$')
-      ]]
+      numeroTarjeta: ['', [Validators.required, Validators.pattern(/^\d{4} - \d{4} - \d{4} - \d{4}$/)]],
+      nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]],
+      fechaExpiracion: ['', [Validators.required, this.validarFechaExpiracion()]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]]
     });
   }
 
-  formatearFechaExpiracion(event: any) {
-    let input = event.target.value.replace(/\D/g, '');
-    if (input.length > 4) input = input.substring(0, 4);
-
-    if (input.length >= 2) {
-      input = input.substring(0, 2) + ' / ' + input.substring(2);
-    }
-
-    this.datosDePago.patchValue({ fechaExpiracion: input }, { emitEvent: false });
-  }
-
   formatearNumeroTarjeta(event: any) {
-    let input = event.target.value.replace(/\D/g, '');
-
-    if (input.length > 16) {
-      input = input.substring(0, 16);
+    let valor = event.target.value.replace(/\D/g, '');
+    if (valor.length > 0) {
+      valor = valor.match(new RegExp('.{1,4}', 'g')).join(' - ');
     }
-
-    let formatted = '';
-    for (let i = 0; i < input.length; i += 4) {
-      if (i > 0) formatted += ' - ';
-      formatted += input.slice(i, i + 4);
-    }
-    this.datosDePago.patchValue({ numeroTarjeta: formatted }, { emitEvent: false });
+    this.datosDePago.get('numeroTarjeta')?.setValue(valor);
   }
 
-  fechaExpiracionValidator(): ValidatorFn {
+  formatearFechaExpiracion(event: any) {
+    let valor = event.target.value.replace(/[^\d\/]/g, '');
+    if (valor.length > 0) {
+      if (valor.length <= 2) {
+        // Solo tenemos el mes
+      } else if (valor.length === 3 && !valor.includes('/')) {
+        // Tenemos 3 dígitos sin separador, añadimos el separador
+        valor = valor.substring(0, 2) + ' / ' + valor.substring(2);
+      } else if (valor.length > 3) {
+        // Formateamos correctamente
+        valor = valor.replace('/', '').replace(' ', '');
+        valor = valor.substring(0, 2) + ' / ' + valor.substring(2, 4);
+      }
+    }
+    this.datosDePago.get('fechaExpiracion')?.setValue(valor);
+  }
+
+  validarFechaExpiracion(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      if (!value) return null;
+      const valor = control.value;
+      if (!valor) {
+        return { 'required': true };
+      }
 
-      const matches = value.match(/^(0[1-9]|1[0-2]) \/ ([0-9]{2})$/);
-      if (!matches) return { formatoInvalido: true };
+      // Verificar formato MM / YY
+      if (!/^\d{2} \/ \d{2}$/.test(valor)) {
+        return { 'formatoInvalido': true };
+      }
 
-      const month = parseInt(matches[1], 10);
-      const year = parseInt('20' + matches[2], 10);
-      const today = new Date();
-      const expirationDate = new Date(year, month - 1);
+      // Extraer mes y año
+      const [mes, anio] = valor.split(' / ').map(Number);
 
-      if (expirationDate < today) {
-        return { fechaExpirada: true };
+      // Validar mes (1-12)
+      if (mes < 1 || mes > 12) {
+        return { 'mesInvalido': true };
+      }
+
+      // Validar que la fecha no esté expirada
+      const fechaActual = new Date();
+      const anioActual = fechaActual.getFullYear() % 100; // Obtener últimos dos dígitos del año
+      const mesActual = fechaActual.getMonth() + 1; // getMonth() devuelve 0-11
+
+      if (anio < anioActual || (anio === anioActual && mes < mesActual)) {
+        return { 'fechaExpirada': true };
       }
 
       return null;
     };
   }
-
-  /*
-    FORMULARIO DE DIRECCION POSTAL
-  */
-
-
 
   get formControlsEnvio() {
     return this.datosDeEnvio.controls;
@@ -152,66 +149,64 @@ export class FormularioPagoComponent implements OnInit {
 
   inicializarFormularioEnvio() {
     this.datosDeEnvio = this.fb.group({
-      direccion: ['', Validators.required],
-      ciudad: ['', Validators.required],
-      codigoPostal: ['', [
-        Validators.required,
-        Validators.pattern('^[0-9]{5}$')
-      ]],
-      provincia: ['', Validators.required],
-      telefono: ['', [
-        Validators.required,
-        Validators.pattern('^[0-9]{9}$')
-      ]],
+      direccion: ['', [Validators.required]],
+      ciudad: ['', [Validators.required]],
+      codigoPostal: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]],
+      provincia: ['', [Validators.required]],
+      telefono: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
       instrucciones: ['']
     });
   }
 
+  getTotalCarrito() {
+    return this.carrito.reduce((total, linea) => total + (linea.precioUnitario * linea.cantidad), 0);
+  }
+
+  getTotalFinal(): number {
+    const subtotal = this.getTotalCarrito();
+    return this.carrito.length < 3 ? subtotal + 4.99 : subtotal;
+  }
+
   montarDireccion() {
-    return this.datosDeEnvio.value.direccion + ', ' + this.datosDeEnvio.value.ciudad + ', provincia de' + this.datosDeEnvio.value.provincia + ', ' + this.datosDeEnvio.value.codigoPostal;
+    return this.datosDeEnvio.value.direccion + ', ' + this.datosDeEnvio.value.ciudad + ', provincia de ' + this.datosDeEnvio.value.provincia + ', ' + this.datosDeEnvio.value.codigoPostal;
   }
 
   verificarDatosEnvio(activateCallback: any) {
     if (this.datosDeEnvio.invalid) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Error',
-        detail: 'Por favor, complete todos los campos correctamente'
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor, completa todos los campos requeridos correctamente' });
+      Object.keys(this.datosDeEnvio.controls).forEach(key => {
+        const control = this.datosDeEnvio.get(key);
+        if (control?.invalid) {
+          control.markAsTouched();
+        }
       });
-      this.datosDeEnvio.markAllAsTouched();
       return;
     }
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Éxito',
-      detail: 'Dirección guardada correctamente'
-    });
-    console.log(this.montarDireccion());
 
-    activateCallback(3);
-    this.currentStep = 3;
+    this.loadingService.show();
+    setTimeout(() => {
+      this.loadingService.hide();
+      activateCallback(3);
+      this.currentStep = 3;
+    }, 500);
   }
 
-  /*
-    RESUMEN DEL PEDIDO
-  */
-
-  getTotalCarrito() {
-    return this.carritoService.calcularCarrito();
-  }
 
   confirmarPedido() {
-    this.carritoService.tramitarPedido(this.montarDireccion()).subscribe(
-      (resp) => {
-        this.messageService.add({ severity: 'success', summary: 'Pedido Tramitado', detail: 'Compra realizada' });
-        this.carritoService.borrarCarrito();
-        this.router.navigate(['/home']);
+    this.loadingService.show();
+    setTimeout(() => {
+      this.carritoService.tramitarPedido(this.montarDireccion()).subscribe(
+        resp => {
+          this.messageService.add({ severity: 'success', summary: 'Pedido Confirmado', detail: 'Tu pedido ha sido procesado correctamente' });
+          this.carritoService.borrarCarrito();
+          this.loadingService.hide();
+          this.router.navigate(['/home']);
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se ha podido realizar el pedido'});
+        }
+      )
 
-      },
-      (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error al tramitar Pedido', detail: 'No se pudo tramitar el pedido' });
-        console.log(err);
-      }
-    )
+    }, 2000);
   }
 }

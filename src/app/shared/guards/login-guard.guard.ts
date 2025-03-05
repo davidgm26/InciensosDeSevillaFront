@@ -11,7 +11,6 @@ export class LoginGuardGuard implements CanActivate {
   constructor(private authService: AuthService, private messageService: MessageService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    // Verificar si hay token
     if (!this.authService.getToken()) {
       this.messageService.add({
         severity: 'error',
@@ -22,25 +21,21 @@ export class LoginGuardGuard implements CanActivate {
       this.router.navigate(['/login']);
       return false;
     }
-    
+
     // Verificar rol para rutas de admin
     if (state.url.includes('/admin')) {
-      // Obtener el rol del usuario del token
-      const rol = sessionStorage.getItem('rol');
-      
-      if (rol !== 'ROLE_ADMIN') {
+      if (!this.authService.esAdmin()) {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No tienes permisos de administrador',
+          detail: 'No tienes permisos para acceder a esta página',
           sticky: true
         });
         this.router.navigate(['/home']);
         return false;
       }
     }
-    
-    // Si llegamos aquí, permitir el acceso
+
     return true;
   }
 }

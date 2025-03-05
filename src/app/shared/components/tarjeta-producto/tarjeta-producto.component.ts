@@ -20,6 +20,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class TarjetaProductoComponent implements OnInit{
 
+  readonly imagenPorDefecto: string = 'defecto.jpg';
 
   constructor(
     private carritoService: CarritoService,
@@ -36,8 +37,17 @@ export class TarjetaProductoComponent implements OnInit{
       
   }
 
-  cargarDefault():string {
-    return "https://inciensosdesevilla.es/175-large_default/incienso-aroma-de-la-cava.jpg";
+
+  obtenerImagenProducto(): string {
+    if (!this.producto.imagen || this.producto.imagen.trim() === '') {
+      return this.imagenPorDefecto;
+    }
+    return this.producto.imagen;
+  }
+
+
+  cargarDefault(event: any): void {
+    event.target.src = this.imagenPorDefecto;
   }
 
   agregarCarrito(producto: Producto) {
@@ -48,10 +58,4 @@ export class TarjetaProductoComponent implements OnInit{
       this.messageService.add({severity:'success', summary:'Producto añadido', detail:'Producto añadido al carrito',life: 2000});
     }
   }
-
-
-
-
-
-
 }

@@ -102,12 +102,22 @@ export class CarritoService {
   }
 
   tramitarPedido(direccion: string) {
-   const pedido: CrearPedido = {
-      lineasPedidosDto: this.carrito(),
-      fecha: new Date(),
-      total: this.calcularCarrito(),
-      direccionDeEntrega: direccion,
-   }
+    let pedido: CrearPedido;
+    if(this.carrito().length >= 3){
+       pedido = {
+        lineasPedidosDto: this.carrito(),
+        fecha: new Date(),
+        total: this.calcularCarrito(),
+        direccionDeEntrega: direccion,
+     }
+    }else{
+       pedido = {
+         lineasPedidosDto: this.carrito(),
+         fecha: new Date(),
+         total: this.calcularCarrito()+4.99,
+         direccionDeEntrega: direccion,
+      }
+    }
    return this.http.post(this.baseUrl+'/api/pedido/new', pedido , { headers: this.obtenerToken()});
   }
 

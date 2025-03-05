@@ -13,7 +13,6 @@
     <div *ngIf="loadingData">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                <!-- Repeat product card skeleton 8 times -->
                 <div class="bg-white p-4 rounded-lg shadow-sm animate-pulse" role="status">
                     <div class="w-full h-48 bg-gray-200 rounded-lg mb-4"></div>
                     <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
@@ -58,30 +57,37 @@
     <div *ngIf="!loadingData">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                <app-tarjeta-producto *ngFor="let producto of productos" [producto]="producto"
+                <app-tarjeta-producto *ngFor="let producto of productosFiltrados" [producto]="producto"
                     class="transition-transform duration-300 hover:-translate-y-1">
                 </app-tarjeta-producto>
             </div>
         </div>
     
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <!-- Paginación -->
+        <div *ngIf="totalPaginas > 1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex justify-center space-x-2">
-                <button
+                <!-- Botón Anterior -->
+                <button 
+                    [disabled]="paginaActual === 1"
+                    [ngClass]="{'opacity-50 cursor-not-allowed': paginaActual === 1}"
+                    (click)="irAPaginaAnterior()"
                     class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
                     Anterior
                 </button>
-                <button class="px-4 py-2 rounded-lg bg-[#A4122C] text-white shadow-sm">
-                    1
+                
+                <!-- Números de página -->
+                <button *ngFor="let pagina of obtenerPaginas()" 
+                    (click)="cambiarPagina(pagina)"
+                    [ngClass]="{'bg-[#A4122C] text-white': pagina === paginaActual, 'bg-white text-gray-700 hover:bg-[#A4122C] hover:text-white': pagina !== paginaActual}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 shadow-sm">
+                    {{ pagina }}
                 </button>
-                <button
-                    class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
-                    2
-                </button>
-                <button
-                    class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
-                    3
-                </button>
-                <button
+                
+                <!-- Botón Siguiente -->
+                <button 
+                    [disabled]="paginaActual === totalPaginas"
+                    [ngClass]="{'opacity-50 cursor-not-allowed': paginaActual === totalPaginas}"
+                    (click)="irAPaginaSiguiente()"
                     class="px-4 py-2 rounded-lg bg-white hover:bg-[#A4122C] hover:text-white transition-colors duration-300 shadow-sm text-gray-700">
                     Siguiente
                 </button>
