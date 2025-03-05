@@ -1,8 +1,8 @@
 <div class="w-72 h-80 border border-[#a9a9a9ee] rounded-xl shadow-lg p-3 m-6">
     <!-- Imagen del producto -->
     <div class="w-full h-3/5 overflow-hidden">
-        <img [src]="producto.imagen" [alt]="producto.nombre"
-            class="w-full h-full object-center object-cover rounded-xl text-black">
+        <img [src]="obtenerImagenProducto()" [alt]="producto.nombre" class="w-full h-full object-center object-cover rounded-xl text-black"
+        (error)="cargarDefault($event)">
     </div>
     <!-- Nombre del producto -->
     <a [routerLink]="['/producto/' + producto.id]" class="text-lg font-medium text-gray-800">{{producto.nombre}} </a>
@@ -13,9 +13,9 @@
         <!-- Botones de interaccion -->
         <div class="flex gap-2">
             <!-- Boton de agregar al carrito -->
-            <button class="border border-gray-600 text-white p-2 rounded-md hover:bg-[#c92442] w-8 h-8">
+            <!-- <button class="border border-gray-600 text-white p-2 rounded-md hover:bg-[#c92442] w-8 h-8">
                 <i class="pi pi-heart flex align-middle" style="color:#4b5563;"></i>
-            </button>
+            </button> -->
             <button class="bg-[#A4122C] text-white p-2 rounded-md hover:bg-[#c92442] w-8 h-8" (click)="agregarAlCarrito()">
                 <i class="pi pi-shopping-cart flex align-middle" style="color: white;"></i>
             </button>

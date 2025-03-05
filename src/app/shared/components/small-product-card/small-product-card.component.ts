@@ -15,6 +15,7 @@ import { MessageService } from 'primeng/api';
 })
 export class SmallProductCardComponent {
   @Input() producto!: Producto;
+  readonly imagenPorDefecto: string = 'defecto.jpg';
 
   constructor(
     private carritoService: CarritoService,
@@ -29,5 +30,17 @@ export class SmallProductCardComponent {
       this.carritoService.agregarProductoACarrito(this.producto);
       this.messageService.add({severity:'success', summary:'Producto añadido', detail:'Producto añadido al carrito',life: 2000});
     }
+  }
+
+  obtenerImagenProducto(): string {
+    if (!this.producto.imagen || this.producto.imagen.trim() === '') {
+      return this.imagenPorDefecto;
+    }
+    return this.producto.imagen;
+  }
+
+
+  cargarDefault(event: any): void {
+    event.target.src = this.imagenPorDefecto;
   }
 }

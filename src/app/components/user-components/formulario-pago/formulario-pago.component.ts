@@ -203,6 +203,7 @@ export class FormularioPagoComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         error => {
+          this.loadingService.hide();
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se ha podido realizar el pedido'});
         }
       )

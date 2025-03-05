@@ -120,9 +120,9 @@
                                         <i class="pi pi-arrow-right text-sm"></i>
                                     </a>
                                 </div>
-                                <div class="flex items-center justify-between">
+                                <!-- <div class="flex items-center justify-between">
                                     <span class="text-gray-600">Cliente desde</span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -133,113 +133,52 @@
     </div>
 </div>
 
-<p-dialog 
-    header="Editar perfil" 
-    [modal]="true" 
-    [(visible)]="visible" 
-    [style]="{ width: '35rem' }"
-    [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
-    class="p-fluid">
-    <form [formGroup]="editarForm" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="p-field">
-                <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2">
-                    <i class="pi pi-user mr-2 text-[#A4122C]"></i>Nombre
-                </label>
-                <input type="text" 
-                    id="nombre" 
-                    formControlName="nombre" 
-                    pInputText 
-                    class="w-full p-3 rounded-lg border-2 focus:border-[#A4122C] transition-colors" 
-                    [ngClass]="{'ng-invalid ng-dirty': editarForm.get('nombre')?.invalid && editarForm.get('nombre')?.touched}"/>
-                <div *ngIf="editarForm.get('nombre')?.invalid && (editarForm.get('nombre')?.dirty || editarForm.get('nombre')?.touched)" 
-                    class="text-red-500 text-xs mt-1 ml-1">
-                    <p *ngIf="editarForm.get('nombre')?.hasError('required')">
-                        <i class="pi pi-exclamation-circle mr-1"></i>El nombre es requerido
-                    </p>
-                    <p *ngIf="editarForm.get('nombre')?.hasError('pattern')">
-                        <i class="pi pi-exclamation-circle mr-1"></i>El nombre solo puede contener letras
-                    </p>
+<p-dialog header="Editar perfil" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <form [formGroup]="editarForm">
+        <div>
+            <div class="mb-4">
+                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                <input type="text" id="nombre" formControlName="nombre" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                <div *ngIf="editarForm.get('nombre')?.invalid && (editarForm.get('nombre')?.dirty || editarForm.get('nombre')?.touched)">
+                    <p *ngIf="editarForm.get('nombre')?.hasError('required')" class="text-red-500 text-xs mt-1">El nombre es requerido.</p>
+                    <p *ngIf="editarForm.get('nombre')?.hasError('pattern')" class="text-red-500 text-xs mt-1">El nombre solo puede contener letras.</p>
                 </div>
             </div>
-
-            <div class="p-field">
-                <label for="apellidos" class="block text-sm font-medium text-gray-700 mb-2">
-                    <i class="pi pi-id-card mr-2 text-[#A4122C]"></i>Apellidos
-                </label>
-                <input type="text" 
-                    id="apellidos" 
-                    formControlName="apellidos" 
-                    pInputText 
-                    class="w-full p-3 rounded-lg border-2 focus:border-[#A4122C] transition-colors"
-                    [ngClass]="{'ng-invalid ng-dirty': editarForm.get('apellidos')?.invalid && editarForm.get('apellidos')?.touched}"/>
-                <div *ngIf="editarForm.get('apellidos')?.invalid && (editarForm.get('apellidos')?.dirty || editarForm.get('apellidos')?.touched)"
-                    class="text-red-500 text-xs mt-1 ml-1">
-                    <p *ngIf="editarForm.get('apellidos')?.hasError('required')">
-                        <i class="pi pi-exclamation-circle mr-1"></i>Los apellidos son requeridos
-                    </p>
-                    <p *ngIf="editarForm.get('apellidos')?.hasError('pattern')">
-                        <i class="pi pi-exclamation-circle mr-1"></i>Los apellidos solo pueden contener letras
-                    </p>
+            <div class="mb-4">
+                <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
+                <input type="text" id="apellidos" formControlName="apellidos" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                <div *ngIf="editarForm.get('apellidos')?.invalid && (editarForm.get('apellidos')?.dirty || editarForm.get('apellidos')?.touched)">
+                    <p *ngIf="editarForm.get('apellidos')?.hasError('required')" class="text-red-500 text-xs mt-1">Los apellidos son requeridos.</p>
+                    <p *ngIf="editarForm.get('apellidos')?.hasError('pattern')" class="text-red-500 text-xs mt-1">Los apellidos solo pueden contener letras.</p>
                 </div>
             </div>
-        </div>
-
-        <div class="p-field">
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="pi pi-envelope mr-2 text-[#A4122C]"></i>Email
-            </label>
-            <input type="email" 
-                id="email" 
-                formControlName="email" 
-                pInputText 
-                class="w-full p-3 rounded-lg border-2 focus:border-[#A4122C] transition-colors"
-                [ngClass]="{'ng-invalid ng-dirty': editarForm.get('email')?.invalid && editarForm.get('email')?.touched}"/>
-            <div *ngIf="editarForm.get('email')?.invalid && (editarForm.get('email')?.dirty || editarForm.get('email')?.touched)"
-                class="text-red-500 text-xs mt-1 ml-1">
-                <p *ngIf="editarForm.get('email')?.hasError('required')">
-                    <i class="pi pi-exclamation-circle mr-1"></i>El email es requerido
-                </p>
-                <p *ngIf="editarForm.get('email')?.hasError('email')">
-                    <i class="pi pi-exclamation-circle mr-1"></i>El email no es válido
-                </p>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" formControlName="email" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                <div *ngIf="editarForm.get('email')?.invalid && (editarForm.get('email')?.dirty || editarForm.get('email')?.touched)">
+                    <p *ngIf="editarForm.get('email')?.hasError('required')" class="text-red-500 text-xs mt-1">El email es requerido.</p>
+                    <p *ngIf="editarForm.get('email')?.hasError('email')" class="text-red-500 text-xs mt-1">El email debe ser válido.</p>
+                </div>
             </div>
-        </div>
-
-        <div class="p-field">
-            <label for="telefono" class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="pi pi-phone mr-2 text-indigo-600"></i>Teléfono
-            </label>
-            <input type="tel" 
-                id="telefono" 
-                formControlName="telefono" 
-                pInputText 
-                class="w-full p-3 rounded-lg border-2 focus:border-indigo-500 transition-colors"
-                [ngClass]="{'ng-invalid ng-dirty': editarForm.get('telefono')?.invalid && editarForm.get('telefono')?.touched}"/>
-            <div *ngIf="editarForm.get('telefono')?.invalid && (editarForm.get('telefono')?.dirty || editarForm.get('telefono')?.touched)"
-                class="text-red-500 text-xs mt-1 ml-1">
-                <p *ngIf="editarForm.get('telefono')?.hasError('required')">
-                    <i class="pi pi-exclamation-circle mr-1"></i>El teléfono es requerido
-                </p>
-                <p *ngIf="editarForm.get('telefono')?.hasError('pattern')">
-                    <i class="pi pi-exclamation-circle mr-1"></i>El teléfono debe tener 9 dígitos
-                </p>
+            <div class="mb-4">
+                <label for="telefono" class="block text-sm font-medium text-gray-700">Telefono</label>
+                <input type="text" id="telefono" formControlName="telefono" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                <div *ngIf="editarForm.get('telefono')?.invalid && (editarForm.get('telefono')?.dirty || editarForm.get('telefono')?.touched)">
+                    <p *ngIf="editarForm.get('telefono')?.hasError('required')" class="text-red-500 text-xs mt-1">El telefono es requerido.</p>
+                    <p *ngIf="editarForm.get('telefono')?.hasError('pattern')" class="text-red-500 text-xs mt-1">El telefono debe tener 9 digitos.</p>
+                </div>
             </div>
-        </div>
-
-        <div class="flex justify-end gap-3 mt-6">
-            <button pButton 
-                type="button" 
-                label="Cancelar" 
-                class="p-button-text" 
-                (click)="visible = false"
-                icon="pi pi-times"></button>
-            <button pButton 
-                type="submit" 
-                label="Guardar" 
-                [disabled]="editarForm.invalid"
-                icon="pi pi-check"
-                class="p-button-raised"></button>
+            <div class="mb-4">
+                <label for="direccion" class="block text-sm font-medium text-gray-700">Direccion</label>
+                <input type="text" id="direccion" formControlName="direccion" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                <div *ngIf="editarForm.get('direccion')?.invalid && (editarForm.get('direccion')?.dirty || editarForm.get('direccion')?.touched)">
+                    <p *ngIf="editarForm.get('direccion')?.hasError('required')" class="text-red-500 text-xs mt-1">La direccion es requerida.</p>
+                </div>
+                <div class="flex justify-center space-x-2 m-5">
+                    <button (click)="cerrarEditar()" class="text-sm py-2 px-4 font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cerrar</button>
+                    <button (click)="editar()" class="text-sm py-2 px-4 font-medium text-white bg-[#A4122C] border border-transparent rounded-md shadow-sm hover:bg-[#A4122C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A4122C]">Editar</button>
+                </div>
+            </div>
         </div>
     </form>
 </p-dialog>

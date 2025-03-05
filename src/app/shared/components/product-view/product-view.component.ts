@@ -34,6 +34,8 @@ export class ProductViewComponent implements OnInit {
   reseniaNueva: string = '';
   formularioResenia!: FormGroup;
   login!: boolean;
+  readonly imagenPorDefecto: string = 'defecto.jpg';
+
 
   productosRelacionados!: Producto[];
   constructor(
@@ -140,6 +142,18 @@ export class ProductViewComponent implements OnInit {
         }
       });
     }
+  }
+
+  obtenerImagenProducto(): string {
+    if (!this.producto.imagen || this.producto.imagen.trim() === '') {
+      return this.imagenPorDefecto;
+    }
+    return this.producto.imagen;
+  }
+
+
+  cargarDefault(event: any): void {
+    event.target.src = this.imagenPorDefecto;
   }
 
 }

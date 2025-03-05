@@ -45,10 +45,8 @@ export class FormularioRegistroComponent implements OnInit {
   }
 
   onSubmit(): void {
-     
     if (this.registerForm.valid) {
       const data = this.registerForm.value; 
-
       this.authService.registroUsuario(data).subscribe(
         (resp) => {
           console.log(resp);

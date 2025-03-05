@@ -31,4 +31,5 @@ export class FilaResumenComponent implements OnInit {
     );
   }
 
+  
 }

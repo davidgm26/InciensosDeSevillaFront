@@ -39,11 +39,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
       <div class="flex justify-center w-full">
         <div class="relative w-full max-w-[300px] sm:max-w-[400px] lg:max-w-[500px]">
-          <img 
-            [src]="producto.imagen" 
-            [alt]="producto.nombre" 
-            class="w-full aspect-square object-contain rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
-          >
+          <img [src]="obtenerImagenProducto()" [alt]="producto.nombre" class="w-full aspect-square object-contain rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+          (error)="cargarDefault($event)">
         </div>
       </div>
 

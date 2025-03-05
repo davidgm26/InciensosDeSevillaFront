@@ -51,7 +51,8 @@ export class PerfilComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
       apellidos: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
       email: ['', [Validators.required, Validators.email]],
-      telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
+      telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
+      direccion: ['', Validators.required]
     });
   }
 
@@ -69,7 +70,8 @@ export class PerfilComponent implements OnInit {
           nombre: this.perfilUsuario.nombre,
           apellidos: this.perfilUsuario.apellidos,
           email: this.perfilUsuario.email,
-          telefono: this.perfilUsuario.telefono
+          telefono: this.perfilUsuario.telefono,
+          direccion: this.perfilUsuario.direccion
         });
         this.loading = false;
       },
@@ -78,6 +80,10 @@ export class PerfilComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  cerrarEditar(){
+    this.visible = false;
   }
 
   cargarEstadisticas() {
@@ -108,35 +114,26 @@ export class PerfilComponent implements OnInit {
     this.visible = true;
   }
 
-  editarPerfil() {
-    if (this.editarForm.valid) {
-      const perfilEditado: PerfilUsuarioEditarRequest = {
-        nombre: this.editarForm.get('nombre')?.value,
-        apellidos: this.editarForm.get('apellidos')?.value,
-        email: this.editarForm.get('email')?.value,
-        telefono: this.editarForm.get('telefono')?.value,
-        direccion: this.editarForm.get('direccion')?.value
-      };
+  editarPerfil(){
+    this.editarForm = this.fb.group({
+      nombre: [this.perfilUsuario.nombre, [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      apellidos: [this.perfilUsuario.apellidos, [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      email: [this.perfilUsuario.email, [Validators.required, Validators.email]],
+      telefono: [this.perfilUsuario.telefono, [Validators.required, Validators.pattern('^[0-9]{9}$')]],
+      direccion: [this.perfilUsuario.direccion, [Validators.required]],
+    })
+  }
 
-      this.authService.editarPerfil(perfilEditado).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Éxito',
-            detail: 'Perfil actualizado correctamente'
-          });
-          this.visible = false;
-          this.cargarInfo();
-        },
-        error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudo actualizar el perfil'
-          });
-          console.error('Error updating profile:', error);
-        }
-      });
-    }
+  editar(){
+    this.authService.editarPerfil(this.editarForm.value).subscribe(
+      (response: any)=> {
+        this.messageService.add({severity:'success', summary:'Perfil editado', detail:'Tu perfil ha sido editado correctamente'});
+        this.cerrarEditar();
+        this.cargarInfo();
+      },
+      (error)=>{
+        this.messageService.add({severity:'error', summary:'Error', detail:'Ha ocurrido un error al editar tu perfil'});
+      }
+    );
   }
 }
